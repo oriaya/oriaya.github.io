@@ -858,7 +858,7 @@
   function startChat(kind,index){
     if(!requireAuth())return;
     if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}
-    var data=kind==="rep"?repData[index]:deepData[index];state.activeAccum=0;state.activeStart=document.hidden?null:Date.now();state.chat={id:++state.chatSeq,kind:kind,index:index,step:0,answers:[],valueChoice:null,title:data.title,returnTab:kind==="rep"?"reps":"home",finished:false,pauseCount:0,deepestPause:0,reflectionTurn:0,lastReflectionStyle:null,deepTurns:0,deepMode:"explore",deepTakeaway:"",deepAction:"",continueRound:0};
+    var data=kind==="rep"?repData[index]:deepData[index];state.activeAccum=0;state.activeStart=document.hidden?null:Date.now();state.chat={id:++state.chatSeq,kind:kind,index:index,step:0,answers:[],valueChoice:null,title:data.title,returnTab:kind==="rep"?"reps":"home",finished:false,pauseCount:0,deepestPause:0,reflectionTurn:0,lastReflectionStyle:null,deepTurns:0,tellMoreCount:0,deepMode:"explore",deepTakeaway:"",deepAction:"",continueRound:0};
     var x=ui[state.lang];$("answer").value="";autoGrow();$("chatTitle").textContent=data.title;$("chatMeta").textContent=kind==="rep"?x.mindMeta+" · "+data.time+" "+x.min:x.about15;$("chat").innerHTML="";showTab("chat");addPrompt(kind==="rep"?data.prompts[0]:data.steps[0].q,null);$("composer").classList.add("show");$("answer").focus();
   }
   function addBubble(text,who,extra){var b=document.createElement("div"),labels={en:"A gentle challenge",zh:"一次温和的挑战"};b.className="bubble "+who+(extra?" "+extra:"");if(extra==="challenge")b.setAttribute("data-label",labels[state.lang]);b.innerHTML=esc(text);$("chat").appendChild(b);scrollChat()}
@@ -929,6 +929,49 @@
       if(!state.chat||state.chat.id!==chat.id||chat.finished)return;panel.remove();chat.deepMode="takeaway";addBubble(x.takeawayPrompt,"ria");$("composer").classList.add("show");$("answer").focus();
     };
   }
+  function isVagueShare(text){
+    var s=(text||"").trim();if(!s)return true;
+    if(state.lang==="zh"){
+      if(/\u5a46\u5a46|\u516c\u516c|\u5cb3\u7236|\u5cb3\u6bcd|\u5988\u5988|\u7238\u7238|\u6bcd\u4eb2|\u7236\u4eb2|\u4e08\u592b|\u59bb\u5b50|\u8001\u516c|\u8001\u5a46|\u4f34\u4fa3|\u7537\u53cb|\u5973\u53cb|\u670b\u53cb|\u540c\u4e8b|\u8001\u677f|\u4e0a\u53f8|\u5b69\u5b50|\u513f\u5b50|\u5973\u513f|\u5bb6\u4eba|\u5a46\u5bb6|\u5a18\u5bb6|\u59fb\u4eb2/.test(s))return false;
+      return s.length<=10;
+    }
+    var t=s.toLowerCase();
+    if(/\b(in-laws?|mother|mom|mum|father|dad|parent|partner|husband|wife|spouse|boyfriend|girlfriend|friend|boss|colleague|coworker|manager|child|son|daughter|family|inlaw)\b/.test(t))return false;
+    return s.split(/\s+/).filter(Boolean).length<=5;
+  }
+  function tellMeMoreReply(answer,chat){
+    var x=excerpt(answer),n=chat.tellMoreCount||0;
+    var en=[
+      'Tell me more about \u201c'+x+'.\u201d',
+      'I\u2019m curious \u2014 tell me more about that.',
+      'Say more about \u201c'+x+'.\u201d I want to hear the whole of it.'
+    ];
+    var zh=[
+      '多跟我说说\u201c'+x+'.\u201d',
+      '我很好奇，多说一点。',
+      '再多说说\u201c'+x+'\u201d，我想听完整的。'
+    ];
+    var list=state.lang==="zh"?zh:en;
+    return list[n%list.length];
+  }
+  function groundedQuestion(answer,chat){
+    var t=(answer||"").toLowerCase(),isZh=state.lang==="zh";
+    var relEn=/\b(in-laws?|mother|mom|mum|father|dad|parent|partner|husband|wife|spouse|boyfriend|girlfriend|friend|boss|colleague|coworker|manager|child|son|daughter|family|inlaw)\b/;
+    var relZh=/\u5a46\u5a46|\u516c\u516c|\u5cb3\u7236|\u5cb3\u6bcd|\u5988\u5988|\u7238\u7238|\u6bcd\u4eb2|\u7236\u4eb2|\u4e08\u592b|\u59bb\u5b50|\u8001\u516c|\u8001\u5a46|\u4f34\u4fa3|\u7537\u53cb|\u5973\u53cb|\u670b\u53cb|\u540c\u4e8b|\u8001\u677f|\u4e0a\u53f8|\u5b69\u5b50|\u513f\u5b50|\u5973\u513f|\u5bb6\u4eba|\u5a46\u5bb6|\u5a18\u5bb6|\u59fb\u4eb2/;
+    if(isZh?relZh.test(answer):relEn.test(t)){
+      var relQ=isZh?["这为什么对你重要？","这段关系里，你需要什么？","你们之间发生了什么？"]:["Why is it important to you?","What do you need in this relationship?","What happened between you?"];
+      var n=chat.relTurns||0;chat.relTurns=n+1;
+      return relQ[n%relQ.length];
+    }
+    return deepQuestion(answer,chat);
+  }
+  function groundedReply(answer,question,chat){
+    var leads=state.lang==="zh"?["谢谢你愿意说。","我在听。","这很真实。"]:["Thank you for trusting me with that.","I\u2019m listening.","That tells me something real."];
+    var lead=leads[chat.deepTurns%leads.length];
+    var s=(answer||"").trim();
+    if(s.length<=90)return "\u201c"+excerpt(answer)+"\u201d \u2014 "+lead+" "+question;
+    return lead+" "+question;
+  }
   function advanceDeepChat(answer){
     var c=state.chat;if(!c||c.kind!=="session"||c.finished)return;
     if(c.deepMode==="takeaway"){
@@ -937,9 +980,13 @@
     if(c.deepMode==="action"){
       c.deepAction=answer;finishChat(15);return;
     }
+    if(isVagueShare(answer)&&(c.tellMoreCount||0)<2){
+      c.tellMoreCount=(c.tellMoreCount||0)+1;
+      addBubble(tellMeMoreReply(answer,c),"ria");$("composer").classList.add("show");$("answer").focus();return;
+    }
     c.deepTurns++;
     if(c.deepTurns>=6&&((c.deepTurns-6)%3===0)){showDeepDirection(answer,c);return}
-    var q=deepQuestion(answer,c);addBubble(coachReply(answer,q,c),"ria");$("composer").classList.add("show");$("answer").focus();
+    var q=groundedQuestion(answer,c);addBubble(groundedReply(answer,q,c),"ria");$("composer").classList.add("show");$("answer").focus();
   }
   function advanceChat(answer){
     var c=state.chat,r=repData[c.index];c.step++;
