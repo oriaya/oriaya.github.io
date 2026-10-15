@@ -748,8 +748,10 @@
     var wholeMinutes=Math.floor(state.elapsedSeconds/60);["sessionStat","youSessions"].forEach(function(id){$(id).textContent=state.completed});$("minuteStat").textContent=wholeMinutes;$("youMinutes").textContent=wholeMinutes;$("streakStat").textContent=state.streak;$("youReps").textContent=state.reps;
     renderBadgeShelf();renderFriends();
   }
+  function markTourSeen(){try{localStorage.setItem("oriaya_tour_seen","1")}catch(e){}}
+  function tourSeen(){try{return !!localStorage.getItem("oriaya_tour_seen")}catch(e){return false}}
   function renderOnboarding(){var x=onboarding[state.onboard],u=ui[state.lang];$("onboardContent").innerHTML='<div class="slide-num">'+x.n+'</div><div class="big">'+x.big+'</div><h2>'+x.title+'</h2><p>'+x.body+'</p>'+(state.onboard===2?'<button class="quiet-action" id="onboardLearn">'+u.tour+'</button>':'')+'<div class="sheet-actions"><div class="progress">'+onboarding.map(function(_,i){return '<i class="'+(i===state.onboard?'active':'')+'"></i>'}).join('')+'</div><button class="primary" id="onboardNext">'+(state.onboard===2?u.enter:u.continue)+'</button></div>';
-    $("onboardNext").onclick=function(){if(state.onboard<2){state.onboard++;renderOnboarding()}else{$("onboarding").classList.remove("show")}};
+    $("onboardNext").onclick=function(){if(state.onboard<2){state.onboard++;renderOnboarding()}else{markTourSeen();$("onboarding").classList.remove("show")}};
     var l=$("onboardLearn");if(l)l.onclick=function(){openDeck()};
   }
   function openDeck(){state.deck=0;renderDeck();$("deckOverlay").classList.add("show")}
@@ -1127,7 +1129,7 @@
   $("deckPrev").onclick=function(){if(state.deck>0){state.deck--;renderDeck()}};$("deckNext").onclick=function(){if(state.deck<4){state.deck++;renderDeck()}else $("deckOverlay").classList.remove("show")};
   $("closeSafety").onclick=function(){state.pendingDeep=false;$("safetyOverlay").classList.remove("show")};
   $("safetyContinue").onclick=function(){$("safetyOverlay").classList.remove("show");if(state.pendingDeep){state.pendingDeep=false;startChat("session",0)}};
-  $("skipOnboarding").onclick=function(){$("onboarding").classList.remove("show")};
+  $("skipOnboarding").onclick=function(){markTourSeen();$("onboarding").classList.remove("show")};
   $("feedbackForm").addEventListener("submit",function(e){e.preventDefault();if(!requireAuth())return;var text=$("feedbackText").value;
     if(state.user&&state.firebaseReady){db.collection("users").doc(state.user.uid).collection("feedback").add({text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp(),lang:state.lang}).then(function(){$("feedbackThanks").textContent=ui[state.lang].feedbackSaved}).catch(function(){})}
     $("feedbackThanks").style.display="block";$("feedbackText").disabled=true;this.querySelector("button").disabled=true});
@@ -1171,7 +1173,7 @@
   checkPendingInvite();
   /* Test hook for verification only: pure helpers + live state. */
   window.__oriaya={computeStreak:computeStreak,evaluateBadges:evaluateBadges,badgeDefs:badgeDefs,state:state,dayKey:dayKey,weekKey:weekKey};
-  applyLanguage("en",false);$("onboarding").classList.add("show");
+  applyLanguage("en",false);if(!tourSeen())$("onboarding").classList.add("show");
 })();
 </script>
 </body>
