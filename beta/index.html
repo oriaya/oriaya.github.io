@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23D9A94E' d='M16 36a16 16 0 0 1 32 0H16Z'/%3E%3Cpath stroke='%23D9A94E' stroke-width='3' stroke-linecap='round' d='M8 41h48'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Oriaya — Beta</title>
+  <style>
+    :root{
+      color-scheme:light dark;
+      --paper:#f7f1e7;--paper-2:#eee5d7;--surface:#fffaf2;--ink:#282b27;--muted:#686b64;
+      --sage:#6f8068;--sage-pale:#dfe6da;--clay:#a9634f;--clay-pale:#efd9ce;--gold:#b58d4c;
+      --line:#d8cfc0;--shadow:0 16px 48px rgba(56,43,29,.12);--soft-shadow:0 7px 22px rgba(56,43,29,.08);
+      --nav:rgba(250,246,238,.95);--danger:#8d3e35;
+    }
+    @media(prefers-color-scheme:dark){
+      :root{--paper:#171915;--paper-2:#22251f;--surface:#20221e;--ink:#f4efe6;--muted:#bdb9ae;
+        --sage:#9cae93;--sage-pale:#30382d;--clay:#d78b73;--clay-pale:#432f29;--gold:#d1ad6d;
+        --line:#3e413a;--shadow:0 16px 48px rgba(0,0,0,.3);--soft-shadow:0 7px 22px rgba(0,0,0,.22);
+        --nav:rgba(27,29,25,.95);--danger:#f0a69e}
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Manrope,sans-serif;min-height:100vh}
+    button,textarea,input{font:inherit}button{color:inherit}button:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--clay) 45%,transparent);outline-offset:2px}
+    .app{width:min(760px,100%);margin:0 auto;min-height:100vh;padding-bottom:calc(102px + env(safe-area-inset-bottom))}
+    .demo-banner{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--paper);padding:9px 18px;font-size:12px;text-align:center;letter-spacing:.01em}
+    .topline{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;padding:16px 22px 14px;gap:10px 16px}.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;white-space:nowrap}.brand-mark{width:30px;height:22px;display:block}.brand-mark .sun,.brand-mark .horizon{fill:#D9A94E;stroke:#D9A94E}.brand-word{font-size:14px;font-weight:700;letter-spacing:.18em;line-height:1}.topline .brand{grid-column:1;grid-row:1;justify-self:start}.topline .language-wrap{grid-column:2;grid-row:1;justify-self:start}.topline #learnTop{grid-column:3;grid-row:1;justify-self:end}.topline #accountBtn{grid-column:4;grid-row:1;justify-self:end}.topline>.greeting-wrap{grid-column:1/-1;grid-row:2}
+    .language-wrap{display:flex;align-items:center;gap:7px;color:var(--muted)}.language-wrap svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7}.language-select{appearance:none;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;color:var(--ink);font-size:12px;font-weight:700;padding:7px 22px 7px 0;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 8px) 12px,calc(100% - 4px) 12px;background-size:4px 4px,4px 4px;background-repeat:no-repeat}.language-select:focus-visible{outline:3px solid color-mix(in srgb,var(--clay) 45%,transparent);outline-offset:2px}
+    .date{font-size:12px;color:var(--muted);margin:0 0 5px}.greeting{font:400 clamp(27px,7vw,39px)/1.08 "Libre Baskerville",serif;margin:0}.quiet-action{border:0;background:transparent;color:var(--clay);font-weight:700;padding:8px 0;cursor:pointer}
+    main{padding:0 18px}.view{display:none;animation:fade .28s ease}.view.active{display:block}@keyframes fade{from{opacity:.35}to{opacity:1}}
+    h1,h2,h3{font-family:"Libre Baskerville",serif;font-weight:400}h2{font-size:28px;line-height:1.18;margin:22px 0 8px}h3{font-size:19px;line-height:1.3;margin:0}p{line-height:1.6}.sub{color:var(--muted);font-size:14px;margin:0 0 20px}
+    .hero-card{background:var(--sage);color:#fffaf2;border-radius:26px 26px 8px 26px;padding:24px;box-shadow:var(--soft-shadow);position:relative;overflow:hidden;margin-bottom:14px}
+    .hero-card:after{content:"";position:absolute;width:150px;height:150px;border:1px solid rgba(255,255,255,.25);border-radius:50%;right:-52px;top:-57px;box-shadow:0 0 0 27px rgba(255,255,255,.06)}
+    .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.8}.hero-card h2{font-size:26px;max-width:470px;margin:14px 0 12px}.hero-card p{font-size:14px;margin:0;max-width:510px;color:rgba(255,250,242,.82)}
+    .hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px}.time{font-size:12px;display:flex;align-items:center;gap:7px}.primary,.secondary,.pill-btn{border:0;cursor:pointer;font-weight:700}.primary{background:var(--ink);color:var(--paper);padding:13px 18px;border-radius:999px}.hero-card .primary{background:#fffaf2;color:#33412f}.secondary{background:transparent;border:1px solid var(--line);padding:12px 16px;border-radius:999px}.small{padding:9px 13px;font-size:12px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:8px 22px 22px 22px;margin:16px 0;box-shadow:var(--soft-shadow)}.stat{padding:18px 14px;text-align:center}.stat+.stat{border-left:1px solid var(--line)}.stat strong{display:block;font:400 24px "Libre Baskerville",serif}.stat span{color:var(--muted);font-size:11px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:26px 3px 12px}.section-head h2{font-size:21px;margin:0}.link-btn{border:0;background:transparent;color:var(--clay);font-weight:700;cursor:pointer;font-size:12px;padding:4px}
+    .entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.entry{background:var(--surface);border:1px solid var(--line);padding:18px;border-radius:19px 7px 19px 19px;text-align:left;cursor:pointer;min-height:158px;display:flex;flex-direction:column;box-shadow:var(--soft-shadow)}.entry:nth-child(2){border-radius:7px 19px 19px 19px}.entry .mark{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:var(--sage-pale);color:var(--sage);font:400 19px "Libre Baskerville",serif}.entry:nth-child(2) .mark{background:var(--clay-pale);color:var(--clay)}.entry h3{margin-top:22px;font-size:17px}.entry p{color:var(--muted);font-size:12px;margin:6px 0 0}.entry .arrow{margin-top:auto;align-self:flex-end;font-size:18px}
+    .list{display:grid;gap:10px;margin:17px 0 28px}.list-card{width:100%;border:1px solid var(--line);background:var(--surface);padding:16px;display:grid;grid-template-columns:43px 1fr auto;align-items:center;gap:13px;text-align:left;border-radius:7px 18px 18px 18px;cursor:pointer;box-shadow:var(--soft-shadow)}.list-card .num{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);font:400 15px "Libre Baskerville",serif}.list-card h3{font-family:Manrope,sans-serif;font-size:14px;font-weight:700}.list-card p{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.4}.list-card .mini{font-size:11px;color:var(--sage);font-weight:700}
+    .educator-tease{background:var(--clay-pale);padding:19px;border-radius:22px 8px 22px 22px;display:flex;justify-content:space-between;align-items:center;gap:14px;margin:10px 0 23px}.educator-tease h3{font-size:17px}.educator-tease p{font-size:12px;color:var(--muted);margin:5px 0 0}.educator-tease button{flex:0 0 auto}
+    .session-card{background:var(--surface);border:1px solid var(--line);border-radius:22px 8px 22px 22px;padding:20px;box-shadow:var(--soft-shadow)}.session-card+.session-card{margin-top:12px}.session-card .row{display:flex;justify-content:space-between;gap:16px}.session-card .duration{font-size:11px;color:var(--clay);font-weight:700}.session-card p{color:var(--muted);font-size:13px;margin:9px 0 17px}.session-card button{width:100%}
+    .back{border:0;background:transparent;color:var(--muted);font-weight:700;cursor:pointer;padding:12px 2px}.chat-title{margin:8px 0 3px;font-size:26px}.chat-meta{font-size:12px;color:var(--muted);margin:0 0 18px}.chat{display:grid;gap:12px;padding-bottom:142px}.bubble{max-width:88%;padding:13px 15px;border-radius:18px;font-size:14px;line-height:1.55}.ria{background:var(--surface);border:1px solid var(--line);justify-self:start;border-radius:5px 18px 18px 18px}.me{background:var(--sage);color:#fffaf2;justify-self:end;border-radius:18px 18px 5px 18px}.stage{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700;margin:12px 0 -6px}.challenge{border-color:var(--clay);background:var(--clay-pale);position:relative;padding-top:31px}.challenge:before{content:attr(data-label);position:absolute;top:10px;left:15px;text-transform:uppercase;font-size:9px;letter-spacing:.1em;color:var(--clay);font-weight:700}
+    .values-panel{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:8px 20px 20px 20px;padding:15px;box-shadow:var(--soft-shadow)}.values-grid{display:flex;flex-wrap:wrap;gap:8px}.value-chip{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 12px;font-size:12px;font-weight:600;cursor:pointer}.value-chip:hover,.value-chip:focus-visible{border-color:var(--sage);background:var(--sage-pale)}.value-chip.other{color:var(--clay);border-color:color-mix(in srgb,var(--clay) 45%,var(--line))}.value-hint{font-size:11px;color:var(--muted);margin:0 0 12px}
+    .composer{position:fixed;z-index:15;bottom:calc(77px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(724px,calc(100% - 24px));background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:9px;display:none;align-items:flex-end;gap:8px}.composer.show{display:flex}.composer textarea{resize:none;border:0;background:transparent;color:var(--ink);padding:10px;min-height:43px;max-height:110px;flex:1;outline:0}.round{width:42px;height:42px;flex:0 0 42px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:var(--paper-2)}.send{background:var(--ink);color:var(--paper)}.mic.active{background:var(--clay);color:white}.voice-control{display:none;align-items:center;justify-content:center;min-width:66px;height:36px;margin-bottom:3px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--clay);font-size:11px;font-weight:700;cursor:pointer}.voice-control.show{display:flex}.voice-control.paused{background:var(--clay-pale)}.mic-status{position:absolute;bottom:calc(100% + 7px);left:10px;background:var(--ink);color:var(--paper);font-size:11px;padding:7px 10px;border-radius:8px;display:none}.mic-status.show{display:block}
+    .takeaway{background:var(--sage-pale);border-radius:22px 8px 22px 22px;padding:20px;margin:8px 0}.takeaway h3{font-size:17px}.takeaway blockquote{font:italic 16px/1.55 "Libre Baskerville",serif;margin:15px 0}.share-card{border:1px solid var(--line);background:var(--surface);padding:19px;border-radius:8px 20px 20px 20px;margin-top:12px}.share-card .quote{font:400 18px/1.5 "Libre Baskerville",serif;margin:12px 0 17px}.share-card .share-brand{display:flex;justify-content:space-between;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+    .you-hero{background:var(--clay-pale);padding:22px;border-radius:26px 8px 26px 26px}.you-hero h2{margin:0 0 8px}.you-hero p{color:var(--muted);font-size:13px;margin:0}.how{display:grid;gap:0;margin:14px 0 28px;border-top:1px solid var(--line)}.how-row{padding:17px 3px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:34px 1fr;gap:12px}.how-row strong{font-size:14px}.how-row p{font-size:12px;color:var(--muted);margin:4px 0 0}.how-row .glyph{font:400 20px "Libre Baskerville",serif;color:var(--clay)}
+    .feedback{background:var(--surface);border:1px solid var(--line);padding:19px;border-radius:20px 8px 20px 20px}.feedback h3{font-size:18px}.feedback textarea{width:100%;min-height:108px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:13px;resize:vertical;margin:12px 0}.thanks{display:none;color:var(--sage);font-weight:700}.fineprint{font-size:11px;line-height:1.55;color:var(--muted);padding:28px 5px 6px}.fineprint a{color:inherit}
+    /* Hybrid beta: account, badges, friends, invites (added on top of the demo styles) */
+    .account-btn{white-space:nowrap}
+    .mode-note{font-size:12px;color:var(--muted);margin-top:10px}
+    .auth-form{display:grid;gap:10px;margin-top:14px}.auth-form label{font-size:12px;color:var(--muted);display:grid;gap:5px}.auth-form input{width:100%;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px}.auth-toggle{font-size:12px;color:var(--muted);text-align:center}.auth-toggle button{background:none;border:0;padding:0;color:var(--clay);font-weight:700;cursor:pointer}.auth-error{font-size:12px;color:var(--danger);min-height:16px}.auth-error:empty{display:none}
+    .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 26px}.badge{border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;background:var(--surface);opacity:.45}.badge.earned{opacity:1;border-color:var(--gold)}.badge .mark{font-size:22px;display:block}.badge strong{display:block;font-size:11px;margin:5px 0 2px}.badge span{font-size:10px;color:var(--muted);line-height:1.3;display:block}
+    .card-box{background:var(--surface);border:1px solid var(--line);padding:19px;border-radius:20px 8px 20px 20px;margin:14px 0}.card-box h3{font-size:17px;margin:0 0 6px}.card-box .sub{font-size:12px;color:var(--muted);margin:0 0 12px}.friend-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13px}.friend-row:first-of-type{border-top:0}.friend-row .tag{font-size:11px;color:var(--sage);font-weight:700;white-space:nowrap}
+    .invite-row{display:flex;gap:8px;flex-wrap:wrap}.invite-row input{flex:1;min-width:170px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px}.invite-row label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;width:100%}.invite-link{word-break:break-all;font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px}
+    .reward-card{background:var(--sage-pale);border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:12px}.reward-card strong{font-size:14px}.reward-card p{font-size:12px;color:var(--muted);margin:5px 0 0}
+    .danger-btn{background:none;border:1px solid var(--danger);color:var(--danger);border-radius:10px;padding:9px 14px;cursor:pointer;font-weight:700}
+    .tabbar{position:fixed;z-index:14;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);height:calc(72px + env(safe-area-inset-bottom));padding:9px 12px env(safe-area-inset-bottom);background:var(--nav);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);backdrop-filter:blur(14px)}.tab{border:0;background:transparent;color:var(--muted);font-size:10px;font-weight:700;display:grid;place-items:center;gap:3px;cursor:pointer}.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7}.tab.active{color:var(--clay)}
+    .overlay{position:fixed;inset:0;z-index:50;background:rgba(28,27,23,.64);display:none;align-items:flex-end;justify-content:center}.overlay.show{display:flex}.sheet{width:min(680px,100%);max-height:92vh;overflow:auto;background:var(--paper);border-radius:28px 28px 0 0;padding:24px 20px calc(30px + env(safe-area-inset-bottom));box-shadow:var(--shadow)}.sheet.full{min-height:83vh}.close{float:right;border:0;background:var(--paper-2);width:36px;height:36px;border-radius:50%;cursor:pointer}.slide-num{color:var(--clay);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:36px}.onboard h2{font-size:clamp(32px,9vw,49px);margin:18px 0 16px;max-width:560px}.onboard .big{font:400 66px/1 "Libre Baskerville",serif;color:var(--sage);margin:34px 0 0}.onboard p{color:var(--muted);max-width:530px}.sheet-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:30px}.progress{display:flex;gap:6px}.progress i{width:20px;height:4px;border-radius:5px;background:var(--line)}.progress i.active{background:var(--clay)}
+    .deck{min-height:530px;display:flex;flex-direction:column}.deck-card{background:var(--surface);border:1px solid var(--line);padding:28px 24px;border-radius:8px 28px 28px 28px;min-height:350px;display:flex;flex-direction:column;box-shadow:var(--soft-shadow);touch-action:pan-y}.deck-card .count{font-size:11px;color:var(--clay);font-weight:700}.deck-card h2{font-size:31px;margin:38px 0 15px}.deck-card p{color:var(--muted)}.deck-card .example{margin-top:auto;padding-top:20px;border-top:1px solid var(--line);font:italic 15px/1.55 "Libre Baskerville",serif}.deck-controls{display:flex;justify-content:space-between;align-items:center;margin-top:18px}.deck-dots{display:flex;gap:7px}.deck-dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}.deck-dots i.active{background:var(--clay)}
+    .safety h2{font-size:27px}.safety-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:20px 0}.safety-box{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:15px}.safety-box strong{font-size:13px}.safety-box p{font-size:11px;color:var(--muted);margin:5px 0 0}.crisis{background:var(--clay-pale);padding:15px;border-radius:13px;font-size:12px}.toast{position:fixed;z-index:80;left:50%;bottom:100px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(min-width:700px){main{padding:0 26px}.topline{padding-left:30px;padding-right:30px}.entry{min-height:172px}.overlay{align-items:center;padding:24px}.sheet{border-radius:28px;max-height:88vh;padding-bottom:28px}.tabbar{border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0}.composer{bottom:84px}.hero-card{padding:30px}.list-card{padding:18px}}
+    @media(max-width:420px){.safety-grid{grid-template-columns:1fr}.hero-bottom{align-items:flex-end}.entry-grid{grid-template-columns:1fr}.entry{min-height:120px}.stats .stat{padding:16px 8px}.stat strong{font-size:21px}.educator-tease{align-items:flex-start;flex-direction:column}.bubble{max-width:94%}.other-value{grid-template-columns:1fr}.other-value button{width:100%}.topline{grid-template-columns:1fr auto;gap:7px 10px}.topline .brand{grid-column:1;grid-row:1}.topline #accountBtn{grid-column:2;grid-row:1}.topline #learnTop{grid-column:1/-1;grid-row:2;justify-self:start}.topline .language-wrap{grid-column:1/-1;grid-row:3}.topline>.greeting-wrap{grid-column:1/-1;grid-row:4}.quiet-action{font-size:11px}.language-select{max-width:116px}.brand-word{font-size:13px}.brand-mark{width:28px;height:20px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="demo-banner" id="modeBanner">Create an account to begin — your practice is saved with your account.</div>
+  <header class="topline" id="topline">
+    <div class="brand" aria-label="Oriaya"><svg class="brand-mark" viewBox="0 0 60 42" aria-hidden="true"><path class="sun" d="M14 27a16 16 0 0 1 32 0H14Z" stroke="none"/><path class="horizon" d="M3 32H57" fill="none" stroke-width="2" stroke-linecap="round"/></svg><span class="brand-word">ORIAYA</span></div>
+    <label class="language-wrap" for="languageSelect"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select></label>
+    <button class="quiet-action" id="learnTop">New to coaching?</button>
+    <button class="quiet-action account-btn" id="accountBtn">Account</button>
+    <div class="greeting-wrap"><p class="date" id="today"></p><h1 class="greeting" id="greeting">Good evening.</h1></div>
+  </header>
+  <main>
+    <section class="view active" id="homeView">
+      <article class="hero-card">
+        <span class="eyebrow">Today’s Mind Rep</span>
+        <h2>What deserves your attention before the day decides for you?</h2>
+        <p>A short intention-setting conversation. Not a to-do list — a way to choose how you want to meet today.</p>
+        <div class="hero-bottom"><span class="time">◷ 4 minutes</span><button class="primary" data-start-rep="0">Begin</button></div>
+      </article>
+      <div class="stats">
+        <div class="stat"><strong id="streakStat">0</strong><span>day streak</span></div>
+        <div class="stat"><strong id="sessionStat">0</strong><span>completed</span></div>
+        <div class="stat"><strong id="minuteStat">0</strong><span>minutes trained</span></div>
+      </div>
+      <div class="section-head"><h2>Choose your practice</h2></div>
+      <div class="entry-grid">
+        <button class="entry" data-tab="reps"><span class="mark">R</span><h3>Mind Reps</h3><p>3–5 minute practices for clarity, courage, and self-trust.</p><span class="arrow">→</span></button>
+        <button class="entry" data-tab="sessions"><span class="mark">D</span><h3>Deep Sessions</h3><p>Guided coaching conversations that follow your intention.</p><span class="arrow">→</span></button>
+      </div>
+      <p class="fineprint">Oriaya is coaching, not therapy or medical care. In the U.S., call or text <a href="tel:988">988</a> for immediate crisis support.</p>
+    </section>
+
+    <section class="view" id="repsView">
+      <h2>Mind Reps</h2><p class="sub">Small, repeatable conversations that strengthen how you meet your life.</p>
+      <div class="list" id="repList"></div>
+      <p class="fineprint">These practices support reflection and growth. They do not diagnose or treat mental health conditions.</p>
+    </section>
+
+    <section class="view" id="youView">
+      <div class="you-hero"><h2>Your practice, today</h2><p>Your practice is saved with your account.</p></div>
+      <div class="stats">
+        <div class="stat"><strong id="youSessions">0</strong><span>sessions</span></div>
+        <div class="stat"><strong id="youReps">0</strong><span>Mind Reps</span></div>
+        <div class="stat"><strong id="youMinutes">0</strong><span>minutes</span></div>
+      </div>
+      <div class="section-head"><h2>How Oriaya works</h2></div>
+      <div class="how">
+        <div class="how-row"><span class="glyph">01</span><div><strong>Mind Reps stay free</strong><p>Short coaching practices, free forever — because mental fitness grows through repetition.</p></div></div>
+        <div class="how-row"><span class="glyph">02</span><div><strong>Deep Sessions</strong><p>$1.99/month at launch and free during beta. A $10–15 fee may apply to severe late cancellations or no-shows for booked human sessions — it prices the empty slot, not your struggle.</p></div></div>
+        <div class="how-row"><span class="glyph">03</span><div><strong>Human connection, next</strong><p>Vetted human coaches and an in-person Oriaya Space are in exploration, beginning around Palo Alto and the Bay Area.</p></div></div>
+      </div>
+      <div class="section-head"><h2 id="badgesTitle">Badges</h2></div>
+      <p class="sub" id="badgesSub">Badges reward showing up — never a missed day. They are saved with your account.</p>
+      <div class="badge-grid" id="badgeGrid"></div>
+
+      <div class="card-box" id="friendsCard">
+        <h3 id="friendsTitle">Friends &amp; accountability</h3>
+        <p class="sub" id="friendsSub">Invite a friend. When they accept, you become friends — and you can pair up to nudge each other.</p>
+        <div id="friendsAnon"><p class="sub" id="friendsAnonText">Create a free account to invite friends and pair up.</p><button class="primary small" id="friendsJoinBtn">Create free account</button></div>
+        <div id="friendsSignedIn" style="display:none">
+          <div class="invite-row">
+            <input id="inviteEmail" type="email" placeholder="Friend’s email" aria-label="Friend’s email" />
+            <label><input type="checkbox" id="invitePair" checked /> <span id="invitePairLabel">Pair as accountability partners</span></label>
+            <button class="primary small" id="sendInviteBtn">Send invite</button>
+          </div>
+          <div class="invite-link" id="inviteLinkBox" style="display:none"></div>
+          <div id="friendsList"></div>
+          <div id="rewardBox"></div>
+        </div>
+      </div>
+
+      <div class="card-box" id="privacyCard">
+        <h3 id="privacyTitle">Your privacy</h3>
+        <p class="sub" id="privacyBody">Your coaching answers stay on this page and are never sent anywhere. Only the takeaways and next steps you choose to carry forward are saved with your account. We use basic account information and anonymized usage information to improve Oriaya. Your data is never sold. You can delete your account and all saved data at any time.</p>
+        <button class="secondary small" id="restDayBtn">Mark today as a rest day</button>
+        <p class="mode-note" id="restDayNote">A rest day holds your streak — it never breaks it.</p>
+        <div style="margin-top:14px"><button class="danger-btn" id="deleteAccountBtn" style="display:none">Delete my account &amp; data</button></div>
+      </div>
+
+      <form class="feedback" id="feedbackForm"><h3>Help shape the beta</h3><p class="sub">What felt alive? What felt flat? What would make you come back?</p><textarea id="feedbackText" required placeholder="Tell us what you noticed…"></textarea><button class="primary" type="submit">Send feedback</button><p class="thanks" id="feedbackThanks">Thank you — your feedback is saved with your account.</p></form>
+      <p class="fineprint">Feedback is saved with your account. Oriaya is coaching, not therapy. In the U.S., call or text <a href="tel:988">988</a> for crisis support.</p>
+    </section>
+
+    <section class="view" id="chatView">
+      <button class="back" id="chatBack">← Back</button><h2 class="chat-title" id="chatTitle"></h2><p class="chat-meta" id="chatMeta"></p><div class="chat" id="chat"></div>
+    </section>
+  </main>
+
+  <div class="composer" id="composer"><div class="mic-status" id="micStatus" role="status" aria-live="polite"></div><textarea id="answer" rows="1" placeholder="Type or speak your answer…" aria-label="Your answer"></textarea><button class="voice-control" id="pauseBtn" type="button" aria-label="Pause voice input">Pause</button><button class="round mic" id="micBtn" type="button" aria-label="Speak answer">◉</button><button class="round send" id="sendBtn" type="button" aria-label="Send answer">↑</button></div>
+
+  <nav class="tabbar" aria-label="Primary">
+    <button class="tab active" data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+    <button class="tab" data-tab="reps"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M8.5 12h7M12 8.5v7"/></svg>Reps</button>
+    <button class="tab" data-tab="sessions"><svg viewBox="0 0 24 24"><path d="M4 5.5h16v11H9l-5 3z"/><path d="M8 10h8M8 13h5"/></svg>Sessions</button>
+    <button class="tab" data-tab="you"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-4 3-6 7-6s6.3 2 7 6"/></svg>You</button>
+  </nav>
+</div>
+
+<div class="overlay" id="onboarding"><div class="sheet full onboard"><button class="close" id="skipOnboarding" aria-label="Close">×</button><div id="onboardContent"></div></div></div>
+<div class="overlay" id="deckOverlay"><div class="sheet deck"><button class="close" id="closeDeck" aria-label="Close">×</button><div class="deck-card" id="deckCard"></div><div class="deck-controls"><button class="secondary small" id="deckPrev">← Back</button><div class="deck-dots" id="deckDots"></div><button class="primary small" id="deckNext">Next →</button></div></div></div>
+<div class="overlay" id="safetyOverlay"><div class="sheet safety"><button class="close" id="closeSafety" aria-label="Close">×</button><h2>Before your first session</h2><p class="sub">Oriaya is a coaching space. It is built for reflection, intention, and forward movement.</p><div class="safety-grid"><div class="safety-box"><strong>Coaching asks</strong><p>What do you want? What matters? What will you choose?</p></div><div class="safety-box"><strong>Therapy may treat</strong><p>Trauma, mental health symptoms, diagnosis, and clinical conditions.</p></div></div><div class="crisis"><strong>Need immediate help?</strong><br>Oriaya is not crisis support. In the U.S., call or text <a href="tel:988">988</a>. Elsewhere, contact local emergency services.</div><div class="sheet-actions"><span></span><button class="primary" id="safetyContinue">I understand</button></div></div></div>
+<div class="overlay" id="accountOverlay"><div class="sheet"><button class="close" id="closeAccount" aria-label="Close">×</button>
+  <h2 id="accountTitle">Your account</h2>
+  <p class="sub" id="accountSub">Create an account to begin. Your streaks, badges, and friends are saved with your account.</p>
+  <div id="accountSignedIn" style="display:none">
+    <p><strong id="signedInAsLabel">Signed in as</strong> <span id="signedInEmail"></span></p>
+    <p class="sub" id="accountSavedNote">Your progress is saved with your account.</p>
+    <div class="sheet-actions"><span></span><button class="primary" id="signOutBtn">Sign out</button></div>
+  </div>
+  <div id="accountAnon">
+    <p class="auth-error" id="authError"></p>
+    <form class="auth-form" id="authForm">
+      <label><span id="emailLabel">Email</span><input id="authEmail" type="email" required autocomplete="email" /></label>
+      <label><span id="passwordLabel">Password</span><input id="authPassword" type="password" required minlength="6" autocomplete="current-password" /></label>
+      <button class="primary" type="submit" id="authSubmit">Create account</button>
+    </form>
+    <p class="auth-toggle"><span id="authToggleText">Already have an account?</span> <button type="button" id="authToggleBtn">Sign in</button> · <button type="button" id="forgotBtn">Forgot password?</button></p>
+    <p class="mode-note" id="accountPrivacyNote">Your email is only used to sign you in. We use basic account and anonymized usage info to improve Oriaya. We never sell your data.</p>
+  </div>
+</div></div>
+<div class="overlay" id="inviteOverlay"><div class="sheet"><button class="close" id="closeInvite" aria-label="Close">×</button>
+  <h2 id="inviteTitle">You’re invited</h2>
+  <p class="sub" id="inviteBody"></p>
+  <div class="sheet-actions"><button class="secondary" id="inviteDeclineBtn">Decline</button><button class="primary" id="inviteAcceptBtn">Accept friendship</button></div>
+  <button class="primary" id="inviteAcceptPairBtn" style="width:100%;margin-top:10px">Accept &amp; pair as accountability partners</button>
+</div></div>
+<div class="toast" id="toast">Copied!</div>
+
+<script src="firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(function(){
+  "use strict";
+  var state={tab:"home",lang:"en",completed:0,reps:0,sessions:0,elapsedSeconds:0,activeStart:null,activeAccum:0,streak:0,chat:null,chatSeq:0,pendingChatTimer:null,onboard:0,deck:0,safetySeen:false,pendingDeep:false,
+    /* Registration required: no anonymous access. Signed-in users save progress. */
+    user:null,profile:null,firebaseReady:false,authMode:"signup",badgesEarned:{},friendsList:[],myInvitesAccepted:0,myInvitesQualified:0,pendingInvite:null};
+
+  /* ---------- Registration required: account, saving, badges, friends ---------- */
+  /* Privacy: coaching answers never leave the page. Signed-in users save
+     ONLY session metadata + the takeaways/actions they name. Basic account
+     + anonymized usage info is used to improve Oriaya. */
+  var fb=null,auth=null,db=null;
+  function firebaseConfigured(){
+    var cfg=window.ORIAYA_FIREBASE_CONFIG;
+    return !!(cfg&&cfg.apiKey&&cfg.apiKey.indexOf("PASTE_")!==0&&cfg.projectId&&cfg.projectId.indexOf("PASTE_")!==0);
+  }
+  function dayKey(d){var m=""+(d.getMonth()+1),day=""+d.getDate();return d.getFullYear()+"-"+(m.length<2?"0"+m:m)+"-"+(day.length<2?"0"+day:day)}
+  function weekKey(d){
+    var t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+    var dayNum=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-dayNum);
+    var yearStart=new Date(Date.UTC(t.getUTCFullYear(),0,1));
+    var weekNo=Math.ceil((((t-yearStart)/86400000)+1)/7);
+    return t.getUTCFullYear()+"-W"+(weekNo<10?"0"+weekNo:weekNo);
+  }
+  /* Streak: consecutive active days ending today (or yesterday if today is
+     still untouched). A rest day holds the streak without counting.
+     One missed day per ISO week is forgiven (grace day) — a second miss
+     in the same week breaks the streak. No punishment, just honest math. */
+  function computeStreak(activityDays,restDays,today){
+    var active={},rest={};
+    (activityDays||[]).forEach(function(d){active[d]=true});
+    (restDays||[]).forEach(function(d){rest[d]=true});
+    var cur=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    if(!active[dayKey(cur)]&&!rest[dayKey(cur)])cur.setDate(cur.getDate()-1);
+    var streak=0,graceUsed={};
+    for(var i=0;i<366;i++){
+      var key=dayKey(cur);
+      if(active[key]){streak++;cur.setDate(cur.getDate()-1);continue}
+      if(rest[key]){cur.setDate(cur.getDate()-1);continue}
+      var wk=weekKey(cur);
+      if(!graceUsed[wk]){graceUsed[wk]=true;cur.setDate(cur.getDate()-1);continue}
+      break;
+    }
+    return streak;
+  }
+  var badgeDefs=[
+    {id:"firstRep",icon:"🌱",nameKey:"badgeFirstRep",test:function(){return state.reps>=1}},
+    {id:"streak3",icon:"🔥",nameKey:"badgeStreak3",test:function(){return state.streak>=3}},
+    {id:"streak7",icon:"🌿",nameKey:"badgeStreak7",test:function(){return state.streak>=7}},
+    {id:"streak30",icon:"🌳",nameKey:"badgeStreak30",test:function(){return state.streak>=30}},
+    {id:"deepDiver",icon:"🌊",nameKey:"badgeDeepDiver",test:function(){return state.sessions>=1}},
+    {id:"intentionSetter",icon:"🎯",nameKey:"badgeIntentionSetter",test:function(){return state.completed>=5}},
+    {id:"restDay",icon:"🌙",nameKey:"badgeRestDay",test:function(){return !!(state.profile&&state.profile.restDays&&state.profile.restDays.length>=1)}},
+    {id:"apollosFriend",icon:"🐾",nameKey:"badgeApollosFriend",test:function(){return state.myInvitesAccepted>=1}},
+    {id:"minutes60",icon:"⏱",nameKey:"badgeMinutes60",test:function(){return state.elapsedSeconds>=3600}},
+    {id:"minutes300",icon:"⭐",nameKey:"badgeMinutes300",test:function(){return state.elapsedSeconds>=18000}}
+  ];
+  function evaluateBadges(){
+    var newly=[];
+    badgeDefs.forEach(function(def){
+      if(state.badgesEarned[def.id])return;
+      if(def.test()){state.badgesEarned[def.id]=new Date().toISOString();newly.push(def.id)}
+    });
+    return newly;
+  }
+  function saveBadges(){
+    if(!state.user||!state.firebaseReady)return Promise.resolve();
+    return db.collection("users").doc(state.user.uid).set({badges:state.badgesEarned},{merge:true});
+  }
+  function announceBadges(newly){
+    newly.forEach(function(id){
+      var def=null;badgeDefs.forEach(function(d){if(d.id===id)def=d});
+      if(def)toast(ui[state.lang].badgeEarned((ui[state.lang][def.nameKey]||[""])[0]));
+    });
+  }
+  function refreshModeBanner(){
+    var x=ui[state.lang],el=$("modeBanner");if(!el)return;
+    if(!state.firebaseReady)el.textContent=x.bannerSetup;
+    else if(state.user)el.textContent=x.bannerSignedIn(state.user.email||"");
+    else el.textContent=x.bannerAnon;
+  }
+  function renderBadgeShelf(){
+    var grid=$("badgeGrid");if(!grid)return;
+    var x=ui[state.lang];
+    grid.innerHTML=badgeDefs.map(function(def){
+      var earned=state.badgesEarned[def.id];
+      var pair=x[def.nameKey]||["",""];
+      return '<div class="badge'+(earned?' earned':'')+'"><span class="mark">'+def.icon+'</span><strong>'+esc(pair[0])+'</strong><span>'+esc(earned?pair[1]:x.badgeLocked)+'</span></div>';
+    }).join("");
+  }
+  function renderFriends(){
+    var anon=$("friendsAnon"),signed=$("friendsSignedIn");
+    if(!anon||!signed)return;
+    var show=!!(state.user&&state.firebaseReady);
+    anon.style.display=show?"none":"";
+    signed.style.display=show?"":"none";
+    var list=$("friendsList");if(!list)return;
+    var x=ui[state.lang];
+    if(!show){list.innerHTML="";$("rewardBox").innerHTML="";return}
+    var rows=state.friendsList||[];
+    list.innerHTML=rows.length?rows.map(function(f){
+      return '<div class="friend-row"><span>'+esc(f.label)+'</span><span class="tag">'+esc(f.pair?x.partnerTag:x.friendTag)+'</span></div>';
+    }).join(""):'<p class="sub">'+x.friendsNone+'</p>';
+    var box=$("rewardBox"),n=state.myInvitesQualified||0;
+    if(state.profile&&state.profile.rewardUnlocked){
+      box.innerHTML='<div class="reward-card"><strong>'+x.rewardUnlockedTitle+'</strong><p>'+x.rewardUnlockedBody+'</p></div>';
+    }else{
+      box.innerHTML='<div class="reward-card"><strong>'+x.rewardProgress(n)+'</strong></div>';
+    }
+  }
+  function refreshHybridText(){
+    var x=ui[state.lang];
+    setText("#badgesTitle",x.badgesTitle);setText("#badgesSub",x.badgesSub);
+    setText("#friendsTitle",x.friendsTitle);setText("#friendsSub",x.friendsSub);
+    setText("#friendsAnonText",x.friendsAnon);setText("#friendsJoinBtn",x.createFreeAccount);
+    setText("#invitePairLabel",x.invitePairLabel);setText("#sendInviteBtn",x.sendInvite);
+    setText("#privacyTitle",x.privacyTitle);setText("#privacyBody",x.privacyBody);
+    setText("#restDayBtn",x.restDayBtn);setText("#restDayNote",x.restDayNote);
+    setText("#deleteAccountBtn",x.deleteAccount);
+    setText("#accountTitle",x.accountTitle);setText("#accountSub",x.accountSub);
+    setText("#signedInAsLabel",x.signedInAs);setText("#accountSavedNote",x.accountSaved);setText("#signOutBtn",x.signOut);
+    setText("#emailLabel",x.emailLabel);setText("#passwordLabel",x.passwordLabel);
+    setText("#authSubmit",state.authMode==="signup"?x.createAccount:x.signIn);
+    setText("#authToggleText",state.authMode==="signup"?x.alreadyHave:x.needAccount);
+    setText("#authToggleBtn",state.authMode==="signup"?x.signIn:x.createAccount);
+    setText("#forgotBtn",x.forgot);setText("#accountPrivacyNote",x.accountPrivacyNote||"");
+    setText("#inviteTitle",x.inviteTitle);setText("#inviteDeclineBtn",x.decline);
+    setText("#inviteAcceptBtn",x.acceptFriend);setText("#inviteAcceptPairBtn",x.acceptPair);
+    $("accountBtn").textContent=state.user?(state.user.email||"Account"):(state.lang==="zh"?"账号":"Account");
+    $("deleteAccountBtn").style.display=(state.user&&state.firebaseReady)?"":"none";
+    var signed=!!(state.user&&state.firebaseReady);
+    $("accountSignedIn").style.display=signed?"":"none";
+    $("accountAnon").style.display=signed?"none":"";
+    if(signed)$("signedInEmail").textContent=state.user.email||"";
+    refreshModeBanner();renderBadgeShelf();renderFriends();
+  }
+  function openAccountSheet(){refreshHybridText();$("accountOverlay").classList.add("show")}
+  /* Registration required: no anonymous access. Every feature entry point
+     routes through here — unsigned users land on the account sheet. */
+  function requireAuth(){
+    if(state.user&&state.firebaseReady)return true;
+    openAccountSheet();
+    return false;
+  }
+  function initFirebase(){
+    try{
+      if(!firebaseConfigured()||typeof firebase==="undefined"){state.firebaseReady=false;return}
+      fb=firebase.initializeApp(window.ORIAYA_FIREBASE_CONFIG);
+      auth=firebase.auth();db=firebase.firestore();
+      state.firebaseReady=true;
+      auth.onAuthStateChanged(onAuthChanged);
+    }catch(e){state.firebaseReady=false}
+  }
+  function onAuthChanged(user){
+    if(user){
+      state.user=user;
+      loadProfile().then(function(){
+        var newly=evaluateBadges();
+        if(newly.length)saveBadges();
+        refreshHybridText();updateStats();checkPendingInvite();
+      }).catch(function(){refreshHybridText();updateStats()});
+    }else{
+      state.user=null;state.profile=null;state.friendsList=[];state.myInvitesAccepted=0;state.myInvitesQualified=0;state.badgesEarned={};
+      state.completed=0;state.reps=0;state.sessions=0;state.elapsedSeconds=0;state.streak=0;
+      refreshHybridText();updateStats();
+    }
+  }
+  function loadProfile(){
+    var ref=db.collection("users").doc(state.user.uid);
+    return ref.get().then(function(doc){
+      var data=doc.exists?doc.data():null;
+      if(!data){
+        data={email:state.user.email||"",createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+          stats:{totalReps:0,totalSessions:0,totalMinutes:0,activityDays:[],lastActiveDay:null},
+          badges:{},friends:[],pairs:[],restDays:[],invitedBy:null,inviteQualified:false,rewardUnlocked:false};
+        return ref.set(data).then(function(){return data});
+      }
+      return data;
+    }).then(function(data){
+      state.profile=data;
+      var s=data.stats||{};
+      state.reps=s.totalReps||0;state.sessions=s.totalSessions||0;
+      state.completed=state.reps+state.sessions;
+      state.elapsedSeconds=(s.totalMinutes||0)*60;
+      state.streak=computeStreak(s.activityDays||[],data.restDays||[],new Date());
+      state.badgesEarned=data.badges||{};
+      return loadFriends();
+    });
+  }
+  /* Friends are derived purely from invite docs (both directions) — nobody
+     ever reads another user's profile. That keeps the rules owner-only. */
+  function loadFriends(){
+    var me=state.user.uid;
+    var sent=db.collection("invites").where("fromUid","==",me).get().then(function(snap){
+      var list=[],qualified=0;
+      snap.forEach(function(doc){
+        var inv=doc.data();
+        if(inv.status==="accepted")list.push({label:inv.toEmail||"",pair:!!inv.pairAccepted});
+        if(inv.qualified)qualified++;
+      });
+      state.myInvitesAccepted=list.length;state.myInvitesQualified=qualified;
+      return list;
+    }).catch(function(){return []});
+    var received=db.collection("invites").where("acceptedUid","==",me).get().then(function(snap){
+      var list=[];
+      snap.forEach(function(doc){
+        var inv=doc.data();
+        list.push({label:inv.fromEmail||"",pair:!!inv.pairAccepted});
+      });
+      return list;
+    }).catch(function(){return []});
+    return Promise.all([sent,received]).then(function(parts){
+      state.friendsList=parts[0].concat(parts[1]);
+      return checkReward();
+    });
+  }
+  function checkReward(){
+    if(!state.profile||state.profile.rewardUnlocked)return Promise.resolve();
+    if((state.myInvitesQualified||0)>=3){
+      state.profile.rewardUnlocked=true;
+      toast(ui[state.lang].rewardUnlockedTitle);
+      return db.collection("users").doc(state.user.uid).set({rewardUnlocked:true},{merge:true});
+    }
+    return Promise.resolve();
+  }
+  /* Called once per completed practice. Requires a signed-in user
+     (all entry points gate on requireAuth). */
+  function afterPractice(c,minutes,takeaway,action){
+    if(!state.user||!state.firebaseReady)return;
+    var day=dayKey(new Date());
+    var ref=db.collection("users").doc(state.user.uid);
+    var statsDelta={totalMinutes:firebase.firestore.FieldValue.increment(minutes),lastActiveDay:day,activityDays:firebase.firestore.FieldValue.arrayUnion(day)};
+    if(c.kind==="rep")statsDelta.totalReps=firebase.firestore.FieldValue.increment(1);
+    else statsDelta.totalSessions=firebase.firestore.FieldValue.increment(1);
+    ref.collection("sessions").add({kind:c.kind,title:c.title,minutes:minutes,day:day,takeaway:takeaway||"",action:action||"",lang:state.lang,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(){});
+    ref.set({email:state.user.email||"",stats:statsDelta},{merge:true}).then(function(){
+      var s=state.profile.stats||(state.profile.stats={});
+      if((s.activityDays||[]).indexOf(day)<0)(s.activityDays||(s.activityDays=[])).push(day);
+      s.totalMinutes=(s.totalMinutes||0)+minutes;
+      if(c.kind==="rep")s.totalReps=(s.totalReps||0)+1;else s.totalSessions=(s.totalSessions||0)+1;
+      state.streak=computeStreak(s.activityDays||[],state.profile.restDays||[],new Date());
+      var newly=evaluateBadges();
+      if(newly.length){saveBadges();announceBadges(newly)}
+      return checkInviteQualification();
+    }).catch(function(){}).then(function(){refreshHybridText();updateStats()});
+  }
+  /* An invited friend qualifies once they practice on 3 distinct days
+     within 7 days of accepting. Only a boolean lands on the invite — the
+     inviter never sees the friend's activity details. */
+  function checkInviteQualification(){
+    var p=state.profile;if(!p||!p.invitedBy||p.inviteQualified)return Promise.resolve();
+    var accepted=new Date(p.invitedAt||0);if(!accepted.getTime())return Promise.resolve();
+    var days=(p.stats&&p.stats.activityDays)||[],count=0;
+    days.forEach(function(d){
+      var dt=new Date(d+"T12:00:00");
+      var diff=(dt-accepted)/86400000;
+      if(diff>=-1&&diff<7)count++;
+    });
+    if(count<3)return Promise.resolve();
+    p.inviteQualified=true;
+    return db.collection("invites").doc(p.invitedBy).update({qualified:true}).then(function(){
+      return db.collection("users").doc(state.user.uid).set({inviteQualified:true},{merge:true});
+    }).catch(function(){});
+  }
+  function sendInvite(){
+    var x=ui[state.lang];
+    if(!state.user||!state.firebaseReady){openAccountSheet();return}
+    var email=$("inviteEmail").value.trim();
+    if(!email||email.indexOf("@")<1){$("inviteEmail").focus();return}
+    var pair=$("invitePair").checked;
+    db.collection("invites").add({fromUid:state.user.uid,fromEmail:state.user.email||"",toEmail:email,pair:pair,status:"pending",qualified:false,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(ref){
+      var link=location.origin+location.pathname+"?invite="+ref.id;
+      var box=$("inviteLinkBox");
+      box.style.display="";
+      box.innerHTML=esc(x.inviteLinkIntro)+' <span>'+esc(link)+'</span> <button class="secondary small" id="copyInviteBtn">'+x.inviteCopy+'</button>';
+      $("copyInviteBtn").onclick=function(){copyText(link);toast(x.inviteCopied)};
+      $("inviteEmail").value="";
+      toast(x.inviteSent);
+    }).catch(function(){toast(x.authGeneric)});
+  }
+  function checkPendingInvite(){
+    var params=new URLSearchParams(location.search);
+    var code=params.get("invite")||sessionStorage.getItem("oriaya_pending_invite");
+    if(!code)return;
+    if(!state.user||!state.firebaseReady){
+      try{sessionStorage.setItem("oriaya_pending_invite",code)}catch(e){}
+      openAccountSheet();
+      return;
+    }
+    db.collection("invites").doc(code).get().then(function(doc){
+      if(!doc.exists)return;
+      var inv=doc.data();
+      if(inv.status!=="pending")return;
+      state.pendingInvite={id:doc.id,data:inv};
+      var x=ui[state.lang];
+      $("inviteBody").textContent=inv.pair?x.inviteBodyPair(inv.fromEmail||""):x.inviteBodyFriend(inv.fromEmail||"");
+      $("inviteOverlay").classList.add("show");
+    }).catch(function(){});
+  }
+  /* Acceptance = consent to friendship. Pairing is a second, explicit yes. */
+  function acceptInvite(pair){
+    var inv=state.pendingInvite;if(!inv||!state.user)return;
+    var me=state.user;
+    db.collection("invites").doc(inv.id).update({status:"accepted",acceptedUid:me.uid,acceptedAt:firebase.firestore.FieldValue.serverTimestamp(),pairAccepted:pair}).then(function(){
+      var updates={friends:firebase.firestore.FieldValue.arrayUnion(inv.data.fromUid),invitedBy:inv.id,invitedAt:new Date().toISOString()};
+      if(pair)updates.pairs=firebase.firestore.FieldValue.arrayUnion(inv.data.fromUid);
+      return db.collection("users").doc(me.uid).set(updates,{merge:true});
+    }).then(function(){
+      try{sessionStorage.removeItem("oriaya_pending_invite")}catch(e){}
+      state.pendingInvite=null;
+      $("inviteOverlay").classList.remove("show");
+      toast(pair?ui[state.lang].pairAccepted:ui[state.lang].inviteAccepted);
+      return loadProfile();
+    }).then(function(){refreshHybridText();updateStats()}).catch(function(){toast(ui[state.lang].authGeneric)});
+  }
+  function markRestDay(){
+    var x=ui[state.lang];
+    if(!state.user||!state.firebaseReady){toast(x.restDayAnon);openAccountSheet();return}
+    var day=dayKey(new Date());
+    db.collection("users").doc(state.user.uid).set({restDays:firebase.firestore.FieldValue.arrayUnion(day)},{merge:true}).then(function(){
+      if((state.profile.restDays||[]).indexOf(day)<0)state.profile.restDays.push(day);
+      state.streak=computeStreak((state.profile.stats&&state.profile.stats.activityDays)||[],state.profile.restDays||[],new Date());
+      var newly=evaluateBadges();
+      if(newly.length){saveBadges();announceBadges(newly)}
+      toast(x.restDayDone);
+      refreshHybridText();updateStats();
+    }).catch(function(){toast(x.authGeneric)});
+  }
+  function deleteAccount(){
+    var x=ui[state.lang];
+    if(!state.user||!state.firebaseReady)return;
+    if(!window.confirm(x.deleteConfirm))return;
+    var uid=state.user.uid,user=state.user;
+    db.collection("invites").where("fromUid","==",uid).get().then(function(snap){
+      var dels=[];snap.forEach(function(d){dels.push(d.ref.delete())});return Promise.all(dels);
+    }).then(function(){
+      return db.collection("users").doc(uid).collection("sessions").get();
+    }).then(function(snap){
+      var batch=db.batch();snap.forEach(function(d){batch.delete(d.ref)});return batch.commit();
+    }).then(function(){
+      return db.collection("users").doc(uid).delete();
+    }).then(function(){
+      return user.delete();
+    }).then(function(){toast(x.deleteDone)}).catch(function(err){
+      if(err&&err.code==="auth/requires-recent-login"){toast(x.deleteDone);if(auth)auth.signOut()}
+      else toast(x.authGeneric);
+    });
+  }
+  var repData=[
+    {title:"Morning Intention",time:4,desc:"Choose the quality you want to bring into today.",prompts:["What deserves your attention before the day decides for you?","If you protected that attention, what would you say no to today?","What is one small way you can embody that intention in the next few hours?"]},
+    {title:"Reframe Rep",time:4,desc:"Find a truer angle on a difficult thought.",prompts:["What thought has been narrowing your view lately?","What is that thought trying to protect you from?","What is a truer sentence — one that makes room for both the difficulty and your agency?"]},
+    {title:"Inner Critic Timeout",time:5,desc:"Hear the critic without handing it the wheel.",prompts:["What has your inner critic been saying on repeat?","Whose standard does that voice sound like?","If the critic stepped aside for one minute, what would your steadier voice say?"]},
+    {title:"Values Check",time:4,desc:"Notice where your choices and values meet.",prompts:["Think of a choice you are facing. What is the choice?","Which value do you most want this choice to reflect?","Where does your current path honor that value, and where does it drift from it?","What choice would bring you one degree closer to alignment?"]},
+    {title:"Future Self Note",time:5,desc:"Borrow perspective from the person you are becoming.",prompts:["Picture yourself one year from now, a little steadier and more yourself. What does that version of you understand?","What did they stop waiting for permission to do?","Write one sentence they would send back to you today."]},
+    {title:"Win Log",time:3,desc:"Turn a recent win into usable self-knowledge.",prompts:["Name one thing you handled better than the old version of you would have.","What strength of yours made that possible?","Where else does that strength want to be used this week?"]},
+    {title:"Wheel Check-in",time:5,desc:"See which part of life is asking for care.",prompts:["Which area feels most out of balance right now: energy, relationships, work, play, or inner life?","What signal have you been receiving from that part of your life?","What would a two-percent improvement look like — small enough to begin?"]},
+    {title:"3-Minute Reset",time:3,desc:"Pause the spiral and find your next honest move.",prompts:["Name what is here right now, without fixing or judging it.","What part of this is within your influence today?","What is the kindest useful next move you can make?"]}
+  ];
+  var valueChoices=["Family","Freedom","Growth","Honesty","Health","Creativity","Security","Kindness","Courage","Balance","Purpose","Connection","Independence","Learning","Joy","Integrity","Service","Adventure","Peace","Authenticity","Love","Belonging","Compassion","Curiosity","Fairness","Faith","Friendship","Leadership","Play","Respect","Responsibility","Stability","Trust","Wisdom"];
+  var deepData=[
+    {title:"Deep Session",steps:[
+      {q:"What would you like to explore more deeply today? Bring a question, a situation, or something you have been thinking or writing about."}
+    ]}
+  ];
+  var deckData=[
+    {title:"Coaching begins with your intention.",body:"You decide what would make the conversation useful. Ria does not set the agenda for you.",example:"“Before we begin — what do you want from our time together today?”"},
+    {title:"Coaching helps you hear yourself.",body:"A coach reflects the language, tension, and possibility inside what you say — then asks a question that helps you look again.",example:"Not answers handed down. Better attention brought in."},
+    {title:"Coaching is not therapy.",body:"It does not diagnose, treat mental health conditions, or process trauma clinically. Therapy and coaching can both matter, for different needs.",example:"Oriaya is for reflection, agency, learning, and forward movement."},
+    {title:"A session follows one thread.",body:"Intention. Arrival. Exploration. One honest challenge. Action. Then a check-in against the intention you began with.",example:"One question at a time, so you can stay with your own thinking."},
+    {title:"You bring the truth. Ria holds the space.",body:"Your job is not to perform or find a perfect answer. Ria’s job is not to advise you. The work is noticing what becomes possible when you stop rushing past yourself.",example:"You are the expert on your life."}
+  ];
+  var onboarding=[
+    {n:"01 / 03",big:"↗",title:"Mental fitness is trainable.",body:"You do not wait for clarity, courage, or self-trust to appear. You build them through small, honest repetitions."},
+    {n:"02 / 03",big:"∞",title:"Mind Reps are free forever.",body:"Three to five minutes. One useful question. One reflection that stays with your actual words. Practice whenever life gets noisy."},
+    {n:"03 / 03",big:"15",title:"Deep Sessions follow your thread.",body:"These are guided coaching conversations — not therapy, advice, or a stream of generic prompts. Every session starts with your intention."}
+  ];
+
+  var languageNames={en:"English",zh:"中文"};
+  var speechLocales={en:"en-US",zh:"zh-CN"};
+  var localeNames={en:"en-US",zh:"zh-CN"};
+  var baseContent={reps:repData,deep:deepData,deck:deckData,onboarding:onboarding,values:valueChoices};
+  var ui={
+    en:{banner:"Create an account to begin — your practice is saved with your account.",learn:"New to coaching?",morning:"Good morning.",afternoon:"Good afternoon.",evening:"Good evening.",eyebrow:"Today’s Mind Rep",heroTitle:"What deserves your attention before the day decides for you?",heroBody:"A short intention-setting conversation. Not a to-do list — a way to choose how you want to meet today.",fourMinutes:"4 minutes",begin:"Begin",dayStreak:"day streak",completed:"completed",minutesTrained:"minutes trained",choosePractice:"Choose your practice",mindReps:"Mind Reps",mindDesc:"3–5 minute practices for clarity, courage, and self-trust.",deepSessions:"Deep Sessions",deepDesc:"Guided coaching conversations that follow your intention.",coachingFine:'Oriaya is coaching, not therapy or medical care. In the U.S., call or text <a href="tel:988">988</a> for immediate crisis support.',repsSub:"Small, repeatable conversations that strengthen how you meet your life.",repsFine:"These practices support reflection and growth. They do not diagnose or treat mental health conditions.",sessionsSub:"Bring one intention. Ria will listen for the thread, reflect your own language, and ask one question at a time. Sometimes Ria may feel a little slow. This is intentional. She is taking the necessary pause and leaving you space.",newCoach:"New to coaching?",guideHint:"Take the five-card tour before your first session.",openGuide:"Open guide",sessionsFine:'Coaching is not therapy, diagnosis, or medical care. If you may be in immediate danger or are thinking about suicide, call local emergency services. In the U.S., call or text <a href="tel:988">988</a>.',youTitle:"Your practice, today",youBody:"Your practice is saved with your account.",sessions:"sessions",minutes:"minutes",howTitle:"How Oriaya works",how1:"Mind Reps stay free",how1b:"Short coaching practices, free forever — because mental fitness grows through repetition.",how2:"Deep Sessions",how2b:"$1.99/month at launch and free during beta. A $10–15 fee may apply to severe late cancellations or no-shows for booked human sessions — it prices the empty slot, not your struggle.",how3:"Human connection, next",how3b:"Vetted human coaches and an in-person Oriaya Space are in exploration, beginning around Palo Alto and the Bay Area.",feedbackTitle:"Help shape the beta",feedbackSub:"What felt alive? What felt flat? What would make you come back?",feedbackPlaceholder:"Tell us what you noticed…",sendFeedback:"Send feedback",thanks:"Thank you — your feedback is saved with your account.",feedbackFine:'Feedback is saved with your account. Oriaya is coaching, not therapy. In the U.S., call or text <a href="tel:988">988</a> for crisis support.',back:"← Back",answerPlaceholder:"Type or speak your answer…",pause:"Pause",resume:"Resume",speak:"Speak answer",stopVoice:"Stop voice input",send:"Send answer",navHome:"Home",navReps:"Reps",navSessions:"Sessions",navYou:"You",safetyTitle:"Before your first session",safetySub:"Oriaya is a coaching space. It is built for reflection, intention, and forward movement.",coachingAsks:"Coaching asks",coachingAsksB:"What do you want? What matters? What will you choose?",therapy:"Therapy may treat",therapyB:"Trauma, mental health symptoms, diagnosis, and clinical conditions.",help:"Need immediate help?",helpB:'Oriaya is not crisis support. In the U.S., call or text <a href="tel:988">988</a>. Elsewhere, contact local emergency services.',understand:"I understand",continue:"Continue",enter:"Enter",tour:"New to coaching? Take the 5-card tour →",card:"CARD",of:"OF",next:"Next →",done:"Done",min:"min",about15:"Deep Session · about 15 min",mindMeta:"Mind Rep",beginSession:"Begin session",valueHint:"Choose the closest fit, or type your own in the same answer box below.",ownValue:"Type my own ↓",keepValue:function(v){return "Keep "+v+" in view. Where does your current path already honor it, and where does it drift away?"},closerValue:function(v){return "What is one choice that would bring you a little closer to "+v+"?"},pauseLine:"That feels like a place to pause — not because the work is finished, but because you named something you can carry forward.",takeaway:"Your takeaways",takeawayHint:"These are your words, not Ria’s summary.",nextStep:"What you want to do next",practice:"Oriaya practice",copyCard:"Copy reflection card",continueExplore:"Keep exploring",readyReflect:"Gather my takeaways",directionHint:"Would you like to stay with this, or gather what you want to carry forward?",takeawayPrompt:"What are your takeaways from today?",actionPrompt:"What, if anything, do you want to do next?",closingLine:"You did the sorting. These are the words you chose to carry forward.",cameIn:function(a,b){return 'I came in wanting “'+a+'.” I am leaving with “'+b+'.”'},clarityCheck:function(s){return "You came in looking for "+s+". What feels clearer now?"},langChanged:"Language changed",feedbackHeld:"Thank you — your feedback is saved with your account.",
+    /* Hybrid beta strings — kept in the same ui table so ZH stays in step */
+    bannerAnon:"Create an account to begin.",
+    bannerSignedIn:function(email){return "Signed in as "+email+" — your progress is saved."},
+    bannerSetup:"Account features need setup (see SETUP.md). Create an account to begin once setup is complete.",
+    accountTitle:"Your account",accountSub:"Create an account to begin. Your streaks, badges, and friends are saved with your account.",
+    createAccount:"Create account",signIn:"Sign in",emailLabel:"Email",passwordLabel:"Password",
+    alreadyHave:"Already have an account?",needAccount:"Need an account?",forgot:"Forgot password?",
+    signedInAs:"Signed in as",accountSaved:"Your progress is saved with your account.",signOut:"Sign out",
+    accountPrivacyNote:"Your email is only used to sign you in. We use basic account and anonymized usage info to improve Oriaya. We never sell your data.",
+    setupNeeded:"Account features need Firebase setup first — see SETUP.md. Create an account to begin once setup is complete.",
+    resetSent:"Password reset email sent. Check your inbox.",authGeneric:"That didn’t work. Check your email and password and try again.",
+    badgesTitle:"Badges",badgesSub:"Badges reward showing up — never a missed day. They are saved with your account.",
+    friendsTitle:"Friends & accountability",friendsSub:"Invite a friend. When they accept, you become friends — and you can pair up to nudge each other.",
+    friendsAnon:"Create a free account to invite friends and pair up.",createFreeAccount:"Create free account",
+    invitePairLabel:"Pair as accountability partners",sendInvite:"Send invite",inviteSent:"Invite sent — share the link with your friend.",
+    inviteLinkIntro:"Share this invite link with your friend:",inviteCopy:"Copy invite link",inviteCopied:"Invite link copied!",
+    friendsNone:"No friends yet. Invite someone you’d like to practice with.",
+    partnerTag:"accountability partner",friendTag:"friend",
+    rewardProgress:function(n){return n+" of 3 friends completed week 1. One more unlocks a free Deep Session month."},
+    rewardUnlockedTitle:"Free Deep Session month unlocked",rewardUnlockedBody:"Three friends you invited completed their first week. A free month of Deep Sessions is yours when paid sessions launch.",
+    inviteTitle:"You’re invited",inviteBodyFriend:function(email){return email+" invited you to Oriaya. Accept to become friends."},
+    inviteBodyPair:function(email){return email+" invited you to Oriaya and to pair up as accountability partners — a gentle nudge to keep practicing."},
+    acceptFriend:"Accept friendship",acceptPair:"Accept & pair as accountability partners",decline:"Decline",
+    inviteAccepted:"You’re friends now.",pairAccepted:"You’re accountability partners now.",
+    privacyTitle:"Your privacy",privacyBody:"Your coaching answers stay on this page and are never sent anywhere. Only the takeaways and next steps you choose to carry forward are saved with your account. We use basic account information and anonymized usage information to improve Oriaya. Your data is never sold. You can delete your account and all saved data at any time.",
+    restDayBtn:"Mark today as a rest day",restDayNote:"A rest day holds your streak — it never breaks it.",restDayDone:"Rest day marked. Your streak is held.",
+    restDayAnon:"Create an account to mark rest days and hold your streak.",
+    deleteAccount:"Delete my account & data",deleteConfirm:"Delete your account and ALL saved data? This cannot be undone.",deleteDone:"Your account and data are deleted.",
+    feedbackSaved:"Thank you — your feedback is saved with your account.",
+    badgeEarned:function(name){return "Badge earned: "+name},
+    badgeFirstRep:["First Rep","You completed your first Mind Rep."],
+    badgeStreak3:["3-Day Streak","Three days of showing up."],
+    badgeStreak7:["7-Day Streak","A full week of practice."],
+    badgeStreak30:["30-Day Streak","A month of showing up for yourself."],
+    badgeDeepDiver:["Deep Diver","You completed your first Deep Session."],
+    badgeIntentionSetter:["Intention Setter","Five practices, each begun with intention."],
+    badgeRestDay:["Rest Day","You honored rest as part of the practice."],
+    badgeApollosFriend:["Apollo’s Friend","You invited a friend who joined."],
+    badgeMinutes60:["60 Minutes","An hour of training, one rep at a time."],
+    badgeMinutes300:["300 Minutes","Five hours of practice."],
+    badgeLocked:"Locked"
+    },
+    zh:{banner:"创建账号开始使用——你的练习随账号保存。",learn:"第一次接触教练式对话？",morning:"早上好。",afternoon:"下午好。",evening:"晚上好。",eyebrow:"今日心智练习",heroTitle:"在今天被各种事情推着走之前，什么最值得你关注？",heroBody:"一段简短的意图设定对话。它不是待办清单，而是帮你选择今天想以怎样的状态面对生活。",fourMinutes:"4 分钟",begin:"开始",dayStreak:"连续天数",completed:"已完成",minutesTrained:"练习分钟",choosePractice:"选择你的练习",mindReps:"心智练习",mindDesc:"用 3–5 分钟练习清晰、勇气与自我信任。",deepSessions:"深度对话",deepDesc:"由你的意图引导的教练式对话。",coachingFine:'Oriaya 提供教练式支持，不是心理治疗或医疗服务。如在美国需要紧急危机支持，请拨打或短信 <a href="tel:988">988</a>。',repsSub:"短小、可重复的对话，帮助你更有力量地面对生活。",repsFine:"这些练习支持反思与成长，不用于诊断或治疗心理健康问题。",sessionsSub:"带着一个意图来。Ria 会聆听其中的线索，回应你自己的语言，并一次只问一个问题。有时 Ria 的回应会稍慢一点。这是有意的。她在留出必要的停顿，也给你空间。",newCoach:"第一次接触教练式对话？",guideHint:"首次对话前，先看完五张引导卡。",openGuide:"打开指南",sessionsFine:'教练式对话不是心理治疗、诊断或医疗服务。如果你可能面临立即危险或有自杀想法，请联系当地紧急服务。在美国，请拨打或短信 <a href="tel:988">988</a>。',youTitle:"你今天的练习",youBody:"你的练习随账号保存。",sessions:"次对话",minutes:"分钟",howTitle:"Oriaya 如何运作",how1:"心智练习永久免费",how1b:"短小的教练式练习，永久免费——因为心智韧性来自反复练习。",how2:"深度对话",how2b:"上线价每月 1.99 美元，测试期间免费。预约真人教练后如严重迟到、临时取消或缺席，可能收取 10–15 美元费用——费用对应空出的时段，而不是你的处境。",how3:"下一步：真实连接",how3b:"我们正在探索经过筛选的真人教练与线下 Oriaya Space，初期从 Palo Alto 和湾区周边开始。",feedbackTitle:"帮助我们打磨测试版",feedbackSub:"哪里让你有感觉？哪里显得平淡？什么会让你愿意再来？",feedbackPlaceholder:"告诉我们你注意到了什么……",sendFeedback:"发送反馈",thanks:"谢谢——你的反馈已随账号保存。",feedbackFine:'反馈随账号保存。Oriaya 提供教练式支持，不是心理治疗。在美国，如需危机支持请拨打或短信 <a href="tel:988">988</a>。',back:"← 返回",answerPlaceholder:"输入或说出你的回答……",pause:"暂停",resume:"继续",speak:"语音回答",stopVoice:"停止语音输入",send:"发送回答",navHome:"首页",navReps:"练习",navSessions:"对话",navYou:"我的",safetyTitle:"第一次对话前",safetySub:"Oriaya 是一个教练式成长空间，支持反思、意图与向前行动。",coachingAsks:"教练式对话会问",coachingAsksB:"你想要什么？什么重要？你会如何选择？",therapy:"心理治疗可能处理",therapyB:"创伤、心理健康症状、诊断与临床问题。",help:"需要立即帮助？",helpB:'Oriaya 不提供危机干预。在美国，请拨打或短信 <a href="tel:988">988</a>；其他地区请联系当地紧急服务。',understand:"我明白",continue:"继续",enter:"进入",tour:"第一次接触教练式对话？查看 5 张引导卡 →",card:"卡片",of:"共",next:"下一张 →",done:"完成",min:"分钟",about15:"深度对话 · 约 15 分钟",mindMeta:"心智练习",beginSession:"开始对话",valueHint:"选择最接近的一项，或在下方输入框写下你自己的答案。",ownValue:"输入自己的价值观 ↓",keepValue:function(v){return "把“"+v+"”放在心里。你现在的选择在哪些地方已经体现了它，又在哪些地方偏离了它？"},closerValue:function(v){return "什么选择能让你向“"+v+"”再靠近一点？"},pauseLine:"这里适合停一停——不是因为探索结束了，而是因为你已经说出了一件可以带走的事。",takeaway:"你今天的收获",takeawayHint:"这是你自己的梳理，不是 Ria 替你做的总结。",nextStep:"你想做的下一步",practice:"Oriaya 练习",copyCard:"复制回顾卡",continueExplore:"继续聊",readyReflect:"梳理今天的收获",directionHint:"你想继续沿着这条线聊，还是开始梳理今天想带走的东西？",takeawayPrompt:"今天的对话里，你的 takeaways 是什么？",actionPrompt:"接下来，你想做什么？如果现在不需要行动，也可以直接说。",closingLine:"是你完成了梳理。这里留下的是你自己选择带走的话。",cameIn:function(a,b){return '来时我想要“'+a+'”；离开时我带着“'+b+'”。'},clarityCheck:function(s){return "你来时想找到"+s+"。现在，什么变得更清楚了？"},langChanged:"语言已切换",feedbackHeld:"谢谢——你的反馈已随账号保存。",
+    bannerAnon:"创建账号开始使用。",
+    bannerSignedIn:function(email){return "已登录 "+email+"——你的进度已保存。"},
+    bannerSetup:"账号功能需要先完成配置（见 SETUP.md）。配置完成后，创建账号开始使用。",
+    accountTitle:"你的账号",accountSub:"创建账号开始使用。你的连续天数、徽章和朋友都会随账号保存。",
+    createAccount:"创建账号",signIn:"登录",emailLabel:"邮箱",passwordLabel:"密码",
+    alreadyHave:"已有账号？",needAccount:"需要创建账号？",forgot:"忘记密码？",
+    signedInAs:"已登录",accountSaved:"你的进度已随账号保存。",signOut:"退出登录",
+    accountPrivacyNote:"你的邮箱仅用于登录。我们会使用基本的账号信息和匿名化使用信息来优化 Oriaya，永不出售你的数据。",
+    setupNeeded:"账号功能需要先完成 Firebase 配置（见 SETUP.md）。配置完成后，创建账号开始使用。",
+    resetSent:"密码重置邮件已发送，请查收收件箱。",authGeneric:"没能成功。请检查邮箱和密码，再试一次。",
+    badgesTitle:"徽章",badgesSub:"徽章奖励“出现”，从不惩罚断档。徽章随你的账号保存。",
+    friendsTitle:"朋友与互相督促",friendsSub:"邀请一位朋友。对方接受后，你们成为朋友——还可以结对互相督促。",
+    friendsAnon:"创建一个免费账号，即可邀请朋友、结对督促。",createFreeAccount:"创建免费账号",
+    invitePairLabel:"结对成为 accountability partner",sendInvite:"发送邀请",inviteSent:"邀请已发送——把链接分享给你的朋友。",
+    inviteLinkIntro:"把这个邀请链接分享给你的朋友：",inviteCopy:"复制邀请链接",inviteCopied:"邀请链接已复制！",
+    friendsNone:"还没有朋友。邀请一位你想一起练习的人吧。",
+    partnerTag:"accountability partner",friendTag:"朋友",
+    rewardProgress:function(n){return "已有 "+n+" 位你邀请的朋友完成了第一周。再来一位，即可解锁免费 Deep Session 月。"},
+    rewardUnlockedTitle:"已解锁免费 Deep Session 月",rewardUnlockedBody:"你邀请的三位朋友都完成了第一周。付费对话上线后，一个月免费 Deep Session 归你。",
+    inviteTitle:"你收到一份邀请",inviteBodyFriend:function(email){return email+" 邀请你加入 Oriaya。接受后，你们成为朋友。"},
+    inviteBodyPair:function(email){return email+" 邀请你加入 Oriaya，并结对成为 accountability partner——温和地提醒彼此坚持练习。"},
+    acceptFriend:"接受，成为朋友",acceptPair:"接受，并结对督促",decline:"拒绝",
+    inviteAccepted:"你们已成为朋友。",pairAccepted:"你们已结对成为 accountability partner。",
+    privacyTitle:"你的隐私",privacyBody:"你的教练对话回答只留在这个页面，绝不发送到任何地方。只有你选择带走的收获和下一步，才会随账号保存。我们会使用基本的账号信息和匿名化使用信息来优化 Oriaya。你的数据永不被出售。你可以随时删除账号和全部已保存数据。",
+    restDayBtn:"把今天标记为休息日",restDayNote:"休息日会保持你的连续记录——永远不会打断它。",restDayDone:"休息日已标记。你的连续记录保持不变。",
+    restDayAnon:"创建一个账号，即可标记休息日并保持连续记录。",
+    deleteAccount:"删除我的账号和数据",deleteConfirm:"删除你的账号和全部已保存数据？此操作无法撤销。",deleteDone:"你的账号和数据已删除。",
+    feedbackSaved:"谢谢——你的反馈已随账号保存。",
+    badgeEarned:function(name){return "获得徽章："+name},
+    badgeFirstRep:["第一次练习","你完成了第一次心智练习。"],
+    badgeStreak3:["连续 3 天","连续三天出现。"],
+    badgeStreak7:["连续 7 天","整整一周的练习。"],
+    badgeStreak30:["连续 30 天","一个月为自己出现。"],
+    badgeDeepDiver:["深度探索者","你完成了第一次深度对话。"],
+    badgeIntentionSetter:["意图设定者","五次练习，每次都从意图开始。"],
+    badgeRestDay:["休息日","你把休息也当作练习的一部分。"],
+    badgeApollosFriend:["Apollo 的朋友","你邀请的朋友加入了。"],
+    badgeMinutes60:["60 分钟","一分钟一分钟，练满一小时。"],
+    badgeMinutes300:["300 分钟","五小时的练习。"],
+    badgeLocked:"未解锁"
+    },
+  };
+  var localizedContent={
+    zh:{
+      reps:[
+        {title:"晨间意图",time:4,desc:"选择你今天想带入生活的状态。",prompts:["在今天被各种事情推着走之前，什么最值得你关注？","如果你要保护这份关注，今天你会对什么说不？","接下来的几个小时里，你可以用哪一个小行动体现这份意图？"]},
+        {title:"重新看见",time:4,desc:"为一个困难的想法找到更真实的角度。",prompts:["最近，哪个想法一直在缩小你的视野？","这个想法想保护你免受什么伤害？","哪一句更真实的话，既容得下困难，也容得下你的主动权？"]},
+        {title:"让内在批评者暂停",time:5,desc:"听见批评的声音，但不把方向盘交给它。",prompts:["你的内在批评者最近反复在说什么？","这个声音听起来像是谁的标准？","如果它暂时退到一旁，你更稳定的那个声音会说什么？"]},
+        {title:"价值观校准",time:4,desc:"看看你的选择与价值观在哪里相遇。",prompts:["想一件你正在面对的选择。这个选择是什么？","你最希望这个选择体现哪一种价值观？","你现在的路径在哪些地方已经尊重它，又在哪些地方偏离了它？","什么选择能让你向一致再靠近一点？"]},
+        {title:"来自未来自己的话",time:5,desc:"向那个正在成为的自己借一点视角。",prompts:["想象一年后的你，更稳定，也更像自己。那个你已经明白了什么？","那个你不再等待谁的允许去做什么？","写下一句未来的你想送回给今天的你的话。"]},
+        {title:"胜利记录",time:3,desc:"把最近的一次进步变成可复用的自我认识。",prompts:["说一件你处理得比过去的自己更好的事。","你的哪一种力量让它成为可能？","这周，你还想把这种力量用在哪里？"]},
+        {title:"生活之轮检视",time:5,desc:"看看生活的哪一部分正在请求你的关照。",prompts:["现在哪个领域最失衡：精力、关系、工作、玩乐，还是内在生活？","生活的这一部分一直在向你发出什么信号？","2% 的改善会是什么样——小到现在就能开始？"]},
+        {title:"3 分钟重置",time:3,desc:"暂停旋涡，找到下一个诚实的行动。",prompts:["说出此刻存在的感受，不修正，也不评判。","今天，这件事的哪一部分在你的影响范围内？","你能做的、既温柔又有用的下一步是什么？"]}
+      ],
+      deep:[
+        {title:"深度对话",steps:[{q:"今天你想深入聊什么？可以带来一个问题、一段经历，或任何你一直在想、在写的内容。"}]}
+      ],
+      deck:[
+        {title:"教练式对话从你的意图开始。",body:"你来决定什么会让这段对话有价值。Ria 不会替你设定议程。",example:"“开始前，你希望今天这段对话带给你什么？”"},
+        {title:"教练式对话帮助你听见自己。",body:"教练会回应你语言中的张力与可能，再提出一个问题，邀请你重新看一眼。",example:"不是把答案交给你，而是带来更好的注意力。"},
+        {title:"教练式对话不是心理治疗。",body:"它不会诊断或治疗心理健康问题，也不会以临床方式处理创伤。治疗与教练都可能重要，只是服务于不同需要。",example:"Oriaya 支持反思、主动权、学习与向前行动。"},
+        {title:"一场对话只沿着一条线索展开。",body:"意图、抵达、探索、一次诚实的挑战、行动，再回到起点检视。",example:"一次只问一个问题，让你留在自己的思考中。"},
+        {title:"你带来真实，Ria 守住空间。",body:"你不需要表演，也不需要找到完美答案。Ria 的工作不是给建议，而是陪你看见：当你不再匆忙越过自己，什么开始变得可能。",example:"你才是自己人生的专家。"}
+      ],
+      onboarding:[
+        {n:"01 / 03",big:"↗",title:"心智韧性可以训练。",body:"你不必等待清晰、勇气或自我信任凭空出现。你可以通过小而诚实的重复，把它们练出来。"},
+        {n:"02 / 03",big:"∞",title:"心智练习永久免费。",body:"三到五分钟，一个有用的问题，一次忠于你真实语言的回应。生活嘈杂时，随时回来练习。"},
+        {n:"03 / 03",big:"15",title:"深度对话会沿着你的线索前进。",body:"这是引导式教练对话——不是治疗、建议，也不是一连串通用问题。每次对话都从你的意图开始。"}
+      ],
+      values:["家庭","自由","成长","诚实","健康","创造力","安全感","善意","勇气","平衡","使命感","连接","独立","学习","喜悦","正直","服务","冒险","平静","真实","爱","归属","慈悲","好奇","公平","信念","友谊","领导力","玩乐","尊重","责任","稳定","信任","智慧"]
+    },
+  };
+  var nonEnglishSignals={
+    zh:[[/害怕|恐惧|焦虑|担心|紧张/,"fear"],[/生气|愤怒|恼火|挫败/,"anger"],[/难过|悲伤|受伤|心碎|失望|哭/,"sadness"],[/压力|压垮|太多|应付不过来/,"overwhelmed"],[/累|疲惫|耗尽|倦怠/,"tired"],[/卡住|停滞|拖延|无法开始/,"stuck"],[/困惑|迷茫|不确定|不知道/,"unclear"],[/孤独|孤单|隔离|没人理解/,"lonely"],[/开心|兴奋|喜悦|期待/,"joy"],[/骄傲|成就|成功|做到了/,"pride"],[/内疚|羞愧|后悔/,"guilt"],[/关系|伴侣|丈夫|妻子|家人|朋友/,"relationship"],[/工作|事业|项目|老板|面试/,"work"],[/选择|决定|该不该/,"choice"]],
+  };
+  var translatedReflections={
+    zh:{loss:"这是一份很沉重的失去。",fear:"我听见了这份不确定带来的恐惧。",anger:"这份愤怒似乎在守护一件重要的事。",sadness:"我听见这件事有多痛。",overwhelmed:"这么多事情同时压过来，确实很难。",tired:"你的能量似乎已经被拉得很薄。",stuck:"我听见你既想改变，又暂时难以移动。",unclear:"多种声音在争夺同一片空间。",lonely:"我听见这份不被看见的孤独。",joy:"这份活力值得你留意。",pride:"这份满足感是你挣来的。",guilt:"承担责任不需要以苛责自己为代价。",relationship:"你既在意这段关系，也在看见其中不再有效的部分。",work:"工作很重要，你想以怎样的方式面对它也同样重要。",choice:"你不需要百分之百确定，才能做一个诚实的选择。",neutral:"这里有一条值得继续跟随的线索。"},
+  };
+  var localizedIntentions={
+    zh:{loss:"承接这份失去的空间",fear:"更稳定地面对不确定",anger:"看清愤怒正在保护什么",sadness:"理解这份伤痛",overwhelmed:"空间与更清楚的优先级",tired:"一种更可持续的前进方式",stuck:"走出停滞的路径",unclear:"更清楚什么是真的",lonely:"更诚实地理解你需要的连接",joy:"跟随让你焕发生机的方向",pride:"看清进步背后的力量",guilt:"不与自己为敌的回应方式",relationship:"看清这段关系里你需要什么",work:"更清楚地面对工作压力",choice:"一个重要选择上的清晰",neutral:"更清楚什么重要"},
+  };
+
+  function $(id){return document.getElementById(id)}
+  function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+  function setDate(){var d=new Date(),h=d.getHours(),x=ui[state.lang];$("today").textContent=d.toLocaleDateString(localeNames[state.lang],{weekday:"long",month:"long",day:"numeric"});$("greeting").textContent=h<12?x.morning:h<18?x.afternoon:x.evening}
+  function setText(selector,text,root){var el=(root||document).querySelector(selector);if(el)el.textContent=text}
+  function setHTML(selector,text,root){var el=(root||document).querySelector(selector);if(el)el.innerHTML=text}
+  function applyLanguage(lang,announce){
+    state.lang=ui[lang]?lang:"en";document.documentElement.lang=state.lang;$("languageSelect").value=state.lang;
+    var content=state.lang==="en"?baseContent:localizedContent[state.lang],x=ui[state.lang];repData=content.reps;deepData=content.deep;deckData=content.deck;onboarding=content.onboarding;valueChoices=content.values;
+    setText(".demo-banner",x.banner);refreshModeBanner();$("learnTop").textContent=x.learn;setDate();
+    var home=$("homeView");setText(".eyebrow",x.eyebrow,home);setText(".hero-card h2",x.heroTitle,home);setText(".hero-card p",x.heroBody,home);setText(".hero-card .time","◷ "+x.fourMinutes,home);setText(".hero-card .primary",x.begin,home);
+    var hs=home.querySelectorAll(".stat span");if(hs[0])hs[0].textContent=x.dayStreak;if(hs[1])hs[1].textContent=x.completed;if(hs[2])hs[2].textContent=x.minutesTrained;setText(".section-head h2",x.choosePractice,home);
+    var entries=home.querySelectorAll(".entry");if(entries[0]){setText("h3",x.mindReps,entries[0]);setText("p",x.mindDesc,entries[0])}if(entries[1]){setText("h3",x.deepSessions,entries[1]);setText("p",x.deepDesc,entries[1])}setHTML(".fineprint",x.coachingFine,home);
+    var reps=$("repsView");setText("h2",x.mindReps,reps);setText(".sub",x.repsSub,reps);setText(".fineprint",x.repsFine,reps);
+    var you=$("youView");setText(".you-hero h2",x.youTitle,you);setText(".you-hero p",x.youBody,you);var ys=you.querySelectorAll(".stat span");if(ys[0])ys[0].textContent=x.sessions;if(ys[1])ys[1].textContent=x.mindReps;if(ys[2])ys[2].textContent=x.minutes;setText(".section-head h2",x.howTitle,you);
+    var rows=you.querySelectorAll(".how-row");[[x.how1,x.how1b],[x.how2,x.how2b],[x.how3,x.how3b]].forEach(function(pair,i){if(rows[i]){setText("strong",pair[0],rows[i]);setText("p",pair[1],rows[i])}});
+    setText(".feedback h3",x.feedbackTitle,you);setText(".feedback .sub",x.feedbackSub,you);$("feedbackText").placeholder=x.feedbackPlaceholder;setText(".feedback button",x.sendFeedback,you);$("feedbackThanks").textContent=x.thanks;setHTML(".fineprint",x.feedbackFine,you);
+    $("chatBack").textContent=x.back;$("answer").placeholder=x.answerPlaceholder;$("answer").setAttribute("aria-label",x.answerPlaceholder);$("micBtn").setAttribute("aria-label",voice&&voice.sessionActive?x.stopVoice:x.speak);$("sendBtn").setAttribute("aria-label",x.send);
+    var tabs=document.querySelectorAll(".tab");[x.navHome,x.navReps,x.navSessions,x.navYou].forEach(function(label,i){if(tabs[i]&&tabs[i].lastChild)tabs[i].lastChild.nodeValue=label});
+    var safety=$("safetyOverlay");setText("h2",x.safetyTitle,safety);setText(".sub",x.safetySub,safety);var boxes=safety.querySelectorAll(".safety-box");if(boxes[0]){setText("strong",x.coachingAsks,boxes[0]);setText("p",x.coachingAsksB,boxes[0])}if(boxes[1]){setText("strong",x.therapy,boxes[1]);setText("p",x.therapyB,boxes[1])}setHTML(".crisis",'<strong>'+x.help+'</strong><br>'+x.helpB,safety);$("safetyContinue").textContent=x.understand;
+    $("deckPrev").textContent=x.back;renderLists();renderOnboarding();renderDeck();updateStats();
+    if(state.chat){var d=state.chat.kind==="rep"?repData[state.chat.index]:deepData[state.chat.index];state.chat.title=d.title;$("chatTitle").textContent=d.title;$("chatMeta").textContent=state.chat.kind==="rep"?x.mindMeta+" · "+d.time+" "+x.min:x.about15}
+    renderVoiceControls();refreshHybridText();if(announce)toast(x.langChanged+": "+languageNames[state.lang]);
+  }
+  function renderLists(){var x=ui[state.lang];
+    $("repList").innerHTML=repData.map(function(r,i){return '<button class="list-card" data-start-rep="'+i+'"><span class="num">'+String(i+1).padStart(2,"0")+'</span><span><h3>'+r.title+'</h3><p>'+r.desc+'</p></span><span class="mini">'+r.time+' '+x.min+'</span></button>'}).join("");
+  }
+  function showTab(tab){
+    if(state.tab==="chat"&&tab!=="chat"&&state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}
+    if(state.tab==="chat"&&tab!=="chat"&&typeof voice!=="undefined"&&voice.sessionActive)stopVoice();
+    if(state.tab==="chat"&&tab!=="chat"&&state.chat&&!state.chat.finished){state.activeStart=null;state.activeAccum=0}
+    state.tab=tab;document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active")});
+    $(tab+"View").classList.add("active");document.querySelectorAll(".tab").forEach(function(b){b.classList.toggle("active",b.dataset.tab===tab)});
+    $("topline").style.display=tab==="chat"?"none":"";$("composer").classList.remove("show");window.scrollTo(0,0);
+  }
+  function requestDeepSession(){
+    if(!requireAuth())return;
+    if(!state.safetySeen){state.safetySeen=true;state.pendingDeep=true;$("safetyOverlay").classList.add("show");return}
+    startChat("session",0);
+  }
+  function updateStats(){
+    var wholeMinutes=Math.floor(state.elapsedSeconds/60);["sessionStat","youSessions"].forEach(function(id){$(id).textContent=state.completed});$("minuteStat").textContent=wholeMinutes;$("youMinutes").textContent=wholeMinutes;$("streakStat").textContent=state.streak;$("youReps").textContent=state.reps;
+    renderBadgeShelf();renderFriends();
+  }
+  function renderOnboarding(){var x=onboarding[state.onboard],u=ui[state.lang];$("onboardContent").innerHTML='<div class="slide-num">'+x.n+'</div><div class="big">'+x.big+'</div><h2>'+x.title+'</h2><p>'+x.body+'</p>'+(state.onboard===2?'<button class="quiet-action" id="onboardLearn">'+u.tour+'</button>':'')+'<div class="sheet-actions"><div class="progress">'+onboarding.map(function(_,i){return '<i class="'+(i===state.onboard?'active':'')+'"></i>'}).join('')+'</div><button class="primary" id="onboardNext">'+(state.onboard===2?u.enter:u.continue)+'</button></div>';
+    $("onboardNext").onclick=function(){if(state.onboard<2){state.onboard++;renderOnboarding()}else{$("onboarding").classList.remove("show")}};
+    var l=$("onboardLearn");if(l)l.onclick=function(){openDeck()};
+  }
+  function openDeck(){state.deck=0;renderDeck();$("deckOverlay").classList.add("show")}
+  function renderDeck(){var d=deckData[state.deck],x=ui[state.lang];$("deckCard").innerHTML='<span class="count">'+x.card+' '+(state.deck+1)+' '+x.of+' 5</span><h2>'+d.title+'</h2><p>'+d.body+'</p><div class="example">'+d.example+'</div>';$("deckDots").innerHTML=deckData.map(function(_,i){return '<i class="'+(i===state.deck?'active':'')+'"></i>'}).join('');$("deckPrev").disabled=state.deck===0;$("deckNext").textContent=state.deck===4?x.done:x.next}
+  function keywordQuestion(text,fallback){
+    var t=text.toLowerCase();if(state.lang!=="en")return fallback;
+    var map=[
+      [/afraid|fear|scared|anxious/,"What does the fear want you to believe would happen if you moved?"],
+      [/tired|exhausted|drained/,"What has been taking more from you than it gives?"],
+      [/stuck|blocked|frozen/,"What becomes possible if you stop asking for certainty first?"],
+      [/angry|mad|furious|frustrated/,"What boundary or value is your anger pointing toward?"],
+      [/sad|grief|hurt|heartbroken/,"What does this sadness show you mattered deeply?"],
+      [/confused|unclear|lost/,"Which part is truly unknown, and which part is hard to admit?"],
+      [/lonely|alone|isolated/,"What kind of connection are you actually longing for?"],
+      [/overwhelmed|too much|swamped/,"If only one thing could matter for now, what would you choose?"],
+      [/happy|excited|proud|joy/,"What does this feeling reveal about what brings you alive?"]
+    ];for(var i=0;i<map.length;i++)if(map[i][0].test(t))return map[i][1];return fallback;
+  }
+  function normalizeAnswer(text){
+    return text.toLowerCase().replace(/[’‘]/g,"'").replace(/[–—]/g,"-").replace(/\s+/g," ").trim();
+  }
+  function emotionDepth(text){
+    var t=normalizeAnswer(text);
+    var mild="unhappy|miserable|upset|sad|hurt|worried|nervous|uneasy|afraid|fearful|scared|anxious|angry|mad|frustrated|lonely|alone|isolated|overwhelmed|swamped|stuck|blocked|frozen|tired|exhausted|drained|guilty|embarrassed|confused|lost|vulnerable|disappointed|relieved|grateful|thankful|happy|excited|proud|joyful";
+    var deep="terrified|panicked|devastated|heartbroken|shattered|distraught|grief|grieving|grief-stricken|ashamed|worthless|furious|abandoned|betrayed|hopeless|helpless|numb|desperate|unbearable|broken";
+    var all=mild+"|"+deep;
+    if(/\b(?:this|the|that) (?:is|was|seems?) overwhelming (?:evidence|data|information|proof|detail|amount|workload)\b/.test(t))return 0;
+    var negated=new RegExp("\\b(?:not|never|no longer|wasn't|isn't|aren't|don't feel|do not feel|didn't feel|am not|'m not)\\s+(?:(?:really|very|so|completely|extremely|deeply)\\s+)?(?:"+all+")\\b","g");
+    t=t.replace(negated,"");
+    var loss=/\b(?:my|our)\s+(?:mother|mom|mum|father|dad|parent|child|son|daughter|baby|partner|husband|wife|spouse|sister|brother|sibling|friend|grandmother|grandfather|grandparent|dog|cat|pet)\s+(?:died|passed away|was killed|committed suicide)\b|\bi\s+(?:lost|buried)\s+(?:my|our)\s+(?:mother|mom|mum|father|dad|parent|child|son|daughter|baby|partner|husband|wife|spouse|sister|brother|sibling|friend|grandmother|grandfather|grandparent|dog|cat|pet)\b/;
+    var majorLife=/\b(?:i\s+(?:had|suffered)\s+(?:a\s+)?miscarriage|i\s+(?:was|got)\s+(?:diagnosed|divorced|separated|fired|laid off)|my\s+(?:marriage|relationship|family|life)\s+(?:ended|collapsed|fell apart|is falling apart|is breaking down)|my\s+(?:partner|husband|wife|spouse)\s+(?:left|is leaving)\s+me)\b/;
+    var acute=/\b(?:i can(?:not|'t) stop crying|i(?:'m| am| was) crying|i feel like (?:everything|my life) is falling apart|i do not want to go on|i don't want to go on)\b/;
+    if(loss.test(t)||majorLife.test(t)||acute.test(t))return 3;
+    var firstPerson=/\b(?:i|i'm|i've|i am|i was|i feel|i felt|me|my|mine|we|we're|we've|we are|we feel|we felt|us|our|ours)\b/;
+    if(!firstPerson.test(t))return 0;
+    var personalLead="(?:i(?:'m| am| was| feel| felt| have been|'ve been| have been feeling|'ve been feeling| keep feeling)|we(?:'re| are| were| feel| felt| have been|'ve been| have been feeling|'ve been feeling)|it (?:makes|made) me(?: feel)?|this (?:feels|felt) to me|everything (?:feels|felt)|my (?:life|heart|marriage|relationship|family) (?:feels|felt|is|was))";
+    var intensity="(?:(?:really|very|so|completely|extremely|deeply|utterly|incredibly)\\s+)?";
+    var personal=new RegExp("\\b"+personalLead+"\\s+"+intensity+"("+all+")\\b");
+    var personalNoun=new RegExp("\\bmy (?:grief|sadness|fear|anxiety|anger|shame|guilt|loneliness|pain) (?:is|feels|has been) "+intensity+"("+all+")\\b");
+    var match=t.match(personal)||t.match(personalNoun);
+    var direct=/\bi\s+(?:fear|dread|hate|grieve|regret)\b/;
+    var strongWords=/^(?:terrified|panicked|devastated|heartbroken|shattered|distraught|grief|grieving|grief-stricken|ashamed|worthless|furious|abandoned|betrayed|hopeless|helpless|numb|desperate|unbearable|broken)$/;
+    var found=match&&match[1];
+    if(found&&strongWords.test(found))return 3;
+    if(found||direct.test(t))return /\b(?:completely|extremely|deeply|utterly|incredibly)\b/.test(t)?2:1;
+    return 0;
+  }
+  function emotionPause(text,chat){
+    var depth=emotionDepth(text);
+    if(!depth)return 0;
+    var isWithinNormalLimit=chat.pauseCount<2;
+    var isClearlyDeeper=depth>chat.deepestPause;
+    if(!isWithinNormalLimit&&!isClearlyDeeper)return 0;
+    chat.pauseCount++;
+    chat.deepestPause=Math.max(chat.deepestPause,depth);
+    return depth===3?5000:depth===2?3500:2000;
+  }
+  function excerpt(text){var s=text.trim().replace(/\s+/g," ");if(s.length>74)s=s.slice(0,71)+"…";return s}
+  var reflectionSignals=[
+    {key:"loss",re:/\b(?:died|passed away|lost (?:my|our)|grief|grieving|bereaved|funeral)\b/,lines:{feeling:["That is an enormous loss to carry.","That sounds painfully heavy."],meaning:["This is not a small loss.","The grief is sitting close."],sense:["Of course this feels enormous.","It makes sense that the world would feel different after a loss like this."],underneath:["There is a lot of love underneath this grief.","The bond behind the pain matters here."],grounded:["We can be gentle with this.","There is no need to rush past that."],heard:["I hear how much this loss is holding right now."]}},
+    {key:"fear",re:/\b(?:afraid|fear|fearful|scared|anxious|anxiety|nervous|uneasy|terrified|panic|panicked|dread)\b/,lines:{feeling:["That sounds genuinely unsettling.","There is a lot of fear in the room right now."],meaning:["The uncertainty is carrying real weight.","Safety seems to matter a great deal here."],sense:["It makes sense that the unknown would tighten everything up.","Of course this feels harder when the stakes are unclear."],underneath:["A need for safety seems to be underneath the fear.","Part of you may be trying hard to prevent a painful outcome."],grounded:["The fear is real, and it does not have to make the whole decision.","We can slow this down without letting fear choose for you."],heard:["I hear how strongly the uncertainty is affecting you."]}},
+    {key:"anger",re:/\b(?:angry|anger|mad|furious|frustrated|resentful|irritated|annoyed)\b/,lines:{feeling:["That frustration sounds sharp.","There is real heat in this."],meaning:["Something important feels crossed here.","A boundary or value may have been stepped on."],sense:["It makes sense that this would bring anger up.","Of course frustration shows up when something important keeps getting ignored."],underneath:["There may be a clear boundary underneath the anger.","The anger seems to be protecting something that matters."],grounded:["The intensity is giving you useful information.","That reaction deserves attention, not judgment."],heard:["I hear how strongly this has crossed a line for you."]}},
+    {key:"sadness",re:/\b(?:sad|unhappy|miserable|hurt|heartbroken|devastated|crying|tears|disappointed|numb|hopeless)\b/,lines:{feeling:["That sounds deeply painful.","This is landing with real weight."],meaning:["The hurt is asking to be taken seriously.","Something meaningful has been wounded here."],sense:["It makes sense that this would feel heavy.","Of course this is hard to hold."],underneath:["The pain points to something that mattered deeply.","There is a real need for care underneath this."],grounded:["You do not have to make this smaller than it is.","We can stay with the truth of that for a moment."],heard:["I hear how much this is hurting."]}},
+    {key:"overwhelmed",re:/\b(?:overwhelmed|too much|swamped|drowning|overloaded|buried|cannot cope|can't cope)\b/,lines:{feeling:["That sounds like far too much at once.","There is a lot pressing in from every side."],meaning:["Your capacity is being asked to hold too many things.","The load itself may be the problem, not your ability."],sense:["It makes sense that clarity is hard with this much competing for attention.","Of course everything feels louder when there is no room left."],underneath:["A need for space seems to be underneath the overwhelm.","The wish for one clear priority is coming through."],grounded:["We do not have to solve the whole pile at once.","One thing can be enough for the next step."],heard:["I hear how crowded everything feels right now."]}},
+    {key:"tired",re:/\b(?:tired|exhausted|drained|burned out|burnt out|depleted|worn out)\b/,lines:{feeling:["That sounds exhausting.","Your energy seems stretched very thin."],meaning:["This has been taking more than it gives.","The cost to your energy is becoming hard to ignore."],sense:["It makes sense that choices feel harder when you are this depleted.","Of course motivation is scarce when there is so little left in the tank."],underneath:["A need for restoration is coming through clearly.","There may be an overdue boundary underneath the fatigue."],grounded:["Rest may be part of the work here.","Your limits are giving you useful information."],heard:["I hear how depleted this has left you."]}},
+    {key:"stuck",re:/\b(?:stuck|blocked|frozen|paralyzed|procrastinat|cannot start|can't start)\b/,lines:{feeling:["That stuckness sounds frustrating.","It feels like there is very little room to move."],meaning:["Part of you wants movement while another part is applying the brakes.","Readiness and certainty may have become tangled together."],sense:["It makes sense that starting feels hard when the next step carries so much pressure.","Of course movement is difficult when every option feels loaded."],underneath:["There may be a fear of getting it wrong underneath the delay.","The stuckness may be trying to protect you from a consequence."],grounded:["A small move can still count as movement.","You do not need the whole path before taking one step."],heard:["I hear the tension between wanting change and not yet feeling able to move."]}},
+    {key:"unclear",re:/\b(?:confused|unclear|uncertain|lost|do not know|don't know|not sure|unsure|indecisive)\b/,lines:{feeling:["That sounds genuinely unclear.","There is a lot of uncertainty to sort through."],meaning:["The options may be louder than your own signal right now.","Several truths seem to be competing for the same space."],sense:["It makes sense that this feels muddy when more than one thing matters.","Of course certainty is hard when the tradeoffs are real."],underneath:["There may already be a quieter preference beneath the noise.","The uncertainty may be covering a choice that feels costly to name."],grounded:["Clarity does not have to arrive all at once.","We can separate what is unknown from what is simply uncomfortable."],heard:["I hear how hard it is to find your own signal in the noise."]}},
+    {key:"lonely",re:/\b(?:lonely|alone|isolated|disconnected|left out|unseen)\b/,lines:{feeling:["That sounds lonely in a very real way.","There is a painful distance in this."],meaning:["The kind of connection you need is not being met.","Being around people may not be the same as feeling known."],sense:["It makes sense that this absence of connection would hurt.","Of course this feels heavy when you want to be met more fully."],underneath:["A wish to feel truly seen is coming through.","There is a longing for safer, more mutual connection underneath this."],grounded:["That need for connection is human.","Wanting to be met does not make you too much."],heard:["I hear how unseen this has left you feeling."]}},
+    {key:"joy",re:/\b(?:happy|excited|joy|joyful|thrilled|delighted|energized|hopeful|looking forward)\b/,lines:{feeling:["There is real energy in that.","That sounds genuinely exciting."],meaning:["Something here is bringing you alive.","This seems closely connected to what you want more of."],sense:["It makes sense that this would open up your energy.","Of course you feel drawn toward something this alive."],underneath:["A clear desire is showing itself here.","There may be an important value underneath the excitement."],grounded:["That spark is worth paying attention to.","The energy itself is useful information."],heard:["I hear how much possibility this opens for you."]}},
+    {key:"pride",re:/\b(?:proud|accomplished|achievement|succeeded|success|win|handled it|did it)\b/,lines:{feeling:["That satisfaction feels earned.","There is something solid to be proud of here."],meaning:["You are seeing evidence of your own capacity.","This says something important about how you show up."],sense:["It makes sense that this feels meaningful.","Of course you want to hold onto what made that possible."],underneath:["A strength you can reuse is becoming visible.","There is self-trust growing underneath this win."],grounded:["Let yourself register that.","This is worth more than a quick nod before moving on."],heard:["I hear a well-earned sense of pride in that."]}},
+    {key:"guilt",re:/\b(?:guilty|guilt|ashamed|shame|embarrassed|regret)\b/,lines:{feeling:["That sounds hard to sit with.","There is a lot of self-judgment in this."],meaning:["Your standards and your humanity seem to be colliding.","Part of you is asking whether this moment defines you."],sense:["It makes sense that this would bring up self-judgment.","Of course regret has weight when you care about the impact."],underneath:["A wish to repair or realign may be underneath the guilt.","The shame may be covering a value you still want to live by."],grounded:["Accountability does not require cruelty toward yourself.","You can take this seriously without turning against yourself."],heard:["I hear how harshly you are holding this against yourself."]}},
+    {key:"relationship",re:/\b(?:partner|husband|wife|spouse|marriage|relationship|friend|mother|father|parent|family|colleague|boss|team)\b/,lines:{feeling:["That relationship carries a lot right now.","There is real tension in that dynamic."],meaning:["How you are being met seems central here.","The pattern between you may matter as much as the immediate issue."],sense:["It makes sense that this feels complicated when another person matters to the outcome.","Of course this is difficult when care and disappointment coexist."],underneath:["A need for reciprocity may be underneath this.","There seems to be a wish to feel respected and understood."],grounded:["You can care about the relationship and still notice what is not working.","The pattern deserves an honest look."],heard:["I hear how much this relationship is asking of you."]}},
+    {key:"work",re:/\b(?:work|job|career|project|deadline|meeting|manager|promotion|interview|business|client)\b/,lines:{feeling:["There is real pressure around this work.","That sounds demanding."],meaning:["Performance and self-trust may be getting mixed together here.","The stakes at work seem to be crowding out your own signal."],sense:["It makes sense that this has your full attention.","Of course the decision feels loaded when the consequences matter."],underneath:["A question about what success should cost may be underneath this.","There may be a need for more agency in how you work."],grounded:["The task matters, and so does the way you want to meet it.","You can take the work seriously without disappearing inside it."],heard:["I hear how much is riding on this professionally."]}},
+    {key:"choice",re:/\b(?:choice|choose|decide|decision|option|either|whether|should i|what if)\b/,lines:{feeling:["That is a real decision point.","The choice carries some weight."],meaning:["More than one value may be pulling on this decision.","The tradeoff seems to matter as much as the options themselves."],sense:["It makes sense that this is taking time.","Of course the answer is not simple when each path costs something."],underneath:["A quieter preference may already be forming.","There may be one consequence that feels especially hard to accept."],grounded:["You do not need perfect certainty to make an honest choice.","A decision can be thoughtful without being painless."],heard:["I hear the tension between the paths in front of you."]}},
+    {key:"neutral",re:/.*/,lines:{feeling:["That carries more weight than it first appears.","There is something important in that."],meaning:["What matters here is beginning to come into focus.","A useful thread is starting to show itself."],sense:["It makes sense that this has your attention.","There is a reason this keeps asking for space."],underneath:["There may be another layer beneath that first answer.","Something quieter may be asking to be named."],grounded:["That is worth staying with.","We can keep following that thread."],heard:["I hear that something important is taking shape here."]}}
+  ];
+  function signalFor(text){var t=normalizeAnswer(text);if(state.lang!=="en"){var list=nonEnglishSignals[state.lang]||[];for(var n=0;n<list.length;n++)if(list[n][0].test(t))return translatedSignal(list[n][1]);return translatedSignal("neutral")}for(var i=0;i<reflectionSignals.length;i++)if(reflectionSignals[i].re.test(t))return reflectionSignals[i];return reflectionSignals[reflectionSignals.length-1]}
+  function translatedSignal(key){var line=(translatedReflections[state.lang]&&translatedReflections[state.lang][key])||translatedReflections[state.lang].neutral,lines={};["feeling","meaning","sense","underneath","grounded","heard"].forEach(function(k){lines[k]=[line]});return {key:key,lines:lines}}
+  function pickLine(lines,turn){return lines[turn%lines.length]}
+  function coachReflection(text,chat){
+    var signal=signalFor(text),turn=chat.reflectionTurn||0;
+    var styles=chat.kind==="session"?["feeling","heard","sense","meaning","underneath","grounded"]:(turn>0&&turn%5===4?["heard"]:["feeling","brief","meaning","sense","underneath","none","grounded"]);
+    var offset=chat.kind==="rep"?chat.index%styles.length:0;
+    var style=styles[(turn+offset)%styles.length];
+    if(style===chat.lastReflectionStyle)style=styles[(styles.indexOf(style)+1)%styles.length];
+    chat.lastReflectionStyle=style;chat.reflectionTurn=turn+1;
+    if(style==="none")return "";
+    if(style==="brief"){
+      var briefByLang={zh:["我听见了。","这很重要。","我和你一起停在这里。"]};
+      var brief=state.lang==="en"?(signal.key==="joy"?["Yes.","That matters.","Good."]:signal.key==="loss"||signal.key==="sadness"?["Yeah.","That lands.","I’m with you."]:["Got it.","Yeah.","That lands."]):briefByLang[state.lang];
+      return brief[turn%brief.length];
+    }
+    return pickLine(signal.lines[style],turn);
+  }
+  function intentionSummary(text){
+    var key=signalFor(text).key,map={loss:"space to carry a profound loss",fear:"a steadier way to meet the uncertainty",anger:"clarity about what the anger is protecting",sadness:"a way to understand the hurt",overwhelmed:"space and a clearer priority",tired:"a more sustainable way forward",stuck:"a path out of the stuckness",unclear:"more clarity about what is true",lonely:"a more honest understanding of the connection you need",joy:"a way to follow what is bringing you alive",pride:"a clearer view of the strength behind your progress",guilt:"a way to respond without turning against yourself",relationship:"clarity about what you need in the relationship",work:"a clearer way to meet the pressure around work",choice:"clarity around an important choice",neutral:"more clarity about what matters"};
+    if(state.lang!=="en")map=localizedIntentions[state.lang];return map[key]||map.neutral;
+  }
+  function coachReply(answer,question,chat){var r=coachReflection(answer,chat);return r?r+" "+question:question}
+  function isValuesCheck(chat){return !!chat&&chat.kind==="rep"&&chat.index===3}
+  function scheduleChat(callback,delay){
+    if(state.pendingChatTimer)clearTimeout(state.pendingChatTimer);
+    var chatId=state.chat&&state.chat.id;
+    state.pendingChatTimer=setTimeout(function(){state.pendingChatTimer=null;if(state.chat&&state.chat.id===chatId&&!state.chat.finished)callback()},delay);
+  }
+  function startChat(kind,index){
+    if(!requireAuth())return;
+    if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}
+    var data=kind==="rep"?repData[index]:deepData[index];state.activeAccum=0;state.activeStart=document.hidden?null:Date.now();state.chat={id:++state.chatSeq,kind:kind,index:index,step:0,answers:[],valueChoice:null,title:data.title,returnTab:kind==="rep"?"reps":"home",finished:false,pauseCount:0,deepestPause:0,reflectionTurn:0,lastReflectionStyle:null,deepTurns:0,deepMode:"explore",deepTakeaway:"",deepAction:"",continueRound:0};
+    var x=ui[state.lang];$("answer").value="";autoGrow();$("chatTitle").textContent=data.title;$("chatMeta").textContent=kind==="rep"?x.mindMeta+" · "+data.time+" "+x.min:x.about15;$("chat").innerHTML="";showTab("chat");addPrompt(kind==="rep"?data.prompts[0]:data.steps[0].q,null);$("composer").classList.add("show");$("answer").focus();
+  }
+  function addBubble(text,who,extra){var b=document.createElement("div"),labels={en:"A gentle challenge",zh:"一次温和的挑战"};b.className="bubble "+who+(extra?" "+extra:"");if(extra==="challenge")b.setAttribute("data-label",labels[state.lang]);b.innerHTML=esc(text);$("chat").appendChild(b);scrollChat()}
+  function addPrompt(text,step){if(step&&step.stage){var s=document.createElement("div");s.className="stage";s.textContent=step.stage;$("chat").appendChild(s)}addBubble(text,"ria",step&&step.challenge?"challenge":"")}
+  function scrollChat(){setTimeout(function(){window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})},30)}
+  function showValuesPicker(){
+    var c=state.chat;if(!isValuesCheck(c)||c.finished||c.step!==1)return;
+    var x=ui[state.lang],panel=document.createElement("div");panel.className="values-panel";panel.innerHTML='<p class="value-hint">'+x.valueHint+'</p><div class="values-grid">'+valueChoices.map(function(value){return '<button class="value-chip" type="button" data-value="'+esc(value)+'">'+esc(value)+'</button>'}).join("")+'<button class="value-chip other" type="button" data-other="true">'+x.ownValue+'</button></div>';
+    $("chat").appendChild(panel);scrollChat();
+    panel.querySelectorAll("[data-value]").forEach(function(button){button.onclick=function(){chooseValue(button.dataset.value,panel,c.id)}});
+    panel.querySelector("[data-other]").onclick=function(){$("answer").focus()};
+    $("composer").classList.add("show");$("answer").focus();
+  }
+  function chooseValue(value,panel,chatId){
+    var c=state.chat;if(!c||c.id!==chatId||!isValuesCheck(c)||c.finished||c.step!==1||c.valueChoice)return;
+    c.valueChoice=value;c.answers.push(value);c.step=2;if(panel)panel.remove();addBubble(value,"me");$("composer").classList.remove("show");
+    scheduleChat(function(){var current=state.chat,question=ui[state.lang].keepValue(current.valueChoice);addBubble(question,"ria");$("composer").classList.add("show");$("answer").focus()},1500);
+  }
+  function submitValuesAnswer(val,c){
+    if(c.step===0){
+      scheduleChat(function(){var current=state.chat;current.step=1;addBubble(coachReply(val,repData[3].prompts[1],current),"ria");showValuesPicker()},1500);
+    }else if(c.step===2){
+      scheduleChat(function(){var current=state.chat;current.step=3;var q=ui[state.lang].closerValue(current.valueChoice);addBubble(coachReply(val,q,current),"ria");$("composer").classList.add("show");$("answer").focus()},1500);
+    }else if(c.step===3)finishChat(repData[3].time);
+  }
+  function submitAnswer(){
+    var val=$("answer").value.trim(),c=state.chat;if(!val||!c||c.finished)return;
+    if(isValuesCheck(c)&&c.step===1){$("answer").value="";autoGrow();chooseValue(val,$("chat").querySelector(".values-panel"),c.id);return}
+    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);$("composer").classList.remove("show");
+    if(isValuesCheck(c)){submitValuesAnswer(val,c);return}
+    if(c.kind==="session"){
+      var deepDelay=Math.max(900,emotionPause(val,c));
+      scheduleChat(function(){advanceDeepChat(val)},deepDelay);return;
+    }
+    var hasNext=c.step<repData[c.index].prompts.length-1;
+    var delay=hasNext?1500:0;
+    if(delay)scheduleChat(function(){advanceChat(val)},delay);else advanceChat(val);
+  }
+  function deepQuestion(answer,chat){
+    var key=signalFor(answer).key,turn=chat.deepTurns;
+    var en={
+      focus:{loss:"What feels hardest to hold right now?",fear:"What feels most at stake?",anger:"What line feels crossed?",sadness:"What hurts most here?",overwhelmed:"What needs your attention first?",tired:"What is costing you the most energy?",stuck:"Where do you feel the strongest resistance?",unclear:"Which part feels most tangled?",lonely:"Where do you feel least met?",joy:"What feels most alive in this?",pride:"What are you most proud of?",guilt:"What are you holding against yourself?",relationship:"What part of this relationship needs attention?",work:"What is the real pressure here?",choice:"What makes this choice hard?",neutral:"What feels most important here?"},
+      beneath:{loss:"What do you miss most?",fear:"What is the fear trying to prevent?",anger:"What is the anger protecting?",sadness:"What did this mean to you?",overwhelmed:"What can wait?",tired:"What have you been carrying too long?",stuck:"What are you afraid might happen if you move?",unclear:"What do you already know?",lonely:"What kind of connection do you need?",joy:"What does this energy point toward?",pride:"What strength made this possible?",guilt:"What responsibility is truly yours?",relationship:"What do you need in this relationship?",work:"What are you trying to prove or protect?",choice:"Which values are pulling against each other?",neutral:"What is underneath that?"},
+      need:{loss:"What would make room for this grief?",fear:"What would help you feel steadier?",anger:"What boundary wants to be named?",sadness:"What care do you need?",overwhelmed:"What support would create space?",tired:"What would be more sustainable?",stuck:"What would make one small move possible?",unclear:"What would help you hear your own signal?",lonely:"What would feeling met look like?",joy:"How do you want to honor this?",pride:"Where else could you trust that strength?",guilt:"What would repair look like without self-punishment?",relationship:"How do you want to be met?",work:"What do you need to do this without losing yourself?",choice:"What matters most in the decision?",neutral:"What do you need here?"}
+    };
+    var zh={
+      focus:{loss:"此刻最难承受的是什么？",fear:"你最怕失去什么？",anger:"哪条界限被越过了？",sadness:"这里最痛的是什么？",overwhelmed:"什么最需要先被看见？",tired:"什么最消耗你？",stuck:"你最抗拒往哪里走？",unclear:"哪一部分最纠结？",lonely:"你在哪里最感到不被理解？",joy:"这里什么最让你有生命力？",pride:"你最为自己骄傲的是什么？",guilt:"你在责怪自己什么？",relationship:"这段关系里，什么最需要被看见？",work:"真正的压力是什么？",choice:"这个选择为什么难？",neutral:"这里什么最重要？"},
+      beneath:{loss:"你最想念的是什么？",fear:"这份害怕想阻止什么发生？",anger:"这份愤怒在保护什么？",sadness:"这件事对你意味着什么？",overwhelmed:"什么其实可以先等一等？",tired:"什么你已经扛得太久？",stuck:"如果往前走，你怕什么会发生？",unclear:"其实你已经知道什么？",lonely:"你真正需要哪一种连接？",joy:"这份能量在把你带向哪里？",pride:"是什么力量让你做到了？",guilt:"哪些责任真正属于你？",relationship:"这段关系里，你需要什么？",work:"你在努力证明或保护什么？",choice:"哪两个价值正在拉扯你？",neutral:"这下面还有什么？"},
+      need:{loss:"什么能为这份失去留出空间？",fear:"什么能让你更稳定一点？",anger:"哪条界限需要被说出来？",sadness:"你需要怎样的照顾？",overwhelmed:"什么支持能帮你腾出空间？",tired:"怎样才更可持续？",stuck:"什么能让一小步成为可能？",unclear:"什么能帮你听见自己的声音？",lonely:"被真正接住会是什么样？",joy:"你想怎样回应这份生命力？",pride:"你还能在哪里信任这份力量？",guilt:"不惩罚自己，修复会是什么样？",relationship:"你希望怎样被对待？",work:"怎样做，才不会把自己弄丢？",choice:"这个决定里，什么最重要？",neutral:"你现在需要什么？"}
+    };
+    var sets=state.lang==="zh"?zh:en,kind=turn<=1?"focus":turn===2?"beneath":turn===3?"need":null;
+    if(kind)return sets[kind][key]||sets[kind].neutral;
+    var later=state.lang==="zh"?[
+      "你注意到什么反复出现的模式？","如果不需要讨好任何人，你会想要什么？","什么还没有被说清楚？","哪句话最诚实，即使它不那么舒服？","现在你最想继续看哪一部分？"
+    ]:[
+      "What pattern keeps repeating?","What would you want if no one needed pleasing?","What still has not been said clearly?","What feels honest, even if uncomfortable?","What feels most alive to explore now?"
+    ];
+    return later[(turn-4+chat.continueRound)%later.length];
+  }
+  function showDeepDirection(answer,chat){
+    var x=ui[state.lang],reflection=coachReflection(answer,chat);if(reflection)addBubble(reflection,"ria");
+    var panel=document.createElement("div");panel.className="values-panel direction-panel";panel.innerHTML='<p class="value-hint">'+x.directionHint+'</p><div class="values-grid"><button class="value-chip" type="button" data-deep-choice="continue">'+x.continueExplore+'</button><button class="value-chip other" type="button" data-deep-choice="reflect">'+x.readyReflect+'</button></div>';
+    $("chat").appendChild(panel);scrollChat();
+    panel.querySelector('[data-deep-choice="continue"]').onclick=function(){
+      if(!state.chat||state.chat.id!==chat.id||chat.finished)return;panel.remove();chat.continueRound++;var q=deepQuestion(chat.answers[chat.answers.length-1]||"",chat);addBubble(q,"ria");$("composer").classList.add("show");$("answer").focus();
+    };
+    panel.querySelector('[data-deep-choice="reflect"]').onclick=function(){
+      if(!state.chat||state.chat.id!==chat.id||chat.finished)return;panel.remove();chat.deepMode="takeaway";addBubble(x.takeawayPrompt,"ria");$("composer").classList.add("show");$("answer").focus();
+    };
+  }
+  function advanceDeepChat(answer){
+    var c=state.chat;if(!c||c.kind!=="session"||c.finished)return;
+    if(c.deepMode==="takeaway"){
+      c.deepTakeaway=answer;c.deepMode="action";addBubble(ui[state.lang].actionPrompt,"ria");$("composer").classList.add("show");$("answer").focus();return;
+    }
+    if(c.deepMode==="action"){
+      c.deepAction=answer;finishChat(15);return;
+    }
+    c.deepTurns++;
+    if(c.deepTurns>=6&&((c.deepTurns-6)%3===0)){showDeepDirection(answer,c);return}
+    var q=deepQuestion(answer,c);addBubble(coachReply(answer,q,c),"ria");$("composer").classList.add("show");$("answer").focus();
+  }
+  function advanceChat(answer){
+    var c=state.chat,r=repData[c.index];c.step++;
+    if(c.step<r.prompts.length){var q=keywordQuestion(answer,r.prompts[c.step]);addBubble(coachReply(answer,q,c),"ria");$("composer").classList.add("show");$("answer").focus()}
+    else finishChat(r.time);
+  }
+  function finishChat(minutes){
+    var c=state.chat;if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}c.finished=true;if(state.activeStart){state.activeAccum+=(Date.now()-state.activeStart)/1000;state.activeStart=null}state.elapsedSeconds+=state.activeAccum;state.activeAccum=0;state.completed++;state.streak=1;if(c.kind==="rep")state.reps++;else state.sessions++;updateStats();
+    var x=ui[state.lang],last=c.answers[c.answers.length-1]||intentionSummary(""),takeaway=c.kind==="rep"?last:c.deepTakeaway,action=c.kind==="rep"?"":c.deepAction;
+    addBubble(c.kind==="rep"?x.pauseLine:x.closingLine,"ria");
+    var summary=c.kind==="rep"?'<div class="takeaway"><h3>'+x.takeaway+'</h3><blockquote>“'+esc(takeaway)+'”</blockquote><p class="sub">'+x.takeawayHint+'</p></div>':'<div class="takeaway"><h3>'+x.takeaway+'</h3><blockquote>“'+esc(takeaway)+'”</blockquote><h3>'+x.nextStep+'</h3><blockquote>“'+esc(action)+'”</blockquote><p class="sub">'+x.takeawayHint+'</p></div>';
+    var shareText=c.kind==="rep"?takeaway:takeaway+'\n\n'+x.nextStep+': '+action;
+    afterPractice(c,minutes,takeaway,action);
+    var box=document.createElement("div");box.innerHTML=summary+'<div class="share-card"><div class="share-brand"><span>'+x.practice+'</span><span>'+esc(c.title)+'</span></div><div class="quote">“'+esc(takeaway)+'”</div>'+(c.kind==="session"?'<p class="sub"><strong>'+x.nextStep+':</strong> '+esc(action)+'</p>':'')+'<button class="secondary small copy-share">'+x.copyCard+'</button></div><button class="primary" style="margin-top:16px" id="doneChat">'+x.done+'</button>';$("chat").appendChild(box);$("composer").classList.remove("show");box.querySelector(".copy-share").onclick=function(){copyText('Oriaya · '+c.title+'\n\n'+shareText)};box.querySelector("#doneChat").onclick=function(){showTab(c.returnTab)};scrollChat();
+  }
+  function copyText(text){
+    function ok(){toast({en:"Copied!",zh:"已复制！"}[state.lang])}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(ok).catch(function(){fallbackCopy(text)})}else fallbackCopy(text);
+  }
+  function fallbackCopy(text){var messages={en:["Copied!","Select and copy your takeaway"],zh:["已复制！","请选择并复制你的收获"]},t=document.createElement("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.focus();t.select();try{document.execCommand("copy");toast(messages[state.lang][0])}catch(e){toast(messages[state.lang][1])};t.remove()}
+  function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(function(){$("toast").classList.remove("show")},1800)}
+  function autoGrow(){var a=$("answer");a.style.height="auto";a.style.height=Math.min(a.scrollHeight,110)+"px"}
+  var voice={recognition:null,sessionActive:false,wantsListening:false,isListening:false,paused:false,sendAfterStop:false,restartTimer:null,sendTimer:null,baseText:"",spokenText:"",currentText:""};
+  var micStatusTimer=null;
+  function renderVoiceControls(){
+    var p=$("pauseBtn"),m=$("micBtn"),x=ui[state.lang];
+    p.classList.toggle("show",voice.sessionActive);p.classList.toggle("paused",voice.paused);p.textContent=voice.paused?x.resume:x.pause;p.setAttribute("aria-label",voice.paused?x.resume:x.pause);
+    m.classList.toggle("active",voice.sessionActive&&!voice.paused);m.setAttribute("aria-label",voice.sessionActive?x.stopVoice:x.speak);
+  }
+  function beginVoiceRecognition(){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;renderVoiceControls();showMic("Voice input isn’t supported here. You can keep typing.");return}
+    var rec=new SR();
+    voice.recognition=rec;voice.currentText="";rec.lang=speechLocales[state.lang];rec.interimResults=true;rec.continuous=true;
+    rec.onstart=function(){voice.isListening=true;renderVoiceControls();showMic("Recording. Pause when you need to, or tap the mic to stop and review.",true)};
+    rec.onresult=function(e){
+      var parts=[];for(var i=0;i<e.results.length;i++)parts.push(e.results[i][0].transcript.trim());
+      voice.currentText=parts.join(" ").trim();
+    };
+    rec.onerror=function(e){
+      if(e.error==="aborted")return;
+      if(e.error==="not-allowed"){voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;voice.sendAfterStop=false;renderVoiceControls();showMic("Microphone access was blocked. Allow it in browser settings, or keep typing.")}
+      else if(e.error!=="no-speech"){voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;voice.sendAfterStop=false;renderVoiceControls();showMic("Voice input isn’t available right now. Your transcript is still here to edit.")}
+    };
+    rec.onend=function(){
+      voice.isListening=false;voice.recognition=null;
+      if(voice.currentText){voice.spokenText+=(voice.spokenText?" ":"")+voice.currentText;voice.currentText=""}
+      if(voice.wantsListening&&voice.sessionActive&&!voice.paused){
+        showMic("Recording. Pause when you need to, or tap the mic to stop and review.",true);
+        voice.restartTimer=setTimeout(beginVoiceRecognition,120);return;
+      }
+      if(voice.sendAfterStop){finishVoiceSend();return}
+      if(!voice.paused)revealVoiceTranscript();renderVoiceControls();
+      if(voice.paused)showMic("Paused. Resume when you’re ready, or tap the mic to stop and review.",true);
+      else showMic($("answer").value.trim()?"Voice stopped. Review or edit the transcript, then press ↑ or Enter to send.":"Voice stopped. You can keep typing.");
+    };
+    try{rec.start()}catch(e){voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;voice.recognition=null;renderVoiceControls();showMic("Voice input isn’t available right now. You can keep typing.")}
+  }
+  function revealVoiceTranscript(){
+    var spoken=(voice.spokenText+(voice.currentText?(voice.spokenText?" ":"")+voice.currentText:"")).trim();
+    $("answer").value=(voice.baseText&&spoken?voice.baseText+" ":voice.baseText)+spoken;autoGrow();
+  }
+  function startVoice(){
+    voice.sessionActive=true;voice.wantsListening=true;voice.paused=false;voice.sendAfterStop=false;voice.baseText=$("answer").value.trim();voice.spokenText="";voice.currentText="";clearTimeout(voice.restartTimer);renderVoiceControls();beginVoiceRecognition();
+  }
+  function stopVoice(){
+    voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;voice.sendAfterStop=false;clearTimeout(voice.restartTimer);renderVoiceControls();
+    if(voice.recognition){try{voice.recognition.stop()}catch(e){voice.recognition=null;voice.isListening=false;revealVoiceTranscript();showMic($("answer").value.trim()?"Voice stopped. Review or edit the transcript, then press ↑ or Enter to send.":"Voice stopped. You can keep typing.")}}
+    else{revealVoiceTranscript();showMic($("answer").value.trim()?"Voice stopped. Review or edit the transcript, then press ↑ or Enter to send.":"Voice stopped. You can keep typing.")}
+  }
+  function pauseVoice(){
+    if(!voice.sessionActive)return;
+    if(voice.paused){voice.paused=false;voice.wantsListening=true;renderVoiceControls();showMic("Recording. Pause when you need to, or tap the mic to stop and review.",true);if(!voice.recognition)beginVoiceRecognition();return}
+    voice.paused=true;voice.wantsListening=false;clearTimeout(voice.restartTimer);renderVoiceControls();showMic("Paused. Resume when you’re ready, or tap the mic to stop and review.",true);
+    if(voice.recognition){try{voice.recognition.stop()}catch(e){voice.recognition=null;voice.isListening=false}}
+  }
+  function finishVoiceSend(){
+    if(!voice.sendAfterStop)return;
+    clearTimeout(voice.sendTimer);voice.sendAfterStop=false;voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;revealVoiceTranscript();renderVoiceControls();submitAnswer();
+  }
+  function sendAnswer(){
+    if(!voice.sessionActive){submitAnswer();return}
+    voice.wantsListening=false;voice.sendAfterStop=true;clearTimeout(voice.restartTimer);showMic("Sending your answer…",true);
+    if(voice.recognition){
+      voice.sendTimer=setTimeout(finishVoiceSend,1200);
+      try{voice.recognition.stop()}catch(e){voice.recognition=null;voice.isListening=false;finishVoiceSend()}
+    }else finishVoiceSend();
+  }
+  function toggleMic(){if(voice.sessionActive)stopVoice();else startVoice()}
+  function showMic(msg,persistent){var maps={zh:{"Voice input isn’t supported here. You can keep typing.":"此浏览器不支持语音输入，你可以继续打字。","Recording. Pause when you need to, or tap the mic to stop and review.":"正在录音。需要时可暂停，或点麦克风停止并检查文字。","Microphone access was blocked. Allow it in browser settings, or keep typing.":"麦克风权限被阻止。请在浏览器设置中允许，或继续打字。","Voice input isn’t available right now. Your transcript is still here to edit.":"语音输入暂时不可用，已转写的内容仍可编辑。","Paused. Resume when you’re ready, or tap the mic to stop and review.":"已暂停。准备好后继续，或点麦克风停止并检查文字。","Voice stopped. Review or edit the transcript, then press ↑ or Enter to send.":"语音已停止。检查或编辑文字后，按 ↑ 或回车发送。","Voice stopped. You can keep typing.":"语音已停止，你可以继续打字。","Sending your answer…":"正在发送你的回答……","Voice input isn’t available right now. You can keep typing.":"语音输入暂时不可用，你可以继续打字。"}};var out=state.lang==="en"?msg:((maps[state.lang]&&maps[state.lang][msg])||msg);clearTimeout(micStatusTimer);$("micStatus").textContent=out;$("micStatus").classList.add("show");if(!persistent)micStatusTimer=setTimeout(function(){$("micStatus").classList.remove("show")},5200)}
+
+  document.addEventListener("click",function(e){var r=e.target.closest("[data-start-rep]"),t=e.target.closest("[data-tab]");if(r){if(!requireAuth())return;startChat("rep",+r.dataset.startRep)}else if(t&&t.dataset.tab==="sessions"){if(!requireAuth())return;requestDeepSession()}else if(t){if(t.dataset.tab!=="home"&&!requireAuth())return;showTab(t.dataset.tab)}});
+  $("sendBtn").onclick=sendAnswer;$("answer").addEventListener("input",autoGrow);$("answer").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAnswer()}});$("micBtn").onclick=toggleMic;$("pauseBtn").onclick=pauseVoice;
+  $("chatBack").onclick=function(){showTab(state.chat?state.chat.returnTab:"home")};
+  $("learnTop").onclick=openDeck;$("closeDeck").onclick=function(){$("deckOverlay").classList.remove("show")};
+  $("deckPrev").onclick=function(){if(state.deck>0){state.deck--;renderDeck()}};$("deckNext").onclick=function(){if(state.deck<4){state.deck++;renderDeck()}else $("deckOverlay").classList.remove("show")};
+  $("closeSafety").onclick=function(){state.pendingDeep=false;$("safetyOverlay").classList.remove("show")};
+  $("safetyContinue").onclick=function(){$("safetyOverlay").classList.remove("show");if(state.pendingDeep){state.pendingDeep=false;startChat("session",0)}};
+  $("skipOnboarding").onclick=function(){$("onboarding").classList.remove("show")};
+  $("feedbackForm").addEventListener("submit",function(e){e.preventDefault();if(!requireAuth())return;var text=$("feedbackText").value;
+    if(state.user&&state.firebaseReady){db.collection("users").doc(state.user.uid).collection("feedback").add({text:text,createdAt:firebase.firestore.FieldValue.serverTimestamp(),lang:state.lang}).then(function(){$("feedbackThanks").textContent=ui[state.lang].feedbackSaved}).catch(function(){})}
+    $("feedbackThanks").style.display="block";$("feedbackText").disabled=true;this.querySelector("button").disabled=true});
+  var touchX=0;$("deckCard").addEventListener("touchstart",function(e){touchX=e.changedTouches[0].clientX},{passive:true});$("deckCard").addEventListener("touchend",function(e){var dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>45){if(dx<0&&state.deck<4)state.deck++;if(dx>0&&state.deck>0)state.deck--;renderDeck()}},{passive:true});
+  ["onboarding","deckOverlay","safetyOverlay"].forEach(function(id){$(id).addEventListener("click",function(e){if(e.target===this&&id!=="onboarding"){this.classList.remove("show");if(id==="safetyOverlay")state.pendingDeep=false}})});
+  document.addEventListener("visibilitychange",function(){if(!state.chat||state.chat.finished)return;if(document.hidden){if(state.activeStart){state.activeAccum+=(Date.now()-state.activeStart)/1000;state.activeStart=null}}else if(state.tab==="chat"){state.activeStart=Date.now()}});
+  $("languageSelect").addEventListener("change",function(){applyLanguage(this.value,true)});
+  /* Hybrid beta wiring */
+  $("accountBtn").onclick=openAccountSheet;
+  $("closeAccount").onclick=function(){$("accountOverlay").classList.remove("show")};
+  $("signOutBtn").onclick=function(){if(auth)auth.signOut();$("accountOverlay").classList.remove("show")};
+  $("authToggleBtn").onclick=function(){state.authMode=state.authMode==="signup"?"signin":"signup";$("authError").textContent="";refreshHybridText()};
+  $("forgotBtn").onclick=function(){
+    var x=ui[state.lang],email=$("authEmail").value.trim();
+    if(!state.firebaseReady){$("authError").textContent=x.setupNeeded;return}
+    if(!email){$("authEmail").focus();return}
+    auth.sendPasswordResetEmail(email).then(function(){toast(x.resetSent)}).catch(function(){$("authError").textContent=x.authGeneric});
+  };
+  $("authForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var x=ui[state.lang];
+    if(!state.firebaseReady){$("authError").textContent=x.setupNeeded;return}
+    var email=$("authEmail").value.trim(),pw=$("authPassword").value;
+    $("authError").textContent="";
+    var p=state.authMode==="signup"?auth.createUserWithEmailAndPassword(email,pw):auth.signInWithEmailAndPassword(email,pw);
+    p.then(function(){$("accountOverlay").classList.remove("show")}).catch(function(err){
+      if(err&&err.code==="auth/email-already-in-use"){state.authMode="signin";refreshHybridText()}
+      $("authError").textContent=x.authGeneric;
+    });
+  });
+  $("friendsJoinBtn").onclick=openAccountSheet;
+  $("sendInviteBtn").onclick=sendInvite;
+  $("restDayBtn").onclick=markRestDay;
+  $("deleteAccountBtn").onclick=deleteAccount;
+  $("closeInvite").onclick=function(){$("inviteOverlay").classList.remove("show");state.pendingInvite=null;try{sessionStorage.removeItem("oriaya_pending_invite")}catch(e){}};
+  $("inviteDeclineBtn").onclick=function(){$("inviteOverlay").classList.remove("show");state.pendingInvite=null;try{sessionStorage.removeItem("oriaya_pending_invite")}catch(e){}};
+  $("inviteAcceptBtn").onclick=function(){acceptInvite(false)};
+  $("inviteAcceptPairBtn").onclick=function(){acceptInvite(true)};
+  ["accountOverlay","inviteOverlay"].forEach(function(id){$(id).addEventListener("click",function(e){if(e.target===this){this.classList.remove("show");if(id==="inviteOverlay"){state.pendingInvite=null;try{sessionStorage.removeItem("oriaya_pending_invite")}catch(e){}}}})});
+  initFirebase();
+  checkPendingInvite();
+  /* Test hook for verification only: pure helpers + live state. */
+  window.__oriaya={computeStreak:computeStreak,evaluateBadges:evaluateBadges,badgeDefs:badgeDefs,state:state,dayKey:dayKey,weekKey:weekKey};
+  applyLanguage("en",false);$("onboarding").classList.add("show");
+})();
+</script>
+</body>
+</html>
