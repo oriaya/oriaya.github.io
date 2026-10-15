@@ -364,6 +364,18 @@
       refreshHybridText();updateStats();
     }
   }
+  /* Founding members: accounts created Oct 22, 2026 9:00 AM PT through Nov 4, 2026
+     11:59 PM PT, plus the founder. The 100-member cap is enforced at the
+     founding enrollment channel (waitlist), not here — the beta is not the
+     enrollment channel, and users cannot read each other's profiles. This
+     flag is a convenience marker; the waitlist is the source of truth. */
+  var FOUNDING_START=Date.UTC(2026,9,22,16,0,0); /* Oct 22 9:00 AM PDT */
+  var FOUNDING_END=Date.UTC(2026,10,5,7,59,0);  /* Nov 4 11:59 PM PST */
+  function evaluateFoundingMember(){
+    if((state.user.email||"").toLowerCase()==="jillrencoaching@gmail.com")return true;
+    var now=Date.now();
+    return now>=FOUNDING_START&&now<=FOUNDING_END;
+  }
   function loadProfile(){
     var ref=db.collection("users").doc(state.user.uid);
     return ref.get().then(function(doc){
@@ -371,8 +383,13 @@
       if(!data){
         data={email:state.user.email||"",createdAt:firebase.firestore.FieldValue.serverTimestamp(),
           stats:{totalReps:0,totalSessions:0,totalMinutes:0,activityDays:[],lastActiveDay:null},
-          badges:{},friends:[],pairs:[],restDays:[],invitedBy:null,inviteQualified:false,rewardUnlocked:false};
+          badges:{},friends:[],pairs:[],restDays:[],invitedBy:null,inviteQualified:false,rewardUnlocked:false,
+          foundingMember:evaluateFoundingMember()};
         return ref.set(data).then(function(){return data});
+      }
+      if(data.foundingMember===undefined){
+        data.foundingMember=evaluateFoundingMember();
+        return ref.set({foundingMember:data.foundingMember},{merge:true}).then(function(){return data});
       }
       return data;
     }).then(function(data){
