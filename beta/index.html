@@ -954,15 +954,57 @@
     var list=state.lang==="zh"?zh:en;
     return list[n%list.length];
   }
+  function findPerson(answer,isZh){
+    var people=isZh?[
+      [/\u5a46\u5a46/,"\u5a46\u5a46"],[/\u516c\u516c/,"\u516c\u516c"],[/\u5cb3\u7236/,"\u5cb3\u7236"],[/\u5cb3\u6bcd/,"\u5cb3\u6bcd"],
+      [/\u5988\u5988|\u6bcd\u4eb2/,"\u5988\u5988"],[/\u7238\u7238|\u7236\u4eb2/,"\u7238\u7238"],
+      [/\u4e08\u592b|\u8001\u516c/,"\u4e08\u592b"],[/\u59bb\u5b50|\u8001\u5a46/,"\u59bb\u5b50"],[/\u4f34\u4fa3/,"\u4f34\u4fa3"],
+      [/\u7537\u53cb/,"\u7537\u53cb"],[/\u5973\u53cb/,"\u5973\u53cb"],[/\u670b\u53cb/,"\u670b\u53cb"],
+      [/\u540c\u4e8b/,"\u540c\u4e8b"],[/\u8001\u677f|\u4e0a\u53f8/,"\u8001\u677f"],
+      [/\u513f\u5b50/,"\u513f\u5b50"],[/\u5973\u513f/,"\u5973\u513f"],[/\u5b69\u5b50/,"\u5b69\u5b50"],
+      [/\u5a46\u5bb6/,"\u5a46\u5bb6"],[/\u5a18\u5bb6/,"\u5a18\u5bb6"],[/\u5bb6\u4eba/,"\u5bb6\u4eba"]
+    ]:[
+      [/\bin-laws?\b|\binlaw\b/,"your in-laws"],[/\bmother\b|\bmom\b|\bmum\b/,"your mother"],
+      [/\bfather\b|\bdad\b/,"your father"],[/\bpartner\b/,"your partner"],
+      [/\bhusband\b/,"your husband"],[/\bwife\b/,"your wife"],
+      [/\bboyfriend\b/,"your boyfriend"],[/\bgirlfriend\b/,"your girlfriend"],
+      [/\bfriend\b/,"your friend"],[/\bboss\b|\bmanager\b/,"your boss"],
+      [/\bcolleague\b|\bcoworker\b/,"your colleague"],
+      [/\bson\b/,"your son"],[/\bdaughter\b/,"your daughter"],
+      [/\bchild\b/,"your child"],[/\bfamily\b/,"your family"],
+      [/\bparent\b/,"your parent"]
+    ];
+    for(var i=0;i<people.length;i++)if(people[i][0].test(answer))return people[i][1];
+    return null;
+  }
+  function relationshipQuestion(answer,chat){
+    var isZh=state.lang==="zh";
+    var person=findPerson(answer,isZh)||(isZh?"\u5bf9\u65b9":"the other person");
+    var n=chat.relTurns||0;chat.relTurns=n+1;
+    var relPool=isZh?[
+      "\u4f60\u548c{P}\u7684\u5173\u7cfb\u4e3a\u4ec0\u4e48\u5bf9\u4f60\u91cd\u8981？",
+      "\u4f60\u548c{P}\u7684\u5173\u7cfb\u91cc\uff0c\u4f60\u9700\u8981\u4ec0\u4e48？",
+      "\u4f60\u548c{P}\u7684\u5173\u7cfb\u91cc\uff0c\u54ea\u4e00\u90e8\u5206\u6700\u9700\u8981\u88ab\u770b\u89c1？"
+    ]:[
+      "Why is your relationship with {P} important to you?",
+      "What do you need in your relationship with {P}?",
+      "What part of your relationship with {P} needs attention?"
+    ];
+    var actPool=isZh?[
+      "{P}\u505a\u7684\u4e8b\uff0c\u54ea\u4e00\u90e8\u5206\u6700\u8ba9\u4f60\u653e\u4e0d\u4e0b？",
+      "{P}\u505a\u7684\u4e8b\uff0c\u4e3a\u4ec0\u4e48\u5230\u73b0\u5728\u8fd8\u5f71\u54cd\u4f60？"
+    ]:[
+      "What part of what {P} did stays with you most?",
+      "Why does what {P} did still matter to you?"
+    ];
+    var didSomething=isZh?/\u9020\u6210|\u9a82|\u6253|\u79bb\u5f00|\u629b\u5f03|\u4f24\u5bb3|\u9a97|\u63a7\u5236|\u903c|\u5a01\u80c1|\u5435\u67b6/.test(answer):/\b(caused|said|told|left|hurt|yelled|shouted|hit|lied|cheated|abandoned|ignored|blamed|criticized|controlled|forced|threatened)\b/.test(answer.toLowerCase());
+    var pool=(n>0&&didSomething)?actPool:relPool;
+    var q=pool[n%pool.length];
+    return q.split("{P}").join(person);
+  }
   function groundedQuestion(answer,chat){
-    var t=(answer||"").toLowerCase(),isZh=state.lang==="zh";
-    var relEn=/\b(in-laws?|mother|mom|mum|father|dad|parent|partner|husband|wife|spouse|boyfriend|girlfriend|friend|boss|colleague|coworker|manager|child|son|daughter|family|inlaw)\b/;
-    var relZh=/\u5a46\u5a46|\u516c\u516c|\u5cb3\u7236|\u5cb3\u6bcd|\u5988\u5988|\u7238\u7238|\u6bcd\u4eb2|\u7236\u4eb2|\u4e08\u592b|\u59bb\u5b50|\u8001\u516c|\u8001\u5a46|\u4f34\u4fa3|\u7537\u53cb|\u5973\u53cb|\u670b\u53cb|\u540c\u4e8b|\u8001\u677f|\u4e0a\u53f8|\u5b69\u5b50|\u513f\u5b50|\u5973\u513f|\u5bb6\u4eba|\u5a46\u5bb6|\u5a18\u5bb6|\u59fb\u4eb2/;
-    if(isZh?relZh.test(answer):relEn.test(t)){
-      var relQ=isZh?["这为什么对你重要？","这段关系里，你需要什么？","你们之间发生了什么？"]:["Why is it important to you?","What do you need in this relationship?","What happened between you?"];
-      var n=chat.relTurns||0;chat.relTurns=n+1;
-      return relQ[n%relQ.length];
-    }
+    var isZh=state.lang==="zh";
+    if(findPerson(answer,isZh))return relationshipQuestion(answer,chat);
     return deepQuestion(answer,chat);
   }
   function groundedReply(answer,question,chat){
