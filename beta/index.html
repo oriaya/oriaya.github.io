@@ -870,7 +870,7 @@
     if(!requireAuth())return;
     if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}
     var data=kind==="rep"?repData[index]:deepData[index];state.activeAccum=0;state.activeStart=document.hidden?null:Date.now();state.chat={id:++state.chatSeq,kind:kind,index:index,step:0,answers:[],messages:[],valueChoice:null,title:data.title,returnTab:kind==="rep"?"reps":"home",finished:false,pauseCount:0,deepestPause:0,reflectionTurn:0,lastReflectionStyle:null,deepTurns:0,tellMoreCount:0,deepMode:"explore",deepTakeaway:"",deepAction:"",continueRound:0};
-    var x=ui[state.lang];$("answer").value="";autoGrow();$("chatTitle").textContent=data.title;$("chatMeta").textContent=kind==="rep"?x.mindMeta+" · "+data.time+" "+x.min:x.about15;$("chat").innerHTML="";showTab("chat");addPrompt(kind==="rep"?data.prompts[0]:data.steps[0].q,null);if(kind==="session")state.chat.messages.push({role:"ria",text:data.steps[0].q});$("composer").classList.add("show");$("answer").focus();
+    var x=ui[state.lang];$("answer").value="";autoGrow();$("chatTitle").textContent=data.title;$("chatMeta").textContent=kind==="rep"?x.mindMeta+" · "+data.time+" "+x.min:x.about15;$("chat").innerHTML="";showTab("chat");addPrompt(kind==="rep"?data.prompts[0]:data.steps[0].q,null);if(kind==="session"||kind==="rep")state.chat.messages.push({role:"ria",text:data.prompts?data.prompts[0]:data.steps[0].q});$("composer").classList.add("show");$("answer").focus();
   }
   function addBubble(text,who,extra){var b=document.createElement("div");b.className="bubble "+who+(extra?" "+extra:"");b.innerHTML=esc(text);$("chat").appendChild(b);scrollChat()}
   function addPrompt(text,step){addBubble(text,"ria")}
@@ -898,7 +898,7 @@
   function submitAnswer(){
     var val=$("answer").value.trim(),c=state.chat;if(!val||!c||c.finished)return;
     if(isValuesCheck(c)&&c.step===1){$("answer").value="";autoGrow();chooseValue(val,$("chat").querySelector(".values-panel"),c.id);return}
-    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);if(c.kind==="session")c.messages.push({role:"user",text:val});$("composer").classList.remove("show");
+    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);if(c.kind==="session"||c.kind==="rep")c.messages.push({role:"user",text:val});$("composer").classList.remove("show");
     if(isValuesCheck(c)){submitValuesAnswer(val,c);return}
     if(c.kind==="session"){
       var deepDelay=Math.max(900,emotionPause(val,c));
@@ -1109,8 +1109,27 @@
   }
   function advanceChat(answer){
     var c=state.chat,r=repData[c.index];c.step++;
-    if(c.step<r.prompts.length){var q=r.prompts[c.step];addBubble(coachReply(answer,q,c),"ria");$("composer").classList.add("show");$("answer").focus()}
-    else finishChat(r.time);
+    if(c.step>=r.prompts.length){finishChat(r.time);return}
+    // Mind Reps call the Ria Worker (mode "rep"). If the Worker is unreachable,
+    // fall back to the local rule engine so the rep keeps working.
+    // (The Values rep never reaches here — submitValuesAnswer handles it.)
+    var chatId=c.id;
+    var history=(c.messages||[]).map(function(m){return {role:m.role==="ria"?"assistant":"user",content:m.text}});
+    fetch(RIA_API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history,mode:"rep"})})
+      .then(function(r){return r.json()})
+      .then(function(data){
+        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
+        var reply=(data&&data.reply)||"";
+        if(!reply)reply=coachReply(answer,r.prompts[cur.step],cur);
+        cur.messages.push({role:"ria",text:reply});
+        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+      })
+      .catch(function(){
+        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
+        var reply=coachReply(answer,r.prompts[cur.step],cur);
+        cur.messages.push({role:"ria",text:reply});
+        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+      });
   }
   function finishChat(minutes){
     var c=state.chat;if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}c.finished=true;if(state.activeStart){state.activeAccum+=(Date.now()-state.activeStart)/1000;state.activeStart=null}state.elapsedSeconds+=state.activeAccum;state.activeAccum=0;state.completed++;state.streak=1;if(c.kind==="rep")state.reps++;else state.sessions++;updateStats();
