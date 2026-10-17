@@ -204,6 +204,10 @@
     /* Registration required: no anonymous access. Signed-in users save progress. */
     user:null,profile:null,firebaseReady:false,authMode:"signup",badgesEarned:{},friendsList:[],myInvitesAccepted:0,myInvitesQualified:0,pendingInvite:null};
 
+  /* Deep Sessions call the Ria Worker (Gemini) instead of the local rule engine.
+     The rule engine (deepReply) stays as the fallback if the Worker is unreachable. */
+  var RIA_API_URL = "https://oriaya-ria.jillrencoaching.workers.dev";
+
   /* ---------- Registration required: account, saving, badges, friends ---------- */
   /* Privacy: coaching answers never leave the page. Signed-in users save
      ONLY session metadata + the takeaways/actions they name. Basic account
@@ -865,8 +869,8 @@
   function startChat(kind,index){
     if(!requireAuth())return;
     if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}
-    var data=kind==="rep"?repData[index]:deepData[index];state.activeAccum=0;state.activeStart=document.hidden?null:Date.now();state.chat={id:++state.chatSeq,kind:kind,index:index,step:0,answers:[],valueChoice:null,title:data.title,returnTab:kind==="rep"?"reps":"home",finished:false,pauseCount:0,deepestPause:0,reflectionTurn:0,lastReflectionStyle:null,deepTurns:0,tellMoreCount:0,deepMode:"explore",deepTakeaway:"",deepAction:"",continueRound:0};
-    var x=ui[state.lang];$("answer").value="";autoGrow();$("chatTitle").textContent=data.title;$("chatMeta").textContent=kind==="rep"?x.mindMeta+" · "+data.time+" "+x.min:x.about15;$("chat").innerHTML="";showTab("chat");addPrompt(kind==="rep"?data.prompts[0]:data.steps[0].q,null);$("composer").classList.add("show");$("answer").focus();
+    var data=kind==="rep"?repData[index]:deepData[index];state.activeAccum=0;state.activeStart=document.hidden?null:Date.now();state.chat={id:++state.chatSeq,kind:kind,index:index,step:0,answers:[],messages:[],valueChoice:null,title:data.title,returnTab:kind==="rep"?"reps":"home",finished:false,pauseCount:0,deepestPause:0,reflectionTurn:0,lastReflectionStyle:null,deepTurns:0,tellMoreCount:0,deepMode:"explore",deepTakeaway:"",deepAction:"",continueRound:0};
+    var x=ui[state.lang];$("answer").value="";autoGrow();$("chatTitle").textContent=data.title;$("chatMeta").textContent=kind==="rep"?x.mindMeta+" · "+data.time+" "+x.min:x.about15;$("chat").innerHTML="";showTab("chat");addPrompt(kind==="rep"?data.prompts[0]:data.steps[0].q,null);if(kind==="session")state.chat.messages.push({role:"ria",text:data.steps[0].q});$("composer").classList.add("show");$("answer").focus();
   }
   function addBubble(text,who,extra){var b=document.createElement("div");b.className="bubble "+who+(extra?" "+extra:"");b.innerHTML=esc(text);$("chat").appendChild(b);scrollChat()}
   function addPrompt(text,step){addBubble(text,"ria")}
@@ -894,7 +898,7 @@
   function submitAnswer(){
     var val=$("answer").value.trim(),c=state.chat;if(!val||!c||c.finished)return;
     if(isValuesCheck(c)&&c.step===1){$("answer").value="";autoGrow();chooseValue(val,$("chat").querySelector(".values-panel"),c.id);return}
-    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);$("composer").classList.remove("show");
+    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);if(c.kind==="session")c.messages.push({role:"user",text:val});$("composer").classList.remove("show");
     if(isValuesCheck(c)){submitValuesAnswer(val,c);return}
     if(c.kind==="session"){
       var deepDelay=Math.max(900,emotionPause(val,c));
@@ -1080,7 +1084,28 @@
     }
     c.deepTurns++;
     if(c.deepTurns>=6&&((c.deepTurns-6)%3===0)){showDeepDirection(c);return}
-    addBubble(deepReply(answer,c),"ria");$("composer").classList.add("show");$("answer").focus();
+    // Acute shares stay local (belt-and-braces safety gate). Everything else
+    // goes to the Ria Worker. If the Worker is unreachable, fall back to the
+    // local rule engine so the session keeps working.
+    var zh=/[\u4e00-\u9fff]/.test(answer||"");
+    if(isAcuteShare(answer,zh)){addBubble(deepReply(answer,c),"ria");$("composer").classList.add("show");$("answer").focus();return}
+    var chatId=c.id;
+    var history=(c.messages||[]).map(function(m){return {role:m.role==="ria"?"assistant":"user",content:m.text}});
+    fetch(RIA_API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history})})
+      .then(function(r){return r.json()})
+      .then(function(data){
+        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
+        var reply=(data&&data.reply)||"";
+        if(!reply)reply=deepReply(answer,cur);
+        cur.messages.push({role:"ria",text:reply});
+        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+      })
+      .catch(function(){
+        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
+        var reply=deepReply(answer,cur);
+        cur.messages.push({role:"ria",text:reply});
+        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+      });
   }
   function advanceChat(answer){
     var c=state.chat,r=repData[c.index];c.step++;
