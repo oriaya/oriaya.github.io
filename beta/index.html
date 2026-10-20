@@ -1101,6 +1101,20 @@
     }
     return ui[state.lang].takeawaySkipped;
   }
+  /* Call the Ria Worker with a hard 30s cap. On timeout, network error, or an
+     empty reply, call done("") so the caller falls back to the local rule
+     engine — the client always gets an answer, never an endless wait. */
+  function fetchRia(payload,done){
+    var ctl=("AbortController" in window)?new AbortController():null;
+    var timer=ctl?setTimeout(function(){ctl.abort()},30000):null;
+    function finish(reply){if(timer)clearTimeout(timer);done(reply||"")}
+    var opts={method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)};
+    if(ctl)opts.signal=ctl.signal;
+    fetch(RIA_API_URL,opts)
+      .then(function(r){return r.json()})
+      .then(function(data){finish((data&&data.reply)||"")})
+      .catch(function(){finish("")});
+  }
   function advanceDeepChat(answer){
     var c=state.chat;if(!c||c.kind!=="session"||c.finished)return;
     if(c.deepMode==="takeaway"){
@@ -1119,21 +1133,12 @@
     if(isAcuteShare(answer,zh)){addBubble(deepReply(answer,c),"ria");$("composer").classList.add("show");$("answer").focus();return}
     var chatId=c.id;
     var history=(c.messages||[]).map(function(m){return {role:m.role==="ria"?"assistant":"user",content:m.text}});
-    fetch(RIA_API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history})})
-      .then(function(r){return r.json()})
-      .then(function(data){
-        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
-        var reply=(data&&data.reply)||"";
-        if(!reply)reply=deepReply(answer,cur);
-        cur.messages.push({role:"ria",text:reply});
-        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
-      })
-      .catch(function(){
-        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
-        var reply=deepReply(answer,cur);
-        cur.messages.push({role:"ria",text:reply});
-        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
-      });
+    fetchRia({messages:history},function(reply){
+      var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
+      if(!reply)reply=deepReply(answer,cur);
+      cur.messages.push({role:"ria",text:reply});
+      addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+    });
   }
   function advanceChat(answer){
     var c=state.chat,r=repData[c.index];c.step++;
@@ -1143,21 +1148,12 @@
     // (The Values rep never reaches here — submitValuesAnswer handles it.)
     var chatId=c.id;
     var history=(c.messages||[]).map(function(m){return {role:m.role==="ria"?"assistant":"user",content:m.text}});
-    fetch(RIA_API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:history,mode:"rep"})})
-      .then(function(r){return r.json()})
-      .then(function(data){
-        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
-        var reply=(data&&data.reply)||"";
-        if(!reply)reply=coachReply(answer,r.prompts[cur.step],cur);
-        cur.messages.push({role:"ria",text:reply});
-        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
-      })
-      .catch(function(){
-        var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
-        var reply=coachReply(answer,r.prompts[cur.step],cur);
-        cur.messages.push({role:"ria",text:reply});
-        addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
-      });
+    fetchRia({messages:history,mode:"rep"},function(reply){
+      var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
+      if(!reply)reply=coachReply(answer,r.prompts[cur.step],cur);
+      cur.messages.push({role:"ria",text:reply});
+      addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+    });
   }
   function finishChat(minutes){
     var c=state.chat;if(state.pendingChatTimer){clearTimeout(state.pendingChatTimer);state.pendingChatTimer=null}c.finished=true;if(state.activeStart){state.activeAccum+=(Date.now()-state.activeStart)/1000;state.activeStart=null}state.elapsedSeconds+=state.activeAccum;state.activeAccum=0;state.completed++;state.streak=1;if(c.kind==="rep")state.reps++;else state.sessions++;updateStats();
