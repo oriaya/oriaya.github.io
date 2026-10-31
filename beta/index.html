@@ -898,12 +898,27 @@
   function submitAnswer(){
     var val=$("answer").value.trim(),c=state.chat;if(!val||!c||c.finished)return;
     if(isValuesCheck(c)&&c.step===1){$("answer").value="";autoGrow();chooseValue(val,$("chat").querySelector(".values-panel"),c.id);return}
-    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);if(c.kind==="session"||c.kind==="rep")c.messages.push({role:"user",text:val});$("composer").classList.remove("show");
-    if(isValuesCheck(c)){submitValuesAnswer(val,c);return}
+    $("answer").value="";autoGrow();addBubble(val,"me");c.answers.push(val);if(c.kind==="session"||c.kind==="rep")c.messages.push({role:"user",text:val});
+    /* 2026-10-30 local fix, NOT deployed: Deep Sessions no longer hide the
+       composer while Ria generates. If Ria is already generating, the new
+       message is queued (in c.pendingQueue, and already in c.messages history)
+       instead of starting a second generation or being lost. The queued
+       message is answered next, with the full history visible to Ria, so a
+       thought split across two messages is not reduced to its second part. */
     if(c.kind==="session"){
+      if(c.generating){
+        if(!c.pendingQueue)c.pendingQueue=[];
+        c.pendingQueue.push(val);
+        $("composer").classList.add("show");$("answer").focus();
+        try{toast(state.lang==="zh"?"已排队，Ria 回完这一条会接着回这一条。":"Queued — Ria will answer this next, with your previous message in view.")}catch(e){}
+        return;
+      }
+      c.generating=true;
       var deepDelay=Math.max(900,emotionPause(val,c));
       scheduleChat(function(){advanceDeepChat(val)},deepDelay);return;
     }
+    $("composer").classList.remove("show");
+    if(isValuesCheck(c)){submitValuesAnswer(val,c);return}
     var hasNext=c.step<repData[c.index].prompts.length-1;
     var delay=hasNext?1500:0;
     if(delay)scheduleChat(function(){advanceChat(val)},delay);else advanceChat(val);
@@ -1064,8 +1079,35 @@
     var idx=chat.replyIdx||0;
     return frames[idx%frames.length]+(zh?'':' ')+shapes[(idx+1)%shapes.length];
   }
+  function deepIsClarification(text){
+    var t=(text||"").toLowerCase();
+    if(/[\u4e00-\u9fff]/.test(text||""))return /不理解|没听懂|没明白|什么意思|听不懂|不清楚你|不懂你/.test(text||"");
+    return /don'?t (quite )?understand|didn'?t (quite )?understand|do not understand|i'?m confused|confused|what do you mean|what are you asking|don'?t get (it|your question|what you)/.test(t);
+  }
+  function deepIsMetaTalk(text){
+    var t=(text||"").toLowerCase();
+    if(/[\u4e00-\u9fff]/.test(text||""))return /为什么没回|你没回|跳过|切回去|先回答上一个|先说上一个|让我先/.test(text||"");
+    return /why didn'?t you (respond|answer)|you didn'?t (respond|answer)|you skipped|switch back|switch (to|back to) (the )?previous|answer (the )?previous (question|one) first|let me answer (the )?previous/.test(t);
+  }
+  function deepLastRiaQuestion(chat){
+    var ms=(chat&&chat.messages)||[];
+    for(var i=ms.length-1;i>=0;i--){if(ms[i].role==="ria"&&ms[i].text)return ms[i].text}
+    return "";
+  }
   function deepReply(answer,chat){
     var zh=/[\u4e00-\u9fff]/.test(answer||"");
+    /* 2026-10-30 local fix, NOT deployed: local fallback only. The Worker
+       prompt carries the same branches; this fallback exists so a local
+       test (Worker unreachable) shows the same repair behaviour instead of
+       echo + new question. */
+    if(!isAcuteShare(answer,zh)&&deepIsMetaTalk(answer)){
+      return zh?"好的，我们先处理这个。你是想先回到上一个问题，还是想让我先把刚才没回的那部分补上？告诉我先做哪一个，我就按你的顺序来。":"Okay, let's deal with that first. Do you want to go back to the previous question first, or should I answer the part I missed first? Tell me which one first, and I'll follow your order.";
+    }
+    if(!isAcuteShare(answer,zh)&&deepIsClarification(answer)){
+      var prev=deepLastRiaQuestion(chat);
+      if(zh)return prev?("让我把上一题说简单一点。我刚才问的是："+prev+"。用更简单的话说，我是想知道那件事对你意味着什么。哪一部分还不清楚，是措辞，还是我想了解的方向？"):"Let me slow that question down. I was asking about the part I just raised — which part felt unclear, the wording, or what I was hoping you'd explore? Tell me that, and I'll say it again more simply, without moving on to a new question.";
+      return "Let me slow that question down. The question I just asked was: "+prev+" In plain words, I was asking what that meant to you. Which part felt unclear, the wording, or what I was hoping you'd explore? Tell me that, and I'll say it again more simply, without moving on to a new question.";
+    }
     chat.replyIdx=(chat.replyIdx||0)+1;
     if(isAcuteShare(answer,zh))return deepAcuteReply(chat,zh);
     if(isStuckShare(answer,zh))return deepStuckReply(chat,zh);
@@ -1118,26 +1160,40 @@
   function advanceDeepChat(answer){
     var c=state.chat;if(!c||c.kind!=="session"||c.finished)return;
     if(c.deepMode==="takeaway"){
-      if(isTakeawayNonAnswer(answer)){showTakeawayChoice(c);return}
-      c.deepTakeaway=answer;c.deepMode="action";addBubble(ui[state.lang].actionPrompt,"ria");$("composer").classList.add("show");$("answer").focus();return;
+      if(isTakeawayNonAnswer(answer)){c.generating=false;showTakeawayChoice(c);return}
+      c.deepTakeaway=answer;c.deepMode="action";c.generating=false;addBubble(ui[state.lang].actionPrompt,"ria");$("composer").classList.add("show");$("answer").focus();return;
     }
     if(c.deepMode==="action"){
-      c.deepAction=answer;finishChat(15);return;
+      c.generating=false;c.deepAction=answer;finishChat(15);return;
     }
     c.deepTurns++;
-    if(c.deepTurns>=6&&((c.deepTurns-6)%3===0)){showDeepDirection(c);return}
+    /* 2026-10-30 local fix, NOT deployed: the direction panel is no longer
+       a fixed-turn gate that swallows a turn. It is only a flag now; the
+       reply to this turn is sent first, and the panel is shown after that
+       reply (see the acute and Worker paths below). */
+    var showDirectionAfterReply=(c.deepTurns>=6&&((c.deepTurns-6)%3===0));
     // Acute shares stay local (belt-and-braces safety gate). Everything else
     // goes to the Ria Worker. If the Worker is unreachable, fall back to the
     // local rule engine so the session keeps working.
     var zh=/[\u4e00-\u9fff]/.test(answer||"");
-    if(isAcuteShare(answer,zh)){addBubble(deepReply(answer,c),"ria");$("composer").classList.add("show");$("answer").focus();return}
+    if(isAcuteShare(answer,zh)){addBubble(deepReply(answer,c),"ria");c.generating=false;$("composer").classList.add("show");$("answer").focus();if(showDirectionAfterReply)showDeepDirection(c);return}
     var chatId=c.id;
     var history=(c.messages||[]).map(function(m){return {role:m.role==="ria"?"assistant":"user",content:m.text}});
     fetchRia({messages:history},function(reply){
       var cur=state.chat;if(!cur||cur.id!==chatId||cur.finished)return;
       if(!reply)reply=deepReply(answer,cur);
       cur.messages.push({role:"ria",text:reply});
-      addBubble(reply,"ria");$("composer").classList.add("show");$("answer").focus();
+      addBubble(reply,"ria");cur.generating=false;$("composer").classList.add("show");$("answer").focus();
+      if(showDirectionAfterReply)showDeepDirection(cur);
+      /* Drain a queued follow-up, if any: it was already shown and added to
+         history while Ria was generating, so it is answered as the next turn
+         with the full history, not dropped. */
+      if(cur.pendingQueue&&cur.pendingQueue.length){
+        var queued=cur.pendingQueue.join("\n");cur.pendingQueue=[];
+        cur.generating=true;
+        var qDelay=Math.max(900,emotionPause(queued,cur));
+        scheduleChat(function(){advanceDeepChat(queued)},qDelay);
+      }
     });
   }
   function advanceChat(answer){
@@ -1230,6 +1286,10 @@
     clearTimeout(voice.sendTimer);voice.sendAfterStop=false;voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;revealVoiceTranscript();renderVoiceControls();submitAnswer();
   }
   function sendAnswer(){
+    /* 2026-10-30 local fix, NOT deployed: typing while voice is paused no
+       longer waits for voice. If paused, reveal any transcript and submit
+       the typed text directly, instead of routing through the voice send. */
+    if(voice.paused){revealVoiceTranscript();voice.sessionActive=false;voice.wantsListening=false;voice.paused=false;renderVoiceControls();submitAnswer();return}
     if(!voice.sessionActive){submitAnswer();return}
     voice.wantsListening=false;voice.sendAfterStop=true;clearTimeout(voice.restartTimer);showMic("Sending your answer…",true);
     if(voice.recognition){
