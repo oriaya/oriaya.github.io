@@ -27,7 +27,7 @@
     button,textarea,input{font:inherit}button{color:inherit}button:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--clay) 45%,transparent);outline-offset:2px}
     .app{width:min(760px,100%);margin:0 auto;min-height:100vh;padding-bottom:calc(102px + env(safe-area-inset-bottom))}
     .demo-banner{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--paper);padding:9px 18px;font-size:12px;text-align:center;letter-spacing:.01em}
-    .topline{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;padding:16px 22px 14px;gap:10px 16px}.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;white-space:nowrap}.brand-mark{width:30px;height:22px;display:block}.brand-mark .sun,.brand-mark .horizon{fill:#D9A94E;stroke:#D9A94E}.brand-word{font-size:14px;font-weight:700;letter-spacing:.18em;line-height:1}.topline .brand{grid-column:1;grid-row:1;justify-self:start}.topline .language-wrap{grid-column:2;grid-row:1;justify-self:start}.topline #learnTop{grid-column:3;grid-row:1;justify-self:end}.topline #accountBtn{grid-column:4;grid-row:1;justify-self:end}.topline #learnTop{border:0;background:var(--sage);color:rgba(255,250,242,.88);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:500;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.abc-name{font-weight:800;color:#fff;letter-spacing:.02em}.topline>.greeting-wrap{grid-column:1/-1;grid-row:2}
+    .topline{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;padding:16px 22px 14px;gap:10px 16px}.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;white-space:nowrap}.brand-mark{width:30px;height:22px;display:block}.brand-mark .sun,.brand-mark .horizon{fill:#D9A94E;stroke:#D9A94E}.brand-word{font-size:14px;font-weight:700;letter-spacing:.18em;line-height:1}.topline .brand{grid-column:1;grid-row:1;justify-self:start}.topline .language-wrap{grid-column:2;grid-row:1;justify-self:start}.topline #learnTop{grid-column:3;grid-row:1;justify-self:end}.topline #accountBtn{grid-column:4;grid-row:1;justify-self:end}.topline #learnTop{border:0;background:transparent;color:var(--ink);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:500;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}.abc-name{font-weight:800;color:#fff;letter-spacing:.02em;background:#D9A94E;padding:2px 7px;border-radius:999px}.topline>.greeting-wrap{grid-column:1/-1;grid-row:2}
     .language-wrap{display:flex;align-items:center;gap:7px;color:var(--muted)}.language-wrap svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7}.language-select{appearance:none;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;color:var(--ink);font-size:12px;font-weight:700;padding:7px 22px 7px 0;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 8px) 12px,calc(100% - 4px) 12px;background-size:4px 4px,4px 4px;background-repeat:no-repeat}.language-select:focus-visible{outline:3px solid color-mix(in srgb,var(--clay) 45%,transparent);outline-offset:2px}
     .date{font-size:12px;color:var(--muted);margin:0 0 5px}.greeting{font:400 clamp(27px,7vw,39px)/1.08 "Libre Baskerville",serif;margin:0}.quiet-action{border:0;background:transparent;color:var(--clay);font-weight:700;padding:8px 0;cursor:pointer}
     main{padding:0 18px}.view{display:none;animation:fade .28s ease}.view.active{display:block}@keyframes fade{from{opacity:.35}to{opacity:1}}
@@ -49,7 +49,8 @@
     .you-hero{background:var(--clay-pale);padding:22px;border-radius:26px 8px 26px 26px}.you-hero h2{margin:0 0 8px}.you-hero p{color:var(--muted);font-size:13px;margin:0}.how{display:grid;gap:0;margin:14px 0 28px;border-top:1px solid var(--line)}.how-row{padding:17px 3px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:34px 1fr;gap:12px}.how-row strong{font-size:14px}.how-row p{font-size:12px;color:var(--muted);margin:4px 0 0}.how-row .glyph{font:400 20px "Libre Baskerville",serif;color:var(--clay)}
     .feedback{background:var(--surface);border:1px solid var(--line);padding:19px;border-radius:20px 8px 20px 20px}.feedback h3{font-size:18px}.feedback textarea{width:100%;min-height:108px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:13px;resize:vertical;margin:12px 0}.thanks{display:none;color:var(--sage);font-weight:700}.fineprint{font-size:11px;line-height:1.55;color:var(--muted);padding:28px 5px 6px}.fineprint a{color:inherit}
     /* Hybrid beta: account, badges, friends, invites (added on top of the demo styles) */
-    .account-btn{white-space:nowrap;font-size:12px;max-width:170px;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+    .account-btn{white-space:nowrap;font-size:12px;max-width:170px;overflow:hidden;text-overflow:ellipsis;color:var(--muted);display:inline-flex;align-items:center;gap:7px}.avatar{width:24px;height:24px;border-radius:50%;background:var(--sage);color:#fffaf2;font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none}#accountName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}.account-id{display:flex;align-items:center;gap:14px;margin:20px 0 6px}.avatar.big{width:52px;height:52px;font-size:22px}.account-name{font-family:"Libre Baskerville",serif;font-size:21px;line-height:1.2;color:var(--ink)}.account-email{font-size:13px;color:var(--muted);margin-top:3px}
+    .acct-section{border-top:1px solid var(--line);margin-top:22px;padding-top:18px}.acct-section h3{font-size:17px;margin:0 0 4px}.acct-section .sub{font-size:12px;margin:0 0 12px}.field-row{display:flex;gap:8px}.field-row input{flex:1;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-width:0}.field-row input[type=time]{flex:0 0 132px}.switch-row{display:flex;align-items:center;gap:10px;font-size:14px;margin-bottom:10px;cursor:pointer}.switch-row input{width:18px;height:18px;accent-color:var(--sage)}.refl-row{padding:12px 0;border-top:1px solid var(--line);font-size:13px}.refl-row:first-of-type{border-top:0}.refl-row .refl-meta{font-size:11px;color:var(--muted);margin-bottom:4px}.refl-row blockquote{font:italic 15px/1.55 "Libre Baskerville",serif;margin:0}.plan-card{background:var(--sage-pale);border-radius:16px;padding:16px;margin-top:4px}.plan-card strong{font-size:15px}.plan-tag{display:inline-block;background:#D9A94E;color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:2px}
     .mode-note{font-size:12px;color:var(--muted);margin-top:10px}
     .auth-form{display:grid;gap:10px;margin-top:14px}.auth-form label{font-size:12px;color:var(--muted);display:grid;gap:5px}.auth-form input{width:100%;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:11px 12px}.auth-toggle{font-size:12px;color:var(--muted);text-align:center}.auth-toggle button{background:none;border:0;padding:0;color:var(--clay);font-weight:700;cursor:pointer}.auth-error{font-size:12px;color:var(--danger);min-height:16px}.auth-error:empty{display:none}
     .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0 26px}.badge{border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;background:var(--surface);opacity:.45}.badge.earned{opacity:1;border-color:var(--gold)}.badge .mark{font-size:22px;display:block}.badge strong{display:block;font-size:11px;margin:5px 0 2px}.badge span{font-size:10px;color:var(--muted);line-height:1.3;display:block}
@@ -62,7 +63,7 @@
     .deck{min-height:530px;display:flex;flex-direction:column}.deck-card{background:var(--surface);border:1px solid var(--line);padding:28px 24px;border-radius:8px 28px 28px 28px;min-height:350px;display:flex;flex-direction:column;box-shadow:var(--soft-shadow);touch-action:pan-y}.deck-card .count{font-size:11px;color:var(--clay);font-weight:700}.deck-card h2{font-size:31px;margin:38px 0 15px}.deck-card p{color:var(--muted)}.deck-card .example{margin-top:auto;padding-top:20px;border-top:1px solid var(--line);font:italic 15px/1.55 "Libre Baskerville",serif}.deck-controls{display:flex;justify-content:space-between;align-items:center;margin-top:18px}.deck-dots{display:flex;gap:7px}.deck-dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}.deck-dots i.active{background:var(--clay)}
     .safety h2{font-size:27px}.safety-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:20px 0}.safety-box{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:15px}.safety-box strong{font-size:13px}.safety-box p{font-size:11px;color:var(--muted);margin:5px 0 0}.crisis{background:var(--clay-pale);padding:15px;border-radius:13px;font-size:12px}.toast{position:fixed;z-index:80;left:50%;bottom:100px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:11px 18px;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
     @media(min-width:700px){main{padding:0 26px}.topline{padding-left:30px;padding-right:30px}.entry{min-height:172px}.overlay{align-items:center;padding:24px}.sheet{border-radius:28px;max-height:88vh;padding-bottom:28px}.tabbar{border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0}.composer{bottom:84px}.hero-card{padding:30px}.list-card{padding:18px}}
-    @media(max-width:420px){.safety-grid{grid-template-columns:1fr}.hero-bottom{align-items:flex-end}.entry-grid{grid-template-columns:1fr}.entry{min-height:120px}.stats .stat{padding:16px 8px}.stat strong{font-size:21px}.educator-tease{align-items:flex-start;flex-direction:column}.bubble{max-width:94%}.other-value{grid-template-columns:1fr}.other-value button{width:100%}.topline{grid-template-columns:1fr auto;gap:7px 10px}.topline .brand{grid-column:1;grid-row:1}.topline #accountBtn{grid-column:2;grid-row:1}.topline #learnTop{grid-column:1/-1;grid-row:2;justify-self:start}.topline .language-wrap{grid-column:1/-1;grid-row:3}.topline>.greeting-wrap{grid-column:1/-1;grid-row:4}.quiet-action{font-size:11px}.language-select{max-width:116px}.brand-word{font-size:13px}.brand-mark{width:28px;height:20px}.topline #accountBtn{font-size:10px;max-width:120px}}
+    @media(max-width:420px){.safety-grid{grid-template-columns:1fr}.hero-bottom{align-items:flex-end}.entry-grid{grid-template-columns:1fr}.entry{min-height:120px}.stats .stat{padding:16px 8px}.stat strong{font-size:21px}.educator-tease{align-items:flex-start;flex-direction:column}.bubble{max-width:94%}.other-value{grid-template-columns:1fr}.other-value button{width:100%}.topline{grid-template-columns:1fr auto;gap:7px 10px}.topline .brand{grid-column:1;grid-row:1}.topline #accountBtn{grid-column:2;grid-row:1}.topline #learnTop{grid-column:1/-1;grid-row:2;justify-self:start}.topline .language-wrap{grid-column:1/-1;grid-row:3}.topline>.greeting-wrap{grid-column:1/-1;grid-row:4}.quiet-action{font-size:11px}.language-select{max-width:116px}.brand-word{font-size:13px}.brand-mark{width:28px;height:20px}.topline #accountBtn{font-size:10px;max-width:120px}.topline #accountBtn .avatar{width:20px;height:20px;font-size:10px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
 </head>
@@ -73,7 +74,7 @@
     <div class="brand" aria-label="Oriaya"><svg class="brand-mark" viewBox="0 0 60 42" aria-hidden="true"><path class="sun" d="M14 27a16 16 0 0 1 32 0H14Z" stroke="none"/><path class="horizon" d="M3 32H57" fill="none" stroke-width="2" stroke-linecap="round"/></svg><span class="brand-word">ORIAYA</span></div>
     <label class="language-wrap" for="languageSelect"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg><select class="language-select" id="languageSelect" aria-label="Language"><option value="en">English</option><option value="zh">中文</option></select></label>
     <button class="quiet-action" id="learnTop">New to coaching? Learn from <span class="abc-name">Coaching ABC</span></button>
-    <button class="quiet-action account-btn" id="accountBtn">Account</button>
+    <button class="quiet-action account-btn" id="accountBtn"><span class="avatar" id="accountAvatar" style="display:none"></span><span id="accountName">Account</span></button>
     <div class="greeting-wrap"><p class="date" id="today"></p><h1 class="greeting" id="greeting">Good evening.</h1></div>
   </header>
   <main>
@@ -144,7 +145,6 @@
         <p class="sub" id="privacyBody">Your coaching answers stay on this page and are never sent anywhere. Only the takeaways and next steps you choose to carry forward are saved with your account. We use basic account information and anonymized usage information to improve Oriaya. Your data is never sold. You can delete your account and all saved data at any time.</p>
         <button class="secondary small" id="restDayBtn">Mark today as a rest day</button>
         <p class="mode-note" id="restDayNote">A rest day holds your streak — it never breaks it.</p>
-        <div style="margin-top:14px"><button class="danger-btn" id="deleteAccountBtn" style="display:none">Delete my account &amp; data</button></div>
       </div>
 
       <form class="feedback" id="feedbackForm"><h3>Help shape the beta</h3><p class="sub">What felt alive? What felt flat? What would make you come back?</p><textarea id="feedbackText" required placeholder="Tell us what you noticed…"></textarea><button class="primary" type="submit">Send feedback</button><p class="thanks" id="feedbackThanks">Thank you — your feedback is saved with your account.</p></form>
@@ -173,13 +173,39 @@
   <h2 id="accountTitle">Your account</h2>
   <p class="sub" id="accountSub">Create an account to begin. Your streaks, badges, and friends are saved with your account.</p>
   <div id="accountSignedIn" style="display:none">
-    <p><strong id="signedInAsLabel">Signed in as</strong> <span id="signedInEmail"></span></p>
+    <div class="account-id"><span class="avatar big" id="sheetAvatar"></span><div><div class="account-name" id="sheetName"></div><div class="account-email" id="signedInEmail"></div></div></div>
     <p class="sub" id="accountSavedNote">Your progress is saved with your account.</p>
+    <div class="acct-section">
+      <h3 id="nameSectionTitle">Your name</h3>
+      <p class="sub" id="nameSectionSub">This is how Oriaya addresses you, in the app and in sessions.</p>
+      <div class="field-row"><input id="displayNameInput" type="text" maxlength="40" autocomplete="name" /><button class="primary" id="saveNameBtn" type="button">Save</button></div>
+    </div>
+    <div class="acct-section">
+      <h3 id="reminderTitle">Daily reminder</h3>
+      <p class="sub" id="reminderSub">A gentle nudge at your chosen time, while the app is open.</p>
+      <label class="switch-row"><input type="checkbox" id="reminderOn" /> <span id="reminderOnLabel">Remind me every day</span></label>
+      <div class="field-row"><input id="reminderTime" type="time" value="08:00" /><button class="primary" id="saveReminderBtn" type="button">Save</button></div>
+    </div>
+    <div class="acct-section">
+      <h3 id="reflectionsTitle">My reflections</h3>
+      <p class="sub" id="reflectionsSub">One line you carried forward from each practice.</p>
+      <div id="reflectionsList"><p class="sub" id="reflectionsEmpty">No reflections yet — finish a Rep or a Deep Session and your line will appear here.</p></div>
+    </div>
+    <div class="acct-section">
+      <h3 id="planTitle">Plan</h3>
+      <div class="plan-card"><strong id="planName">Beta</strong><span class="plan-tag" id="planTag" style="display:none">Founding member</span><p class="sub" id="planBody" style="margin:8px 0 0">Free while in beta. Deep Sessions are $1.99/month at launch for founding members.</p></div>
+    </div>
+    <div class="acct-section">
+      <h3 id="dataTitle">Your data</h3>
+      <p class="sub" id="dataSub">Your data is yours. Download a copy any time, or delete everything.</p>
+      <div class="sheet-actions" style="margin-top:0"><button class="secondary" id="downloadDataBtn" type="button">Download my data</button><button class="danger-btn" id="deleteAccountBtn" style="display:none">Delete my account &amp; data</button></div>
+    </div>
     <div class="sheet-actions"><span></span><button class="primary" id="signOutBtn">Sign out</button></div>
   </div>
   <div id="accountAnon">
     <p class="auth-error" id="authError"></p>
     <form class="auth-form" id="authForm">
+      <label id="nameLabelRow" style="display:none"><span id="nameLabel">Name</span><input id="authName" type="text" maxlength="40" autocomplete="name" /></label>
       <label><span id="emailLabel">Email</span><input id="authEmail" type="email" required autocomplete="email" /></label>
       <label><span id="passwordLabel">Password</span><input id="authPassword" type="password" required minlength="6" autocomplete="current-password" /></label>
       <button class="primary" type="submit" id="authSubmit">Create account</button>
@@ -324,23 +350,95 @@
     setText("#restDayBtn",x.restDayBtn);setText("#restDayNote",x.restDayNote);
     setText("#deleteAccountBtn",x.deleteAccount);
     setText("#accountTitle",x.accountTitle);setText("#accountSub",x.accountSub);
-    setText("#signedInAsLabel",x.signedInAs);setText("#accountSavedNote",x.accountSaved);setText("#signOutBtn",x.signOut);
-    setText("#emailLabel",x.emailLabel);setText("#passwordLabel",x.passwordLabel);
+    setText("#accountSavedNote",x.accountSaved);setText("#signOutBtn",x.signOut);
+    setText("#emailLabel",x.emailLabel);setText("#passwordLabel",x.passwordLabel);setText("#nameLabel",x.nameLabel);
+    setText("#nameSectionTitle",x.nameSectionTitle);setText("#nameSectionSub",x.nameSectionSub);setText("#saveNameBtn",x.save);
+    setText("#reminderTitle",x.reminderTitle);setText("#reminderSub",x.reminderSub);setText("#reminderOnLabel",x.reminderOnLabel);setText("#saveReminderBtn",x.save);
+    setText("#reflectionsTitle",x.reflectionsTitle);setText("#reflectionsSub",x.reflectionsSub);setText("#reflectionsEmpty",x.reflectionsEmpty);
+    setText("#planTitle",x.planTitle);setText("#dataTitle",x.dataTitle);setText("#dataSub",x.dataSub);setText("#downloadDataBtn",x.downloadData);
     setText("#authSubmit",state.authMode==="signup"?x.createAccount:x.signIn);
     setText("#authToggleText",state.authMode==="signup"?x.alreadyHave:x.needAccount);
     setText("#authToggleBtn",state.authMode==="signup"?x.signIn:x.createAccount);
     setText("#forgotBtn",x.forgot);setText("#accountPrivacyNote",x.accountPrivacyNote||"");
     setText("#inviteTitle",x.inviteTitle);setText("#inviteDeclineBtn",x.decline);
     setText("#inviteAcceptBtn",x.acceptFriend);setText("#inviteAcceptPairBtn",x.acceptPair);
-    $("accountBtn").textContent=state.user?((state.user.displayName||state.user.email)||"Account"):(state.lang==="zh"?"账号":"Account");
+    var acctName=state.user?((state.user.displayName||state.user.email)||"Account"):(state.lang==="zh"?"账号":"Account");$("accountName").textContent=acctName;var acctAv=$("accountAvatar");if(state.user){acctAv.style.display="";acctAv.textContent=(state.user.displayName||state.user.email||"?").trim().charAt(0).toUpperCase();}else acctAv.style.display="none";
     $("deleteAccountBtn").style.display=(state.user&&state.firebaseReady)?"":"none";
     var signed=!!(state.user&&state.firebaseReady);
+    $("accountSub").style.display=signed?"none":"";
     $("accountSignedIn").style.display=signed?"":"none";
     $("accountAnon").style.display=signed?"none":"";
-    if(signed)$("signedInEmail").textContent=state.user.email||"";
+    $("nameLabelRow").style.display=state.authMode==="signup"?"":"none";
+    if(signed){$("signedInEmail").textContent=state.user.email||"";$("sheetName").textContent=state.user.displayName||state.user.email||"";$("sheetAvatar").textContent=(state.user.displayName||state.user.email||"?").trim().charAt(0).toUpperCase();$("displayNameInput").value=state.user.displayName||"";loadReminderPrefs();var fm=state.profile&&state.profile.foundingMember;$("planName").textContent=x.planBeta;$("planTag").style.display=fm?"":"none";$("planTag").textContent=x.planFounding;$("planBody").textContent=fm?x.planBodyFounding:x.planBodyBeta;}
     refreshModeBanner();renderBadgeShelf();renderFriends();
   }
-  function openAccountSheet(){refreshHybridText();$("accountOverlay").classList.add("show")}
+  function openAccountSheet(){refreshHybridText();if(state.user&&state.firebaseReady)loadReflections();$("accountOverlay").classList.add("show")}
+  function saveDisplayName(){
+    var x=ui[state.lang],nm=$("displayNameInput").value.trim();
+    if(!state.user||!state.firebaseReady)return;
+    if(!nm){$("displayNameInput").focus();return}
+    auth.currentUser.updateProfile({displayName:nm}).then(function(){state.user=auth.currentUser;refreshHybridText();toast(x.nameSaved)}).catch(function(){toast(x.authGeneric)});
+  }
+  function loadReminderPrefs(){
+    var r=state.profile&&state.profile.reminder;
+    $("reminderOn").checked=!!(r&&r.on);
+    $("reminderTime").value=(r&&r.time)||"08:00";
+  }
+  function saveReminder(){
+    var x=ui[state.lang];
+    if(!state.user||!state.firebaseReady)return;
+    var on=$("reminderOn").checked,time=$("reminderTime").value||"08:00";
+    db.collection("users").doc(state.user.uid).set({reminder:{on:on,time:time}},{merge:true}).then(function(){
+      if(state.profile)state.profile.reminder={on:on,time:time};
+      toast(x.reminderSaved);
+    }).catch(function(){toast(x.authGeneric)});
+  }
+  function maybeRemind(){
+    if(!state.user||!state.firebaseReady||!state.profile)return;
+    var r=state.profile.reminder;
+    if(!r||!r.on)return;
+    var now=new Date(),nowM=now.getHours()*60+now.getMinutes(),tp=r.time.split(":"),start=(+tp[0])*60+(+tp[1]);
+    if(nowM<start||nowM>start+30)return;
+    var today=dayKey(now);
+    if((state.profile.stats&&state.profile.stats.activityDays||[]).indexOf(today)>=0)return;
+    if(state.remindedDay===today)return;
+    state.remindedDay=today;
+    toast(ui[state.lang].reminderToast);
+  }
+  function loadReflections(){
+    var list=$("reflectionsList");if(!list)return;
+    var x=ui[state.lang];
+    if(!state.user||!state.firebaseReady){list.innerHTML='<p class="sub">'+x.reflectionsEmpty+'</p>';return}
+    db.collection("users").doc(state.user.uid).collection("sessions").orderBy("createdAt","desc").limit(20).get().then(function(snap){
+      var rows=[];
+      snap.forEach(function(d){var s=d.data();if(s.takeaway)rows.push(s)});
+      try{var raw=localStorage.getItem("oriayaDailyRepLines");if(raw){var obj=JSON.parse(raw);Object.keys(obj).forEach(function(k){var parts=k.split("|");if(obj[k])rows.push({kind:"rep",title:parts[1]||"",takeaway:obj[k],day:parts[0]||""})})}}catch(e){}
+      if(!rows.length){list.innerHTML='<p class="sub">'+x.reflectionsEmpty+'</p>';return}
+      list.innerHTML=rows.slice(0,20).map(function(s){
+        var d=s.day||"";
+        if(!d&&s.createdAt&&s.createdAt.toDate)d=s.createdAt.toDate().toLocaleDateString(state.lang==="zh"?"zh-CN":"en-US",{year:"numeric",month:"long",day:"numeric"});
+        var kind=s.kind==="session"?x.deepSessions:x.mindReps;
+        return '<div class="refl-row"><div class="refl-meta">'+esc(d)+' · '+esc(kind)+(s.title?' · '+esc(s.title):"")+'</div><blockquote>\u201c'+esc(s.takeaway)+'\u201d</blockquote></div>';
+      }).join("");
+    }).catch(function(){list.innerHTML='<p class="sub">'+x.reflectionsEmpty+'</p>'});
+  }
+  function downloadMyData(){
+    var x=ui[state.lang];
+    var payload={exportedAt:new Date().toISOString(),account:{email:state.user?state.user.email:null,displayName:state.user?state.user.displayName:null},profile:state.profile||null,reflections:[]};
+    try{var raw=localStorage.getItem("oriayaDailyRepLines");if(raw)payload.localReflections=JSON.parse(raw)}catch(e){}
+    function done(){
+      var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+      var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="oriaya-my-data.json";document.body.appendChild(a);a.click();a.remove();
+      setTimeout(function(){URL.revokeObjectURL(a.href)},1000);
+      toast(x.dataReady);
+    }
+    if(state.user&&state.firebaseReady){
+      db.collection("users").doc(state.user.uid).collection("sessions").orderBy("createdAt","desc").limit(200).get().then(function(snap){
+        snap.forEach(function(d){var s=d.data();payload.reflections.push({kind:s.kind,title:s.title,minutes:s.minutes,day:s.day,takeaway:s.takeaway||"",action:s.action||"",lang:s.lang||""})});
+        done();
+      }).catch(done);
+    }else done();
+  }
   /* Registration required: no anonymous access. Every feature entry point
      routes through here — unsigned users land on the account sheet.
      Founder bypass (2026-11-12): ?dev=1 skips the gate so the founder can
@@ -367,7 +465,7 @@
       loadProfile().then(function(){
         var newly=evaluateBadges();
         if(newly.length)saveBadges();
-        refreshHybridText();updateStats();checkPendingInvite();
+        refreshHybridText();updateStats();checkPendingInvite();maybeRemind();
       }).catch(function(){refreshHybridText();updateStats()});
     }else{
       state.user=null;state.profile=null;state.friendsList=[];state.myInvitesAccepted=0;state.myInvitesQualified=0;state.badgesEarned={};
@@ -604,7 +702,7 @@
   var localeNames={en:"en-US",zh:"zh-CN"};
   var baseContent={reps:repData,deep:deepData,deck:deckData,onboarding:onboarding,values:valueChoices};
   var ui={
-    en:{banner:"Create an account to begin — your practice is saved with your account.",learn:"New to coaching? Learn from Coaching ABC",morning:"Good morning.",afternoon:"Good afternoon.",evening:"Good evening.",eyebrow:"Today’s Mind Rep",heroTitle:"What deserves your attention before the day decides for you?",heroBody:"A short guided practice. Not a to-do list — a way to meet today as it is.",fourMinutes:"3 minutes",begin:"Begin",listenHero:"♪ Listen",listenPref:"Preferred",readHero:"Read",dayStreak:"day streak",completed:"completed",minutesTrained:"minutes trained",choosePractice:"Choose your practice",mindReps:"Mind Reps",mindDesc:"3–5 minute practices for clarity, courage, and self-trust.",deepSessions:"Deep Sessions",deepDesc:"Guided coaching conversations that follow your intention.",coachingFine:'Oriaya is coaching, not therapy or medical care. In the U.S., call or text <a href="tel:988">988</a> for immediate crisis support.',repsSub:"Small, repeatable conversations that strengthen how you meet your life.",listenBest:"Listening works best, some parts ask you to close your eyes. The text version is below if you prefer to read.",repsFine:"These practices support reflection and growth. They do not diagnose or treat mental health conditions.",audioReps:"Guided audio Reps",audioRepsB:"Listen — the same five practices, recorded voice, 2–3 minutes each, eyes closed.",audioListen:"Listen →",preferListen:"Prefer to listen?",guidedAudio:"Guided audio version →",sessionsSub:"Bring one intention. Ria will listen for the thread, reflect your own language, and ask one question at a time. She answers right away, in her own words, and leaves you space to find your own answer.",newCoach:"New to coaching? Learn from Coaching ABC",guideHint:"Take the five-card tour before your first session.",openGuide:"Open guide",sessionsFine:'Coaching is not therapy, diagnosis, or medical care. If you may be in immediate danger or are thinking about suicide, call local emergency services. In the U.S., call or text <a href="tel:988">988</a>.',youTitle:"Your practice, today",youBody:"Your practice is saved with your account.",sessions:"sessions",minutes:"minutes",howTitle:"How Oriaya works",how1:"Mind Reps stay free",how1b:"Short coaching practices, free forever — because mental fitness grows through repetition.",how2:"Deep Sessions",how2b:"$1.99/month at launch. Deep Sessions are live now — rebuilt to listen better. A $10–15 fee may apply to severe late cancellations or no-shows for booked human sessions — it prices the empty slot, not your struggle.",how3:"Human connection, next",how3b:"Vetted human coaches and an in-person Oriaya Space are in exploration, beginning around Palo Alto and the Bay Area.",feedbackTitle:"Help shape the beta",feedbackSub:"What felt alive? What felt flat? What would make you come back?",feedbackPlaceholder:"Tell us what you noticed…",sendFeedback:"Send feedback",thanks:"Thank you — your feedback is saved with your account.",feedbackFine:'Feedback is saved with your account. Oriaya is coaching, not therapy. In the U.S., call or text <a href="tel:988">988</a> for crisis support.',back:"← Back",answerPlaceholder:"Type or speak your answer…",pause:"Pause",resume:"Resume",speak:"Speak answer",stopVoice:"Stop voice input",send:"Send answer",navHome:"Home",navReps:"Reps",navSessions:"Sessions",navYou:"You",safetyTitle:"Before your first session",safetySub:"Oriaya is a coaching space. It is built for reflection, intention, and forward movement.",coachingAsks:"Coaching asks",coachingAsksB:"What do you want? What matters? What will you choose?",therapy:"Therapy may treat",therapyB:"Trauma, mental health symptoms, diagnosis, and clinical conditions.",help:"Need immediate help?",helpB:'Oriaya is not crisis support. In the U.S., call or text <a href="tel:988">988</a>. Elsewhere, contact local emergency services.',understand:"I understand",continue:"Continue",enter:"Enter",tour:"New to coaching? Learn from Coaching ABC →",card:"CARD",of:"OF",next:"Next →",done:"Done",min:"min",about15:"Deep Session · about 15 min",mindMeta:"Mind Rep",beginSession:"Begin session",deepSoon:"Deep Sessions are live now — rebuilt to listen better.",valueHint:"Choose the closest fit, or type your own in the same answer box below.",ownValue:"Type my own ↓",keepValue:function(v){return "Keep "+v+" in view. Where does your current path already honor it, and where does it drift away?"},closerValue:function(v){return "What is one choice that would bring you a little closer to "+v+"?"},pauseLine:"That feels like a place to pause — not because the work is finished, but because you named something you can carry forward.",takeaway:"Your takeaways",takeawayHint:"These are your words, not Ria’s summary.",nextStep:"What you want to do next",practice:"Oriaya practice",copyCard:"Copy reflection card",saveCardImg:"Save card image",continueExplore:"Keep exploring",readyReflect:"Gather my takeaways",directionHint:"Would you like to stay with this, or gather what you want to carry forward?",takeawayPrompt:"What are your takeaways from today?",takeawaySkipHint:"That sounds like a not-yet, and a not-yet is honest. Takeaways only count when they are really yours.",takeawayRetry:"Try once more",takeawaySkip:"Skip the takeaway today",takeawaySkipped:"(No takeaway today — and that’s okay.)",actionPrompt:"What, if anything, do you want to do next?",closingLine:"You did the sorting. These are the words you chose to carry forward.",cameIn:function(a,b){return 'I came in wanting “'+a+'.” I am leaving with “'+b+'.”'},clarityCheck:function(s){return "You came in looking for "+s+". What feels clearer now?"},langChanged:"Language changed",feedbackHeld:"Thank you — your feedback is saved with your account.",
+    en:{banner:"Create an account to begin — your practice is saved with your account.",learn:"New to coaching? Learn from Coaching ABC",morning:"Good morning.",afternoon:"Good afternoon.",evening:"Good evening.",eyebrow:"Today’s Mind Rep",heroTitle:"What deserves your attention before the day decides for you?",heroBody:"A short guided practice. Not a to-do list — a way to meet today as it is.",fourMinutes:"3 minutes",begin:"Begin",listenHero:"♪ Listen",listenPref:"Preferred",readHero:"Read",dayStreak:"day streak",completed:"completed",minutesTrained:"minutes trained",choosePractice:"Choose your practice",mindReps:"Mind Reps",mindDesc:"3–5 minute practices for clarity, courage, and self-trust.",deepSessions:"Deep Sessions",deepDesc:"Guided coaching conversations that follow your intention.",coachingFine:'Oriaya is coaching, not therapy or medical care. In the U.S., call or text <a href="tel:988">988</a> for immediate crisis support.',repsSub:"Small, repeatable conversations that strengthen how you meet your life.",listenBest:"Listening works best, some parts ask you to close your eyes. The text version is below if you prefer to read.",repsFine:"These practices support reflection and growth. They do not diagnose or treat mental health conditions.",audioReps:"Guided audio Reps",audioRepsB:"Listen — the same five practices, recorded voice, 2–3 minutes each, eyes closed.",audioListen:"Listen →",preferListen:"Prefer to listen?",guidedAudio:"Guided audio version →",sessionsSub:"Bring one intention. Ria will listen for the thread, reflect your own language, and ask one question at a time. She answers right away, in her own words, and leaves you space to find your own answer.",newCoach:"New to coaching? Learn from Coaching ABC",guideHint:"Take the five-card tour before your first session.",openGuide:"Open guide",sessionsFine:'Coaching is not therapy, diagnosis, or medical care. If you may be in immediate danger or are thinking about suicide, call local emergency services. In the U.S., call or text <a href="tel:988">988</a>.',youTitle:"Your practice, today",youBody:"Your practice is saved with your account.",sessions:"sessions",minutes:"minutes",howTitle:"How Oriaya works",how1:"Mind Reps stay free",how1b:"Short coaching practices, free forever — because mental fitness grows through repetition.",how2:"Deep Sessions",how2b:"$1.99/month at launch. Deep Sessions are live now — rebuilt to listen better. A $10–15 fee may apply to severe late cancellations or no-shows for booked human sessions — it prices the empty slot, not your struggle.",how3:"Human connection, next",how3b:"Vetted human coaches and an in-person Oriaya Space are in exploration, beginning around Palo Alto and the Bay Area.",feedbackTitle:"Help shape the beta",feedbackSub:"What felt alive? What felt flat? What would make you come back?",feedbackPlaceholder:"Tell us what you noticed…",sendFeedback:"Send feedback",thanks:"Thank you — your feedback is saved with your account.",feedbackFine:'Feedback is saved with your account. Oriaya is coaching, not therapy. In the U.S., call or text <a href="tel:988">988</a> for crisis support.',back:"← Back",answerPlaceholder:"Type or speak your answer…",pause:"Pause",resume:"Resume",speak:"Speak answer",stopVoice:"Stop voice input",send:"Send answer",navHome:"Home",navReps:"Reps",navSessions:"Sessions",navYou:"You",safetyTitle:"Before your first session",safetySub:"Oriaya is a coaching space. It is built for reflection, intention, and forward movement.",coachingAsks:"Coaching asks",coachingAsksB:"What do you want? What matters? What will you choose?",therapy:"Therapy may treat",therapyB:"Trauma, mental health symptoms, diagnosis, and clinical conditions.",help:"Need immediate help?",helpB:'Oriaya is not crisis support. In the U.S., call or text <a href="tel:988">988</a>. Elsewhere, contact local emergency services.',understand:"I understand",continue:"Continue",enter:"Enter",tour:"New to coaching? Learn from Coaching ABC →",card:"CARD",of:"OF",next:"Next →",done:"Done",min:"min",about15:"Deep Session · about 15 min",mindMeta:"Mind Rep",beginSession:"Begin session",deepSoon:"Deep Sessions are live now — rebuilt to listen better.",valueHint:"Choose the closest fit, or type your own in the same answer box below.",ownValue:"Type my own ↓",keepValue:function(v){return "Keep "+v+" in view. Where does your current path already honor it, and where does it drift away?"},closerValue:function(v){return "What is one choice that would bring you a little closer to "+v+"?"},pauseLine:"That feels like a place to pause — not because the work is finished, but because you named something you can carry forward.",takeaway:"Your takeaways",takeawayHint:"These are your words, not Ria’s summary.",nextStep:"What you want to do next",practice:"Oriaya practice",copyCard:"Copy reflection card",saveCardImg:"Save card image",continueExplore:"Keep exploring",readyReflect:"Gather my takeaways",directionHint:"Would you like to stay with this, or gather what you want to carry forward?",takeawayPrompt:"What are your takeaways from today?",takeawaySkipHint:"That sounds like a not-yet, and a not-yet is honest. Takeaways only count when they are really yours.",takeawayRetry:"Try once more",takeawaySkip:"Skip the takeaway today",takeawaySkipped:"(No takeaway today — and that’s okay.)",actionPrompt:"What, if anything, do you want to do next?",closingLine:"You did the sorting. These are the words you chose to carry forward.",cameIn:function(a,b){return 'I came in wanting “'+a+'.” I am leaving with “'+b+'.”'},clarityCheck:function(s){return "You came in looking for "+s+". What feels clearer now?"},langChanged:"Language changed",feedbackHeld:"Thank you — your feedback is saved with your account.",nameSectionTitle:"Your name",nameSectionSub:"This is how Oriaya addresses you, in the app and in sessions.",save:"Save",nameSaved:"Name saved",nameLabel:"Name",reminderTitle:"Daily reminder",reminderSub:"A gentle nudge at your chosen time, while the app is open.",reminderOnLabel:"Remind me every day",reminderSaved:"Reminder saved",reminderToast:"Time for your Daily Rep — three minutes, just for you.",reflectionsTitle:"My reflections",reflectionsSub:"One line you carried forward from each practice.",reflectionsEmpty:"No reflections yet — finish a Rep or a Deep Session and your line will appear here.",planTitle:"Plan",planBeta:"Beta",planFounding:"Founding member",planBodyBeta:"Free while in beta. Deep Sessions are $1.99/month at launch for founding members.",planBodyFounding:"Founding member — Deep Sessions $1.99/month at launch. Payments aren\u2019t set up yet; you\u2019ll keep the founding price when billing opens.",dataTitle:"Your data",dataSub:"Your data is yours. Download a copy any time, or delete everything.",downloadData:"Download my data",dataReady:"Your data is downloading",
     /* Hybrid beta strings — kept in the same ui table so ZH stays in step */
     bannerAnon:"Create an account to begin.",
     bannerSignedIn:function(email){return "Signed in as "+email+" — your progress is saved."},
@@ -647,7 +745,7 @@
     badgeMinutes300:["300 Minutes","Five hours of practice."],
     badgeLocked:"Locked"
     },
-    zh:{banner:"创建账号开始使用——你的练习随账号保存。",learn:"第一次接触教练式对话？从 Coaching ABC 学起",morning:"早上好。",afternoon:"下午好。",evening:"晚上好。",eyebrow:"今日心智练习",heroTitle:"在今天被各种事情推着走之前，什么最值得你关注？",heroBody:"一段简短的引导练习。不是待办清单，而是帮你好好面对今天。",fourMinutes:"3 分钟",begin:"开始",listenHero:"♪ 收听",listenPref:"推荐",readHero:"文字版",dayStreak:"连续天数",completed:"已完成",minutesTrained:"练习分钟",choosePractice:"选择你的练习",mindReps:"心智练习",mindDesc:"用 3–5 分钟练习清晰、勇气与自我信任。",deepSessions:"深度对话",deepDesc:"由你的意图引导的教练式对话。",coachingFine:'Oriaya 提供教练式支持，不是心理治疗或医疗服务。如在美国需要紧急危机支持，请拨打或短信 <a href="tel:988">988</a>。',repsSub:"短小、可重复的对话，帮助你更有力量地面对生活。",listenBest:"听的效果更好，有些环节需要闭上眼睛。下面也有文字版，想读文字可以往下看。",repsFine:"这些练习支持反思与成长，不用于诊断或治疗心理健康问题。",audioReps:"引导音频练习",audioRepsB:"聆听，同样的五个练习，录音版，每次 2–3 分钟，闭上眼睛。",audioListen:"收听 →",preferListen:"想听录音版？",guidedAudio:"引导音频版 →",sessionsSub:"带着一个意图来。Ria 会聆听其中的线索，回应你自己的语言，并一次只问一个问题。她会马上用自己的话回应你，留给你空间，让你找到自己的答案。",newCoach:"第一次接触教练式对话？从 Coaching ABC 学起",guideHint:"首次对话前，先看完五张引导卡。",openGuide:"打开指南",sessionsFine:'教练式对话不是心理治疗、诊断或医疗服务。如果你可能面临立即危险或有自杀想法，请联系当地紧急服务。在美国，请拨打或短信 <a href="tel:988">988</a>。',youTitle:"你今天的练习",youBody:"你的练习随账号保存。",sessions:"次对话",minutes:"分钟",howTitle:"Oriaya 如何运作",how1:"心智练习永久免费",how1b:"短小的教练式练习，永久免费——因为心智韧性来自反复练习。",how2:"深度对话",how2b:"上线价每月 1.99 美元。深度对话现已上线——重新打磨，只为真正听见你。预约真人教练后如严重迟到、临时取消或缺席，可能收取 10–15 美元费用——费用对应空出的时段，而不是你的处境。",how3:"下一步：真实连接",how3b:"我们正在探索经过筛选的真人教练与线下 Oriaya Space，初期从 Palo Alto 和湾区周边开始。",feedbackTitle:"帮助我们打磨测试版",feedbackSub:"哪里让你有感觉？哪里显得平淡？什么会让你愿意再来？",feedbackPlaceholder:"告诉我们你注意到了什么……",sendFeedback:"发送反馈",thanks:"谢谢——你的反馈已随账号保存。",feedbackFine:'反馈随账号保存。Oriaya 提供教练式支持，不是心理治疗。在美国，如需危机支持请拨打或短信 <a href="tel:988">988</a>。',back:"← 返回",answerPlaceholder:"输入或说出你的回答……",pause:"暂停",resume:"继续",speak:"语音回答",stopVoice:"停止语音输入",send:"发送回答",navHome:"首页",navReps:"练习",navSessions:"对话",navYou:"我的",safetyTitle:"第一次对话前",safetySub:"Oriaya 是一个教练式成长空间，支持反思、意图与向前行动。",coachingAsks:"教练式对话会问",coachingAsksB:"你想要什么？什么重要？你会如何选择？",therapy:"心理治疗可能处理",therapyB:"创伤、心理健康症状、诊断与临床问题。",help:"需要立即帮助？",helpB:'Oriaya 不提供危机干预。在美国，请拨打或短信 <a href="tel:988">988</a>；其他地区请联系当地紧急服务。',understand:"我明白",continue:"继续",enter:"进入",tour:"第一次接触教练式对话？从 Coaching ABC 学起 →",card:"卡片",of:"共",next:"下一张 →",done:"完成",min:"分钟",about15:"深度对话 · 约 15 分钟",mindMeta:"心智练习",beginSession:"开始对话",deepSoon:"深度对话现已上线——重新打磨，只为真正听见你。",valueHint:"选择最接近的一项，或在下方输入框写下你自己的答案。",ownValue:"输入自己的价值观 ↓",keepValue:function(v){return "把“"+v+"”放在心里。你现在的选择在哪些地方已经体现了它，又在哪些地方偏离了它？"},closerValue:function(v){return "什么选择能让你向“"+v+"”再靠近一点？"},pauseLine:"这里适合停一停——不是因为探索结束了，而是因为你已经说出了一件可以带走的事。",takeaway:"你今天的收获",takeawayHint:"这是你自己的梳理，不是 Ria 替你做的总结。",nextStep:"你想做的下一步",practice:"Oriaya 练习",copyCard:"复制回顾卡",saveCardImg:"保存卡片图片",continueExplore:"继续聊",readyReflect:"梳理今天的收获",directionHint:"你想继续沿着这条线聊，还是开始梳理今天想带走的东西？",takeawayPrompt:"今天的对话里，你的 takeaways 是什么？",takeawaySkipHint:"这听起来像是一个“还没想好”——这很诚实。收获只有在真正属于你时才算数。",takeawayRetry:"再试一次",takeawaySkip:"今天先不记",takeawaySkipped:"（今天没有记下收获——这也没关系。）",actionPrompt:"接下来，你想做什么？如果现在不需要行动，也可以直接说。",closingLine:"是你完成了梳理。这里留下的是你自己选择带走的话。",cameIn:function(a,b){return '来时我想要“'+a+'”；离开时我带着“'+b+'”。'},clarityCheck:function(s){return "你来时想找到"+s+"。现在，什么变得更清楚了？"},langChanged:"语言已切换",feedbackHeld:"谢谢——你的反馈已随账号保存。",
+    zh:{banner:"创建账号开始使用——你的练习随账号保存。",learn:"第一次接触教练式对话？从 Coaching ABC 学起",morning:"早上好。",afternoon:"下午好。",evening:"晚上好。",eyebrow:"今日心智练习",heroTitle:"在今天被各种事情推着走之前，什么最值得你关注？",heroBody:"一段简短的引导练习。不是待办清单，而是帮你好好面对今天。",fourMinutes:"3 分钟",begin:"开始",listenHero:"♪ 收听",listenPref:"推荐",readHero:"文字版",dayStreak:"连续天数",completed:"已完成",minutesTrained:"练习分钟",choosePractice:"选择你的练习",mindReps:"心智练习",mindDesc:"用 3–5 分钟练习清晰、勇气与自我信任。",deepSessions:"深度对话",deepDesc:"由你的意图引导的教练式对话。",coachingFine:'Oriaya 提供教练式支持，不是心理治疗或医疗服务。如在美国需要紧急危机支持，请拨打或短信 <a href="tel:988">988</a>。',repsSub:"短小、可重复的对话，帮助你更有力量地面对生活。",listenBest:"听的效果更好，有些环节需要闭上眼睛。下面也有文字版，想读文字可以往下看。",repsFine:"这些练习支持反思与成长，不用于诊断或治疗心理健康问题。",audioReps:"引导音频练习",audioRepsB:"聆听，同样的五个练习，录音版，每次 2–3 分钟，闭上眼睛。",audioListen:"收听 →",preferListen:"想听录音版？",guidedAudio:"引导音频版 →",sessionsSub:"带着一个意图来。Ria 会聆听其中的线索，回应你自己的语言，并一次只问一个问题。她会马上用自己的话回应你，留给你空间，让你找到自己的答案。",newCoach:"第一次接触教练式对话？从 Coaching ABC 学起",guideHint:"首次对话前，先看完五张引导卡。",openGuide:"打开指南",sessionsFine:'教练式对话不是心理治疗、诊断或医疗服务。如果你可能面临立即危险或有自杀想法，请联系当地紧急服务。在美国，请拨打或短信 <a href="tel:988">988</a>。',youTitle:"你今天的练习",youBody:"你的练习随账号保存。",sessions:"次对话",minutes:"分钟",howTitle:"Oriaya 如何运作",how1:"心智练习永久免费",how1b:"短小的教练式练习，永久免费——因为心智韧性来自反复练习。",how2:"深度对话",how2b:"上线价每月 1.99 美元。深度对话现已上线——重新打磨，只为真正听见你。预约真人教练后如严重迟到、临时取消或缺席，可能收取 10–15 美元费用——费用对应空出的时段，而不是你的处境。",how3:"下一步：真实连接",how3b:"我们正在探索经过筛选的真人教练与线下 Oriaya Space，初期从 Palo Alto 和湾区周边开始。",feedbackTitle:"帮助我们打磨测试版",feedbackSub:"哪里让你有感觉？哪里显得平淡？什么会让你愿意再来？",feedbackPlaceholder:"告诉我们你注意到了什么……",sendFeedback:"发送反馈",thanks:"谢谢——你的反馈已随账号保存。",feedbackFine:'反馈随账号保存。Oriaya 提供教练式支持，不是心理治疗。在美国，如需危机支持请拨打或短信 <a href="tel:988">988</a>。',back:"← 返回",answerPlaceholder:"输入或说出你的回答……",pause:"暂停",resume:"继续",speak:"语音回答",stopVoice:"停止语音输入",send:"发送回答",navHome:"首页",navReps:"练习",navSessions:"对话",navYou:"我的",safetyTitle:"第一次对话前",safetySub:"Oriaya 是一个教练式成长空间，支持反思、意图与向前行动。",coachingAsks:"教练式对话会问",coachingAsksB:"你想要什么？什么重要？你会如何选择？",therapy:"心理治疗可能处理",therapyB:"创伤、心理健康症状、诊断与临床问题。",help:"需要立即帮助？",helpB:'Oriaya 不提供危机干预。在美国，请拨打或短信 <a href="tel:988">988</a>；其他地区请联系当地紧急服务。',understand:"我明白",continue:"继续",enter:"进入",tour:"第一次接触教练式对话？从 Coaching ABC 学起 →",card:"卡片",of:"共",next:"下一张 →",done:"完成",min:"分钟",about15:"深度对话 · 约 15 分钟",mindMeta:"心智练习",beginSession:"开始对话",deepSoon:"深度对话现已上线——重新打磨，只为真正听见你。",valueHint:"选择最接近的一项，或在下方输入框写下你自己的答案。",ownValue:"输入自己的价值观 ↓",keepValue:function(v){return "把“"+v+"”放在心里。你现在的选择在哪些地方已经体现了它，又在哪些地方偏离了它？"},closerValue:function(v){return "什么选择能让你向“"+v+"”再靠近一点？"},pauseLine:"这里适合停一停——不是因为探索结束了，而是因为你已经说出了一件可以带走的事。",takeaway:"你今天的收获",takeawayHint:"这是你自己的梳理，不是 Ria 替你做的总结。",nextStep:"你想做的下一步",practice:"Oriaya 练习",copyCard:"复制回顾卡",saveCardImg:"保存卡片图片",continueExplore:"继续聊",readyReflect:"梳理今天的收获",directionHint:"你想继续沿着这条线聊，还是开始梳理今天想带走的东西？",takeawayPrompt:"今天的对话里，你的 takeaways 是什么？",takeawaySkipHint:"这听起来像是一个“还没想好”——这很诚实。收获只有在真正属于你时才算数。",takeawayRetry:"再试一次",takeawaySkip:"今天先不记",takeawaySkipped:"（今天没有记下收获——这也没关系。）",actionPrompt:"接下来，你想做什么？如果现在不需要行动，也可以直接说。",closingLine:"是你完成了梳理。这里留下的是你自己选择带走的话。",cameIn:function(a,b){return '来时我想要“'+a+'”；离开时我带着“'+b+'”。'},clarityCheck:function(s){return "你来时想找到"+s+"。现在，什么变得更清楚了？"},langChanged:"语言已切换",feedbackHeld:"谢谢——你的反馈已随账号保存。",nameSectionTitle:"名字",nameSectionSub:"Oriaya 在应用和对话里就这样称呼你。",save:"保存",nameSaved:"名字已保存",nameLabel:"名字",reminderTitle:"每日提醒",reminderSub:"在你选定的时间轻轻提醒你，应用打开时有效。",reminderOnLabel:"每天提醒我",reminderSaved:"提醒已保存",reminderToast:"到每日练习的时间了——三分钟，只属于你。",reflectionsTitle:"我的感悟",reflectionsSub:"每次练习后你带走的那一行话。",reflectionsEmpty:"还没有感悟——完成一次练习或深度对话，你写的那行话会出现在这里。",planTitle:"套餐",planBeta:"测试版",planFounding:"创始会员",planBodyBeta:"测试期间免费。深度对话上线价为创始会员每月 1.99 美元。",planBodyFounding:"创始会员——深度对话上线价每月 1.99 美元。支付功能尚未开通，开通后你仍享受创始会员价。",dataTitle:"你的数据",dataSub:"你的数据属于你。随时可以下载一份副本，也可以全部删除。",downloadData:"下载我的数据",dataReady:"正在下载你的数据",
     bannerAnon:"创建账号开始使用。",
     bannerSignedIn:function(email){return "已登录 "+email+"——你的进度已保存。"},
     bannerSetup:"账号功能需要先完成配置（见 SETUP.md）。配置完成后，创建账号开始使用。",
@@ -1356,6 +1454,9 @@
   $("accountBtn").onclick=openAccountSheet;
   $("closeAccount").onclick=function(){$("accountOverlay").classList.remove("show")};
   $("signOutBtn").onclick=function(){if(auth)auth.signOut();$("accountOverlay").classList.remove("show")};
+  $("saveNameBtn").onclick=saveDisplayName;
+  $("saveReminderBtn").onclick=saveReminder;
+  $("downloadDataBtn").onclick=downloadMyData;
   $("authToggleBtn").onclick=function(){state.authMode=state.authMode==="signup"?"signin":"signup";$("authError").textContent="";refreshHybridText()};
   $("forgotBtn").onclick=function(){
     var x=ui[state.lang],email=$("authEmail").value.trim();
@@ -1370,7 +1471,12 @@
     var email=$("authEmail").value.trim(),pw=$("authPassword").value;
     $("authError").textContent="";
     var p=state.authMode==="signup"?auth.createUserWithEmailAndPassword(email,pw):auth.signInWithEmailAndPassword(email,pw);
-    p.then(function(){$("accountOverlay").classList.remove("show")}).catch(function(err){
+    p.then(function(cred){
+      if(state.authMode==="signup"){
+        var nm=$("authName").value.trim();
+        if(nm&&cred&&cred.user)return cred.user.updateProfile({displayName:nm}).then(function(){state.user=auth.currentUser;refreshHybridText()});
+      }
+    }).then(function(){$("accountOverlay").classList.remove("show")}).catch(function(err){
       if(err&&err.code==="auth/email-already-in-use"){state.authMode="signin";refreshHybridText()}
       $("authError").textContent=x.authGeneric;
     });
@@ -1386,6 +1492,7 @@
   ["accountOverlay","inviteOverlay"].forEach(function(id){$(id).addEventListener("click",function(e){if(e.target===this){this.classList.remove("show");if(id==="inviteOverlay"){state.pendingInvite=null;try{sessionStorage.removeItem("oriaya_pending_invite")}catch(e){}}}})});
   initFirebase();
   checkPendingInvite();
+  setInterval(maybeRemind,60000);
   /* Test hook for verification only: pure helpers + live state. */
   window.__oriaya={computeStreak:computeStreak,evaluateBadges:evaluateBadges,badgeDefs:badgeDefs,state:state,dayKey:dayKey,weekKey:weekKey};
   applyLanguage("en",false);if(!tourSeen())$("onboarding").classList.add("show");
