@@ -1,24 +1,232 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Daily Reps — Oriaya</title>
-<style>body{font-family:system-ui,sans-serif;max-width:680px;margin:24px auto;padding:0 16px;color:#222;line-height:1.6}h1{font-size:22px}h2{font-size:17px;margin-top:28px}.card{border:1px solid #ddd;border-radius:12px;padding:14px 16px;margin:12px 0}audio{width:100%}p.small{color:#666;font-size:13px}.q{font-style:italic}</style></head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f1e7;--surface:#fffdf7;--paper-2:#efe8d8;--ink:#2b2620;--muted:#8a8172;--sage:#7d8b6f;--gold:#D9A94E;--line:#e5dcc9}
+*{box-sizing:border-box}
+body{font-family:Manrope,system-ui,sans-serif;max-width:680px;margin:0 auto;padding:28px 18px 64px;background:var(--paper);color:var(--ink);line-height:1.6}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font:400 32px/1.2 "Libre Baskerville",Georgia,serif;margin:8px 0 4px}
+h2{font:400 24px/1.3 "Libre Baskerville",Georgia,serif;margin:6px 0}
+.small{color:var(--muted);font-size:13px}
+.lang-toggle{display:flex;gap:8px;margin:16px 0 4px}
+.lang-toggle button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 16px;font:600 13px Manrope,sans-serif;color:var(--muted);cursor:pointer}
+.lang-toggle button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.list-card{width:100%;border:1px solid var(--line);background:var(--surface);padding:16px;display:grid;grid-template-columns:43px 1fr auto;align-items:center;gap:13px;text-align:left;border-radius:7px 18px 18px 18px;cursor:pointer;box-shadow:0 2px 10px rgba(43,38,32,.05);margin:12px 0;font-family:Manrope,sans-serif;color:var(--ink)}
+.list-card .num{width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);font:400 15px "Libre Baskerville",serif}
+.list-card h3{font-family:Manrope,sans-serif;font-size:14px;font-weight:700;margin:0}
+.list-card p{font-size:12px;color:var(--muted);margin:4px 0 0;line-height:1.4}
+.list-card .mini{font-size:11px;color:var(--sage);font-weight:700;white-space:nowrap}
+.back{background:none;border:0;padding:0;font:600 13px Manrope,sans-serif;color:var(--muted);cursor:pointer;margin-bottom:6px}
+audio{width:100%;margin:14px 0 4px}
+.player-note{font-size:12px;color:var(--muted)}
+.reflect{border-top:1px solid var(--line);margin-top:20px;padding-top:18px}
+.reflect .q{font:italic 18px/1.55 "Libre Baskerville",Georgia,serif;margin:8px 0 12px}
+.reflect input{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 14px;font:400 15px Manrope,sans-serif;background:var(--surface);color:var(--ink)}
+.btn{display:inline-block;border:0;border-radius:999px;padding:12px 22px;font:700 14px Manrope,sans-serif;cursor:pointer;margin:12px 8px 0 0}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.secondary{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.card-preview{margin-top:20px}
+.card-preview img{width:100%;max-width:420px;border-radius:12px;box-shadow:0 6px 24px rgba(43,38,32,.16);display:block}
+.saved-note{font-size:13px;color:var(--sage);font-weight:700;margin-top:12px}
+.next-link{display:block;margin-top:22px;font:700 14px Manrope,sans-serif;color:var(--ink);cursor:pointer;background:none;border:0;padding:0}
+footer{margin-top:36px;font-size:12px;color:var(--muted)}
+.hidden{display:none}
+</style></head>
 <body>
-<h1>Daily Reps</h1>
-<p class="small">Five short guided practices. Close your eyes and listen — each one takes two to three minutes. Each begins with a short introduction, then a few cues with silence in between.</p>
-<p class="small">When a practice ends, answer the question in one line, in your own words. That is the whole practice.</p>
+<header>
+  <span class="eyebrow">Oriaya &middot; Daily Reps</span>
+  <h1 id="pageTitle">Daily Reps</h1>
+  <p class="small" id="intro1"></p>
+  <p class="small" id="intro2"></p>
+  <div class="lang-toggle">
+    <button id="langEn" type="button">English</button>
+    <button id="langZh" type="button">&#20013;&#25991;</button>
+  </div>
+</header>
 
-<div class="card"><h2>1. Body Scan — Notice (2:42)</h2><audio controls preload="none" src="assets/reps-her-pq/body-scan-en.mp3"></audio><p class="q">Which part of your body felt the tightest today?</p></div>
-<div class="card"><h2>2. Naming — Give It a Name (2:58)</h2><audio controls preload="none" src="assets/reps-her-pq/naming-en.mp3"></audio><p class="q">What name did you give that feeling today?</p></div>
-<div class="card"><h2>3. Sealing — Note It Down, Put It Away (3:04)</h2><audio controls preload="none" src="assets/reps-her-pq/sealing-en.mp3"></audio><p class="q">Which passage did you want to seal for now?</p></div>
-<div class="card"><h2>4. Senses — Back to the Present (3:29)</h2><audio controls preload="none" src="assets/reps-her-pq/senses-en.mp3"></audio><p class="q">Which small thing brought you back to the present?</p><p class="small">For this one, keep your eyes open.</p></div>
-<div class="card"><h2>5. Focus — One Thing at a Time (3:07)</h2><audio controls preload="none" src="assets/reps-her-pq/focus-en.mp3"></audio><p class="q">What was the one small thing you focused on today?</p></div>
+<main id="listView"></main>
 
-<h1>每日练习</h1>
-<p class="small">五个简短的引导练习。闭上眼睛，跟着声音走，每个两到三分钟。每个练习先有一段简短引导，然后是几句提示，中间留白。</p>
-<p class="small">练完之后，回答下面那个问题，用自己的话写下一行。这就是整个练习。</p>
-<div class="card"><h2>1. 身体扫描 — 觉察 (2:46)</h2><audio controls preload="none" src="assets/reps-her-pq/body-scan-zh.mp3"></audio><p class="q">今天，你身体的哪个部位最紧？</p></div>
-<div class="card"><h2>2. 命名 — 给它一个名字 (3:07)</h2><audio controls preload="none" src="assets/reps-her-pq/naming-zh.mp3"></audio><p class="q">今天，你给那个感受起了什么名字？</p></div>
-<div class="card"><h2>3. 封存 — 写下来，放进盒子 (3:03)</h2><audio controls preload="none" src="assets/reps-her-pq/sealing-zh.mp3?v=3"></audio><p class="q">今天，你想先封存哪一段话？</p></div>
-<div class="card"><h2>4. 感官 — 回到当下 (3:12)</h2><audio controls preload="none" src="assets/reps-her-pq/senses-zh.mp3"></audio><p class="q">今天，是哪个小东西把你带回了当下？</p><p class="small">这一段保持眼睛睁开。</p></div>
-<div class="card"><h2>5. 专注 — 一次只做一件事 (2:47)</h2><audio controls preload="none" src="assets/reps-her-pq/focus-zh.mp3?v=3"></audio><p class="q">今天，你专注的那件小事是什么？</p></div>
+<main id="detailView" class="hidden">
+  <button class="back" id="backBtn" type="button"></button>
+  <span class="eyebrow" id="detailNum"></span>
+  <h2 id="detailTitle"></h2>
+  <p class="small" id="detailDesc"></p>
+  <audio id="player" controls preload="none"></audio>
+  <p class="player-note" id="detailNote"></p>
+  <div class="reflect">
+    <span class="eyebrow" id="reflectLabel"></span>
+    <p class="q" id="reflectQ"></p>
+    <input id="lineInput" type="text" maxlength="140" autocomplete="off">
+    <br>
+    <button class="btn primary" id="saveBtn" type="button"></button>
+    <p class="saved-note hidden" id="savedNote"></p>
+    <div class="card-preview hidden" id="cardPreview">
+      <img id="cardImg" alt="Your Daily Rep card">
+      <br>
+      <button class="btn primary" id="downloadBtn" type="button"></button>
+      <button class="btn secondary" id="shareBtn" type="button"></button>
+    </div>
+  </div>
+  <button class="next-link" id="nextBtn" type="button"></button>
+</main>
+
+<footer id="footNote"></footer>
+
+<script>
+var PRACTICES=[
+ {n:"01",
+  en:{title:"Body Scan",sub:"Notice",desc:"Hear what your body is already saying.",dur:"2:42",src:"assets/reps-her-pq/body-scan-en.mp3",q:"Which part of your body felt the tightest today?",note:""},
+  zh:{title:"\u8eab\u4f53\u626b\u63cf",sub:"\u89c9\u5bdf",desc:"\u542c\u4e00\u542c\uff0c\u8eab\u4f53\u5df2\u7ecf\u5728\u8bf4\u4ec0\u4e48\u3002",dur:"2:46",src:"assets/reps-her-pq/body-scan-zh.mp3",q:"\u4eca\u5929\uff0c\u4f60\u8eab\u4f53\u7684\u54ea\u4e2a\u90e8\u4f4d\u6700\u7d27\uff1f",note:""}},
+ {n:"02",
+  en:{title:"Naming",sub:"Give It a Name",desc:"Give the feeling a name, and it loosens its grip.",dur:"2:58",src:"assets/reps-her-pq/naming-en.mp3",q:"What name did you give that feeling today?",note:""},
+  zh:{title:"\u547d\u540d",sub:"\u7ed9\u5b83\u4e00\u4e2a\u540d\u5b57",desc:"\u7ed9\u611f\u53d7\u4e00\u4e2a\u540d\u5b57\uff0c\u5b83\u5c31\u677e\u5f00\u4e86\u3002",dur:"3:07",src:"assets/reps-her-pq/naming-zh.mp3",q:"\u4eca\u5929\uff0c\u4f60\u7ed9\u90a3\u4e2a\u611f\u53d7\u8d77\u4e86\u4ec0\u4e48\u540d\u5b57\uff1f",note:""}},
+ {n:"03",
+  en:{title:"Sealing",sub:"Note It Down, Put It Away",desc:"Put it down gently, for now.",dur:"3:04",src:"assets/reps-her-pq/sealing-en.mp3",q:"Which passage did you want to seal for now?",note:""},
+  zh:{title:"\u5c01\u5b58",sub:"\u5199\u4e0b\u6765\uff0c\u653e\u8fdb\u76d2\u5b50",desc:"\u5148\u628a\u5b83\u8f7b\u8f7b\u653e\u4e0b\u6765\u3002",dur:"3:03",src:"assets/reps-her-pq/sealing-zh.mp3?v=3",q:"\u4eca\u5929\uff0c\u4f60\u60f3\u5148\u5c01\u5b58\u54ea\u4e00\u6bb5\u8bdd\uff1f",note:""}},
+ {n:"04",
+  en:{title:"Senses",sub:"Back to the Present",desc:"Come back to now, through your senses.",dur:"3:29",src:"assets/reps-her-pq/senses-en.mp3",q:"Which small thing brought you back to the present?",note:"For this one, keep your eyes open."},
+  zh:{title:"\u611f\u5b98",sub:"\u56de\u5230\u5f53\u4e0b",desc:"\u7528\u611f\u5b98\u56de\u5230\u73b0\u5728\u3002",dur:"3:12",src:"assets/reps-her-pq/senses-zh.mp3",q:"\u4eca\u5929\uff0c\u662f\u54ea\u4e2a\u5c0f\u4e1c\u897f\u628a\u4f60\u5e26\u56de\u4e86\u5f53\u4e0b\uff1f",note:"\u8fd9\u4e00\u6bb5\u4fdd\u6301\u773c\u775b\u7741\u5f00\u3002"}},
+ {n:"05",
+  en:{title:"Focus",sub:"One Thing at a Time",desc:"Choose one small thing, and do just that.",dur:"3:07",src:"assets/reps-her-pq/focus-en.mp3",q:"What was the one small thing you focused on today?",note:""},
+  zh:{title:"\u4e13\u6ce8",sub:"\u4e00\u6b21\u53ea\u505a\u4e00\u4ef6\u4e8b",desc:"\u9009\u4e00\u4ef6\u5c0f\u4e8b\uff0c\u53ea\u505a\u8fd9\u4e00\u4ef6\u3002",dur:"2:47",src:"assets/reps-her-pq/focus-zh.mp3?v=3",q:"\u4eca\u5929\uff0c\u4f60\u4e13\u6ce8\u7684\u90a3\u4ef6\u5c0f\u4e8b\u662f\u4ec0\u4e48\uff1f",note:""}}
+];
+var STR={
+ en:{pageTitle:"Daily Reps",intro1:"Five short guided practices. Close your eyes and listen \u2014 each one takes two to three minutes. Each begins with a short introduction, then a few cues with silence in between.",intro2:"When a practice ends, answer the question in one line, in your own words. That is the whole practice.",back:"\u2190 All practices",reflect:"After you listen",placeholder:"Write one line, in your own words\u2026",save:"Save my line",saved:"Saved \u2014 this is your card for today.",download:"Download card",share:"Share",next:"Next practice \u2192",listen:"Listen",foot:"Oriaya is coaching, not therapy or medical care.",needLine:"Write one line first.",shared:"Card shared.",downloaded:"Card downloaded."},
+ zh:{pageTitle:"\u6bcf\u65e5\u7ec3\u4e60",intro1:"\u4e94\u4e2a\u7b80\u77ed\u7684\u5f15\u5bfc\u7ec3\u4e60\u3002\u95ed\u4e0a\u773c\u775b\uff0c\u8ddf\u7740\u58f0\u97f3\u8d70\uff0c\u6bcf\u4e2a\u4e24\u5230\u4e09\u5206\u949f\u3002\u6bcf\u4e2a\u7ec3\u4e60\u5148\u6709\u4e00\u6bb5\u7b80\u77ed\u5f15\u5bfc\uff0c\u7136\u540e\u662f\u51e0\u53e5\u63d0\u793a\uff0c\u4e2d\u95f4\u7559\u767d\u3002",intro2:"\u7ec3\u5b8c\u4e4b\u540e\uff0c\u56de\u7b54\u4e0b\u9762\u90a3\u4e2a\u95ee\u9898\uff0c\u7528\u81ea\u5df1\u7684\u8bdd\u5199\u4e0b\u4e00\u884c\u3002\u8fd9\u5c31\u662f\u6574\u4e2a\u7ec3\u4e60\u3002",back:"\u2190 \u5168\u90e8\u7ec3\u4e60",reflect:"\u542c\u5b8c\u4e4b\u540e",placeholder:"\u7528\u81ea\u5df1\u7684\u8bdd\uff0c\u5199\u4e0b\u4e00\u884c\u2026",save:"\u4fdd\u5b58\u8fd9\u4e00\u884c",saved:"\u5df2\u4fdd\u5b58\uff0c\u8fd9\u662f\u4f60\u4eca\u5929\u7684\u5361\u7247\u3002",download:"\u4e0b\u8f7d\u5361\u7247",share:"\u5206\u4eab",next:"\u4e0b\u4e00\u4e2a\u7ec3\u4e60 \u2192",listen:"\u542c",foot:"Oriaya \u63d0\u4f9b\u6559\u7ec3\u5f0f\u652f\u6301\uff0c\u4e0d\u662f\u5fc3\u7406\u6cbb\u7597\u6216\u533b\u7597\u670d\u52a1\u3002",needLine:"\u5148\u5199\u4e0b\u4e00\u884c\u3002",shared:"\u5361\u7247\u5df2\u5206\u4eab\u3002",downloaded:"\u5361\u7247\u5df2\u4e0b\u8f7d\u3002"}
+};
+var lang="en", current=0, currentLine="";
+var $=function(id){return document.getElementById(id)};
+function todayKey(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function storeKey(p){return todayKey()+"|"+p.en.title+"|"+lang}
+function loadLines(){try{return JSON.parse(localStorage.getItem("oriayaDailyRepLines")||"{}")}catch(e){return{}}}
+function saveLines(o){try{localStorage.setItem("oriayaDailyRepLines",JSON.stringify(o))}catch(e){}}
+function t(){return STR[lang]}
+function renderLang(){
+  var x=t();
+  $("pageTitle").textContent=x.pageTitle;
+  $("intro1").textContent=x.intro1;
+  $("intro2").textContent=x.intro2;
+  $("footNote").textContent=x.foot;
+  $("langEn").className=lang==="en"?"on":"";
+  $("langZh").className=lang==="zh"?"on":"";
+  document.documentElement.lang=lang==="zh"?"zh-CN":"en";
+  renderList();
+  if(!$("detailView").className.match(/hidden/))showDetail(current,false);
+}
+function renderList(){
+  var x=t(),html="";
+  PRACTICES.forEach(function(p,i){
+    var d=p[lang];
+    html+='<button class="list-card" type="button" data-i="'+i+'"><span class="num">'+p.n+'</span><span><h3>'+d.title+' \u2014 '+d.sub+'</h3><p>'+d.desc+'</p></span><span class="mini">'+x.listen+' \u00b7 '+d.dur+'</span></button>';
+  });
+  $("listView").innerHTML=html;
+  var cards=$("listView").querySelectorAll(".list-card");
+  for(var k=0;k<cards.length;k++){cards[k].onclick=function(){showDetail(+this.getAttribute("data-i"),true)}}
+}
+function showDetail(i,scroll){
+  current=i;
+  var p=PRACTICES[i],d=p[lang],x=t();
+  $("listView").className="hidden";
+  $("detailView").className="";
+  $("backBtn").textContent=x.back;
+  $("detailNum").textContent="Daily Rep "+p.n+" / 05";
+  $("detailTitle").textContent=d.title+" \u2014 "+d.sub;
+  $("detailDesc").textContent=d.desc;
+  var player=$("player");
+  player.pause();
+  player.src=d.src;
+  player.load();
+  $("detailNote").textContent=d.note||"";
+  $("reflectLabel").textContent=x.reflect;
+  $("reflectQ").textContent=d.q;
+  $("lineInput").placeholder=x.placeholder;
+  $("saveBtn").textContent=x.save;
+  $("downloadBtn").textContent=x.download;
+  $("shareBtn").textContent=x.share;
+  $("nextBtn").textContent=i<4?x.next:"";
+  $("nextBtn").style.display=i<4?"":"none";
+  var lines=loadLines(),saved=lines[storeKey(p)]||"";
+  currentLine=saved;
+  $("lineInput").value=saved;
+  $("savedNote").className="saved-note hidden";
+  if(saved){renderCard(p,saved);$("savedNote").textContent=x.saved;$("savedNote").className="saved-note"}
+  else{$("cardPreview").className="card-preview hidden"}
+  if(scroll)window.scrollTo(0,0);
+}
+function showList(){
+  $("player").pause();
+  $("detailView").className="hidden";
+  $("listView").className="";
+  window.scrollTo(0,0);
+}
+function wrapText(g,text,cx,y,maxW,lineH){
+  var words=text.split(" "),lines=[],cur="";
+  words.forEach(function(w){var t=cur?cur+" "+w:w;if(g.measureText(t).width>maxW&&cur){lines.push(cur);cur=w}else cur=t});
+  if(cur)lines.push(cur);
+  lines.forEach(function(ln,i){g.fillText(ln,cx,y+i*lineH)});
+}
+function drawCard(p,line){
+  var W=1080,H=1350,cv=document.createElement("canvas");cv.width=W;cv.height=H;var g=cv.getContext("2d");
+  g.fillStyle="#f7f2e7";g.fillRect(0,0,W,H);
+  g.strokeStyle="#D9A94E";g.lineWidth=3;g.strokeRect(48,48,W-96,H-96);
+  g.fillStyle="#D9A94E";[-70,0,70].forEach(function(dx){g.fillRect(W/2+dx-5,150,10,90)});
+  g.textAlign="center";
+  g.fillStyle="#8a8172";g.font="600 34px Manrope, sans-serif";g.fillText("O R I A Y A",W/2,310);
+  g.fillStyle="#2b2620";g.font="64px 'Libre Baskerville', Georgia, serif";g.fillText(p[lang].title,W/2,430);
+  var day=new Date().toLocaleDateString(lang==="zh"?"zh-CN":"en-US",{year:"numeric",month:"long",day:"numeric"});
+  g.fillStyle="#8a8172";g.font="30px Manrope, sans-serif";g.fillText(day,W/2,492);
+  g.fillStyle="#D9A94E";g.fillRect(W/2-60,548,120,3);
+  g.fillStyle="#2b2620";g.font="italic 54px 'Libre Baskerville', Georgia, serif";
+  wrapText(g,"\u201c"+line+"\u201d",W/2,680,880,84);
+  g.fillStyle="#8a8172";g.font="28px Manrope, sans-serif";g.fillText("Daily Rep \u00b7 oriaya.github.io",W/2,H-150);
+  return cv;
+}
+function renderCard(p,line){
+  var cv=drawCard(p,line);
+  $("cardImg").src=cv.toDataURL("image/png");
+  $("cardPreview").className="card-preview";
+}
+function downloadCard(p,line){
+  drawCard(p,line).toBlob(function(blob){
+    if(!blob)return;
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="oriaya-daily-rep-"+todayKey()+".png";
+    document.body.appendChild(a);a.click();a.remove();
+  },"image/png");
+}
+$("backBtn").onclick=showList;
+$("nextBtn").onclick=function(){showDetail((current+1)%5,true)};
+$("langEn").onclick=function(){lang="en";renderLang()};
+$("langZh").onclick=function(){lang="zh";renderLang()};
+$("saveBtn").onclick=function(){
+  var line=$("lineInput").value.trim();
+  if(!line){$("lineInput").focus();return}
+  var p=PRACTICES[current],lines=loadLines();
+  lines[storeKey(p)]=line;saveLines(lines);
+  currentLine=line;
+  renderCard(p,line);
+  $("savedNote").textContent=t().saved;
+  $("savedNote").className="saved-note";
+};
+$("downloadBtn").onclick=function(){
+  if(!currentLine){$("lineInput").focus();return}
+  downloadCard(PRACTICES[current],currentLine);
+};
+$("shareBtn").onclick=function(){
+  if(!currentLine){$("lineInput").focus();return}
+  var p=PRACTICES[current];
+  drawCard(p,currentLine).toBlob(function(blob){
+    if(!blob)return;
+    var file=new File([blob],"oriaya-daily-rep.png",{type:"image/png"});
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({files:[file]}).catch(function(){downloadCard(p,currentLine)});
+    }else{downloadCard(p,currentLine)}
+  },"image/png");
+};
+renderLang();
+</script>
 </body></html>
