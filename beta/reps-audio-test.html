@@ -41,6 +41,7 @@ footer{margin-top:36px;font-size:12px;color:var(--muted)}
   <h1 id="pageTitle">Daily Reps</h1>
   <p class="small" id="intro1"></p>
   <p class="small" id="intro2"></p>
+  <p class="small" id="streakLine"></p>
   <div class="lang-toggle">
     <button id="langEn" type="button">English</button>
     <button id="langZh" type="button">&#20013;&#25991;</button>
@@ -101,9 +102,25 @@ var lang="en", current=0, currentLine="";
 var $=function(id){return document.getElementById(id)};
 function todayKey(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
 function storeKey(p){return todayKey()+"|"+p.en.title+"|"+lang}
+function repStreak(){
+  var lines=loadLines(),days={};
+  Object.keys(lines).forEach(function(k){var d=k.split("|")[0];if(/^\d{4}-\d{2}-\d{2}$/.test(d))days[d]=1});
+  var cur=new Date();cur.setHours(0,0,0,0);
+  var key=function(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)};
+  if(!days[key(cur)])cur.setDate(cur.getDate()-1);
+  var n=0;
+  while(days[key(cur)]){n++;cur.setDate(cur.getDate()-1)}
+  return n;
+}
+function streakLabel(n){return lang==="zh"?"\u8fde\u7eed "+n+" \u5929":n+"-day streak"}
 function loadLines(){try{return JSON.parse(localStorage.getItem("oriayaDailyRepLines")||"{}")}catch(e){return{}}}
 function saveLines(o){try{localStorage.setItem("oriayaDailyRepLines",JSON.stringify(o))}catch(e){}}
 function t(){return STR[lang]}
+function renderStreak(){
+  var n=repStreak(),el=$("streakLine");if(!el)return;
+  el.textContent=n>0?streakLabel(n):"";
+  el.style.display=n>0?"":"none";
+}
 function renderLang(){
   var x=t();
   $("pageTitle").textContent=x.pageTitle;
@@ -113,7 +130,7 @@ function renderLang(){
   $("langEn").className=lang==="en"?"on":"";
   $("langZh").className=lang==="zh"?"on":"";
   document.documentElement.lang=lang==="zh"?"zh-CN":"en";
-  renderList();
+  renderList();renderStreak();
   if(!$("detailView").className.match(/hidden/))showDetail(current,false);
 }
 function renderList(){
@@ -181,6 +198,8 @@ function drawCard(p,line){
   g.fillStyle="#D9A94E";g.fillRect(W/2-60,548,120,3);
   g.fillStyle="#2b2620";g.font="italic 54px 'Libre Baskerville', Georgia, serif";
   wrapText(g,"\u201c"+line+"\u201d",W/2,680,880,84);
+  var st=repStreak();
+  if(st>0){g.fillStyle="#D9A94E";g.font="600 36px Manrope, sans-serif";g.fillText(streakLabel(st),W/2,H-230);}
   g.fillStyle="#8a8172";g.font="28px Manrope, sans-serif";g.fillText("Daily Rep \u00b7 oriaya.github.io",W/2,H-150);
   return cv;
 }
@@ -208,7 +227,7 @@ $("saveBtn").onclick=function(){
   var p=PRACTICES[current],lines=loadLines();
   lines[storeKey(p)]=line;saveLines(lines);
   currentLine=line;
-  renderCard(p,line);
+  renderCard(p,line);renderStreak();
   $("savedNote").textContent=t().saved;
   $("savedNote").className="saved-note";
 };
@@ -228,6 +247,5 @@ $("shareBtn").onclick=function(){
   },"image/png");
 };
 renderLang();
-(function(){var n=new URLSearchParams(location.search).get("rep");if(n===null)return;var i=parseInt(n,10);if(i>=0&&i<PRACTICES.length)showDetail(i,false)})();
 </script>
 </body></html>
