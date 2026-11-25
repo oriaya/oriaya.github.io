@@ -1,6 +1,8 @@
 name: Rename landing page
 on:
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   rename:
     runs-on: ubuntu-latest
