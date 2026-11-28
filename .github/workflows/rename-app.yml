@@ -1,0 +1,17 @@
+name: Rename app file
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rename app/beta-index.html to app/index.html
+        run: |
+          git config user.name "jillren"
+          git config user.email "jillren@users.noreply.github.com"
+          git mv app/beta-index.html app/index.html
+          git commit -m "Rename app/beta-index.html to app/index.html"
+          git push
